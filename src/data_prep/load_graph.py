@@ -10,7 +10,7 @@ load đồ thị 2 phía để lấy list film list actor
 
 '''
 import networkx, sys
-print("IPYNB version:", networkx.__version__)
+print("version:", networkx.__version__)
 print("networkx path:", networkx.__file__)
 print("python:", sys.executable)
 print('==================================')
@@ -25,7 +25,7 @@ def check_keys(path):
 def load_graph(path):
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
-    return json_graph.node_link_graph(data, link="edges")
+    return json_graph.node_link_graph(data,link="edges" )
 
 def load_bipartite_graph_and_nodes(B):
     # Tách danh sách ACTORS & MOVIES
@@ -48,9 +48,46 @@ print('======================================')
 
 # Load graph
 B = load_graph(BIPARTITE_JSON)
+print(f"Tổng số nodes: {B.number_of_nodes()}")
+print(f"Tổng số edges: {B.number_of_edges()}")
+
+# Kiểm tra thử 1 node xem có ID chuẩn không (Trấn Thành)
+if "Trấn Thành" in B.nodes:
+    print("\nNode 'Trấn Thành' tồn tại.")
+    print("Attributes:", B.nodes["Trấn Thành"])
+else:
+    print("\nKhông tìm thấy node 'Trấn Thành'. ID có thể đang bị sai.")
+    # In thử 5 node đầu tiên để xem ID là gì
+    print("5 Node ID đầu tiên:", list(B.nodes())[:5])
+
+# Kiểm tra role của node (để tách danh sách phim/diễn viên)
+print("\n--- Kiểm tra phân loại Node ---")
+person_count = 0
+film_count = 0
+
 G_collab = load_graph(ACTOR_COLLABORATION_JSON)
 
 #TEST 
+def debug_json_structure(path):
+    import json
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    
+    print(f"--- DEBUG FILE: {path} ---")
+    print(f"Keys in JSON: {data.keys()}")
+    
+    if "nodes" in data:
+        print(f"Sample Node 0: {data['nodes'][0]}")
+        # Nếu sample node có chứa 'source' và 'target' -> File JSON bị sai nguồn
+        if 'source' in data['nodes'][0]:
+            print("!!! Key 'nodes' đang chứa dữ liệu của links/edges !!!")
+            
+    if "links" in data:
+        print(f"Sample Link 0: {data['links'][0]}")
+
+# Chạy debug
+debug_json_structure(BIPARTITE_JSON)
+
 B, person_list, film_list = load_bipartite_graph_and_nodes(B)
 
 #

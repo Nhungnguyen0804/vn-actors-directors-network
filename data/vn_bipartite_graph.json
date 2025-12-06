@@ -743,27 +743,6 @@
         {
             "type": "person",
             "info": {
-                "name": "Puka",
-                "image": "Puka in Chon Dau Cho Dung 2020.png",
-                "birth_name": "Nguyễn Kiều Cẩm Thơ",
-                "birth_date": "1989-10-30name=\"reveal\", Puka tiết lộ ngày sinh của mình trong chương trình ''Chọn ai đây'' và ''Sao nhập ngũ'', và Gin Tuấn Kiệt cũng đã xác nhận điều này.",
-                "birth_place": "Lai Vung, Đồng Tháp, Việt Nam",
-                "nationality": "Việt Nam",
-                "occupation": "Diễn viên, Người dẫn chương trình",
-                "trường lớp": "Trường Đại học Sân khấu – Điện ảnh Thành phố Hồ Chí Minh",
-                "active_years": "2010–nay",
-                "spouse": "Gin Tuấn Kiệt (2023)",
-                "children": "1",
-                "quốc gia": "Việt Nam",
-                "other_names": "Pu",
-                "ethnicity": "Kinh",
-                "height": "1,6m"
-            },
-            "id": "Puka"
-        },
-        {
-            "type": "person",
-            "info": {
                 "name": "Khương Ngọc",
                 "image": "KHUONG NGOC 2021.jpg",
                 "birth_name": "Huỳnh Quang Ngọc",
@@ -1435,49 +1414,6 @@
             "type": "person",
             "info": {},
             "id": "Thanh Ngọc"
-        },
-        {
-            "type": "person",
-            "info": {
-                "bgcolor": "DarkOrange",
-                "show_name": "Cô bé đến từ những đám mây, Spadla z oblakov",
-                "image": "200px|Poster phần 2",
-                "caption": "Poster phim",
-                "show_name_2": "Spadla z oblakov",
-                "genre": "khoa học viễn tưởng, thiếu nhi",
-                "format": "MPEG",
-                "rating": "TV-Y",
-                "developer": "Bratislava",
-                "writer": "Václav Pavel Borovička (truyện)",
-                "director": "Radim Cvrček",
-                "creative_director": "Zdeněk Rozkopal",
-                "starring": "Zuzana Pravňanská, Matej Landl",
-                "theme_music_composer": "Harry Macourek",
-                "opentheme": "Cô bé đến từ những đám mây (Spadla z oblakov)",
-                "country": "Tiệp Khắc",
-                "language": "Tiếng Slovak",
-                "num_seasons_vn": "13",
-                "story_editor": "Eva Krivánková",
-                "cinematography": "Karel Kopecký",
-                "runtime": "25 phút",
-                "company": "Đài truyền hình Tiệp Khắc, Gottwaldov",
-                "distributor": "Đài Truyền hình Việt Nam",
-                "first_run": "Na Uy 1981",
-                "first_aired": "1981",
-                "last_aired_vn": "Công chiếu trên đài Tp. HCM 1982 - Đài Truyền hình Việt Nam 1987",
-                "imdb_id": "0077083"
-            },
-            "id": "Maika"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "Jennie"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "Nho"
         },
         {
             "type": "person",
@@ -2419,22 +2355,12 @@
         {
             "type": "person",
             "info": {},
-            "id": "AQuay"
-        },
-        {
-            "type": "person",
-            "info": {},
             "id": "Thái Công"
         },
         {
             "type": "person",
             "info": {},
             "id": "Huy Phan"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "Negav"
         },
         {
             "type": "person",
@@ -2562,11 +2488,6 @@
                 "studio sân khấu": "Đoàn ca múa kịch tỉnh Đồng Nai, Đoàn kịch Kim Cương, Sân khấu 5B"
             },
             "id": "Mai Trần"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "đóng"
         },
         {
             "type": "person",
@@ -3176,11 +3097,6 @@
         },
         {
             "type": "person",
-            "info": {},
-            "id": "365daband"
-        },
-        {
-            "type": "person",
             "info": {
                 "nền": "diễn viên",
                 "name": "Võ Ngọc Trai",
@@ -3728,11 +3644,6 @@
         {
             "type": "person",
             "info": {},
-            "id": "Jérôme"
-        },
-        {
-            "type": "person",
-            "info": {},
             "id": "Huỳnh Kim Sang"
         },
         {
@@ -3851,11 +3762,6 @@
             "type": "person",
             "info": {},
             "id": "Tiko Tiến Công"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "Will"
         },
         {
             "type": "person",
@@ -4038,11 +3944,6 @@
         {
             "type": "person",
             "info": {},
-            "id": "Pom"
-        },
-        {
-            "type": "person",
-            "info": {},
             "id": "Lê Bình diễn viên"
         },
         {
@@ -4135,11 +4036,6 @@
                 "16": "Trung Quốc"
             },
             "id": "Hai Phượng"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "Taekwondo"
         },
         {
             "type": "person",
@@ -4694,11 +4590,6 @@
         {
             "type": "person",
             "info": {},
-            "id": "h Tùng"
-        },
-        {
-            "type": "person",
-            "info": {},
             "id": "Bình Minh người mẫu"
         },
         {
@@ -5019,11 +4910,6 @@
         {
             "type": "person",
             "info": {},
-            "id": "Timotholt"
-        },
-        {
-            "type": "person",
-            "info": {},
             "id": "Donna Võ"
         },
         {
@@ -5172,26 +5058,6 @@
             "type": "person",
             "info": {},
             "id": "Bé Minh và mẹ Lê"
-        },
-        {
-            "type": "person",
-            "info": {
-                "name": "Midu",
-                "image": "Midu Um Ba La Ra Chu Gi 2019(2).png",
-                "birth_name": "Đặng Thị Mỹ Dung",
-                "birth_date": "1989-10-05",
-                "nationality": "Việt Nam",
-                "ethnicity": "Kinh",
-                "education": "Trường Đại học Kiến trúc Thành phố Hồ Chí Minh",
-                "occupation": "Diễn viên, Người mẫu",
-                "active_years": "2007 – nay",
-                "height": "1,60m",
-                "spouse": "Trần Duy Minh Đạt (2024)",
-                "hôn nhân": "Trần Duy Minh Đạt (2024)",
-                "birth_place": "Thành phố Hồ Chí Minh, Việt Nam",
-                "other_names": "Midu, \"Du\""
-            },
-            "id": "Midu"
         },
         {
             "type": "person",
@@ -5440,11 +5306,6 @@
             "type": "person",
             "info": {},
             "id": "Kiến An"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "MiNi"
         },
         {
             "type": "person",
@@ -6942,11 +6803,6 @@
         {
             "type": "person",
             "info": {},
-            "id": "Victor"
-        },
-        {
-            "type": "person",
-            "info": {},
             "id": "Tạ Hương Lan"
         },
         {
@@ -7268,16 +7124,6 @@
             "type": "person",
             "info": {},
             "id": "Roh Haeng-ha"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "enJung Hae-na"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "enSon Jong-hak"
         },
         {
             "type": "person",
@@ -9215,11 +9061,6 @@
         },
         {
             "type": "person",
-            "info": {},
-            "id": "Phong"
-        },
-        {
-            "type": "person",
             "info": {
                 "name": "Mỹ Linh",
                 "image": "Mỹ Linh GMTQ.jpg",
@@ -9530,16 +9371,6 @@
         {
             "type": "person",
             "info": {},
-            "id": "Khoa"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "Đạt"
-        },
-        {
-            "type": "person",
-            "info": {},
             "id": "Ôn Bích Hằng"
         },
         {
@@ -9780,11 +9611,6 @@
         },
         {
             "type": "person",
-            "info": {},
-            "id": "Baggio"
-        },
-        {
-            "type": "person",
             "info": {
                 "nền": "ca sĩ",
                 "name": "Bạch Công Khanh",
@@ -9903,11 +9729,6 @@
             "type": "person",
             "info": {},
             "id": "Chế Nguyễn Quỳnh Châu"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "Panny"
         },
         {
             "type": "person",
@@ -13505,11 +13326,6 @@
         {
             "type": "person",
             "info": {},
-            "id": "Blacka"
-        },
-        {
-            "type": "person",
-            "info": {},
             "id": "Lê Công Hoàng diễn viên"
         },
         {
@@ -13793,11 +13609,6 @@
             "type": "person",
             "info": {},
             "id": "Hải Triều diễn viên"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "Chiến"
         },
         {
             "type": "person",
@@ -14440,11 +14251,6 @@
         {
             "type": "person",
             "info": {},
-            "id": "Kan"
-        },
-        {
-            "type": "person",
-            "info": {},
             "id": "Đại Bình"
         },
         {
@@ -14661,11 +14467,6 @@
             "type": "person",
             "info": {},
             "id": "Nguyễn Hân"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "smo Djjing"
         },
         {
             "type": "person",
@@ -14927,21 +14728,6 @@
             "type": "person",
             "info": {},
             "id": "Huy Ma"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "Misoa"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "'''Các"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "MLee"
         },
         {
             "type": "person",
@@ -16746,23 +16532,6 @@
         },
         {
             "type": "person",
-            "info": {
-                "name": "Suboi",
-                "image": "SUBOI – BATTLE OF THE BRIDES 2 – HCMC PREMIERE – P1.jpg",
-                "birth_name": "Hàng Lâm Trang Anh",
-                "birth_date": "1990-01-14",
-                "occupation": "* Rapper * Ca sĩ kiêm sáng tác nhạc * Diễn viên",
-                "nationality": "Việt Nam",
-                "active_years": "2005–nay",
-                "spouse": "Dôn Nguyễn (2019)",
-                "children": "1",
-                "birth_place": "Thành phố Hồ Chí Minh, Việt Nam",
-                "module": "embed=yes, instrument = * Giọng hát, genre = * Hip hop * V-pop * dance-pop * EDM, origin =, label = * Music Faces Entertainment * Suboi Entertainment"
-            },
-            "id": "Suboi"
-        },
-        {
-            "type": "person",
             "info": {},
             "id": "Thành Trung"
         },
@@ -17236,11 +17005,6 @@
             "type": "person",
             "info": {},
             "id": "Dương Thùy Linh"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "Isidi"
         },
         {
             "type": "person",
@@ -19501,11 +19265,6 @@
         {
             "type": "person",
             "info": {},
-            "id": "h Thái"
-        },
-        {
-            "type": "person",
-            "info": {},
             "id": "Mạnh Dũng"
         },
         {
@@ -20361,11 +20120,6 @@
         {
             "type": "person",
             "info": {},
-            "id": "thเมย์ เฟื่องอารมย์"
-        },
-        {
-            "type": "person",
-            "info": {},
             "id": "Junko Takakuwa"
         },
         {
@@ -20396,22 +20150,12 @@
         {
             "type": "person",
             "info": {},
-            "id": "thสุเชาว์ พงษ์วิไล"
-        },
-        {
-            "type": "person",
-            "info": {},
             "id": "Naolprang Trichit"
         },
         {
             "type": "person",
             "info": {},
             "id": "Pojet Kanpetch"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "thดวงใจ หทัยกาญจน์"
         },
         {
             "type": "person",
@@ -20519,11 +20263,6 @@
             "type": "person",
             "info": {},
             "id": "Vũ Tăng"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "h Nhân"
         },
         {
             "type": "person",
@@ -21761,11 +21500,6 @@
         {
             "type": "person",
             "info": {},
-            "id": "Khang"
-        },
-        {
-            "type": "person",
-            "info": {},
             "id": "Nhã Thơ"
         },
         {
@@ -22071,11 +21805,6 @@
             "type": "person",
             "info": {},
             "id": "Văn Long"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "Bắc"
         },
         {
             "type": "person",
@@ -22884,11 +22613,6 @@
         },
         {
             "type": "person",
-            "info": {},
-            "id": "Anna"
-        },
-        {
-            "type": "person",
             "info": {
                 "nền": "diễn viên sân khấu",
                 "tiền tố": "Nghệ sĩ ưu tú",
@@ -22959,11 +22683,6 @@
             "type": "person",
             "info": {},
             "id": "Văn Thành"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "phóng viên"
         },
         {
             "type": "person",
@@ -23101,11 +22820,6 @@
             "type": "person",
             "info": {},
             "id": "Ngọc Tồ"
-        },
-        {
-            "type": "person",
-            "info": {},
-            "id": "Lena"
         },
         {
             "type": "person",
@@ -42609,30 +42323,6 @@
         },
         {
             "role": "actor",
-            "character": "Nhân viên trung tâm gia sư",
-            "source": "Puka",
-            "target": "Cổng mặt trời (phim truyền hình)"
-        },
-        {
-            "role": "actor",
-            "character": "Quy",
-            "source": "Puka",
-            "target": "Về quê ăn Tết"
-        },
-        {
-            "role": "actor",
-            "character": "Lý",
-            "source": "Puka",
-            "target": "Cô Thắm về làng (phim truyền hình)"
-        },
-        {
-            "role": "actor",
-            "character": "thím Út",
-            "source": "Puka",
-            "target": "Nhà gia tiên"
-        },
-        {
-            "role": "actor",
             "character": "Thiếu Giang",
             "source": "Khương Ngọc",
             "target": "Chuyện tình mùa thu"
@@ -45082,24 +44772,6 @@
         {
             "role": "actor",
             "character": "bạn Mai",
-            "source": "Maika",
-            "target": "Gia sư nữ quái"
-        },
-        {
-            "role": "actor",
-            "character": "bạn Mai",
-            "source": "Jennie",
-            "target": "Gia sư nữ quái"
-        },
-        {
-            "role": "actor",
-            "character": "bạn Mai",
-            "source": "Nho",
-            "target": "Gia sư nữ quái"
-        },
-        {
-            "role": "actor",
-            "character": "bạn Mai",
             "source": "Thu Thảo",
             "target": "Gia sư nữ quái"
         },
@@ -47419,12 +47091,6 @@
         },
         {
             "role": "actor",
-            "character": "Steven",
-            "source": "AQuay",
-            "target": "Bộ tứ báo thủ"
-        },
-        {
-            "role": "actor",
             "character": "Thái Phong",
             "source": "Thái Công",
             "target": "Bộ tứ báo thủ"
@@ -47433,12 +47099,6 @@
             "role": "actor",
             "character": "Đình Duy",
             "source": "Huy Phan",
-            "target": "Bộ tứ báo thủ"
-        },
-        {
-            "role": "actor",
-            "character": "chồng Kiều",
-            "source": "Negav",
             "target": "Bộ tứ báo thủ"
         },
         {
@@ -47614,12 +47274,6 @@
             "character": "Năm Đực",
             "source": "Mai Trần",
             "target": "Sống trong sợ hãi"
-        },
-        {
-            "role": "actor",
-            "character": "bé Trúc Lan",
-            "source": "đóng",
-            "target": "Gia đình phép thuật"
         },
         {
             "role": "actor",
@@ -49942,18 +49596,6 @@
         },
         {
             "role": "actor",
-            "character": "Tướng quân Trần Bằng",
-            "source": "365daband",
-            "target": "Tấm Cám: Chuyện chưa kể"
-        },
-        {
-            "role": "actor",
-            "character": "Tuấn Kiệt",
-            "source": "365daband",
-            "target": "Chàng trai năm ấy"
-        },
-        {
-            "role": "actor",
             "character": "Tướng quân Nguyễn Lực",
             "source": "Võ Ngọc Trai",
             "target": "Tấm Cám: Chuyện chưa kể"
@@ -51470,12 +51112,6 @@
         },
         {
             "role": "actor",
-            "character": "Gangster Pháp",
-            "source": "Jérôme",
-            "target": "Bẫy rồng"
-        },
-        {
-            "role": "actor",
             "character": "Sang",
             "source": "Huỳnh Kim Sang",
             "target": "Bẫy rồng"
@@ -51629,24 +51265,6 @@
             "character": "Phụng === Khách mời ===",
             "source": "Tiko Tiến Công",
             "target": "Về quê ăn Tết"
-        },
-        {
-            "role": "actor",
-            "character": "Trí",
-            "source": "Will",
-            "target": "Về quê ăn Tết"
-        },
-        {
-            "role": "actor",
-            "character": "Tony",
-            "source": "Will",
-            "target": "Em chưa 18"
-        },
-        {
-            "role": "actor",
-            "character": "Võ Huy",
-            "source": "Will",
-            "target": "Bếp hát"
         },
         {
             "role": "actor",
@@ -52040,12 +51658,6 @@
         },
         {
             "role": "actor",
-            "character": "Cấp dưới của Lương",
-            "source": "Pom",
-            "target": "Hai Phượng"
-        },
-        {
-            "role": "actor",
             "character": "Ba của Hai Phượng",
             "source": "Lê Bình diễn viên",
             "target": "Hai Phượng"
@@ -52222,12 +51834,6 @@
             "role": "actor",
             "character": "Tí",
             "source": "Hai Phượng",
-            "target": "Trạng Tí phiêu lưu ký"
-        },
-        {
-            "role": "actor",
-            "character": "thầy Thích Thông Tuệ",
-            "source": "Taekwondo",
             "target": "Trạng Tí phiêu lưu ký"
         },
         {
@@ -53528,18 +53134,6 @@
         },
         {
             "role": "actor",
-            "character": "(Trần Tú) Đàn em Đức Trân",
-            "source": "h Tùng",
-            "target": "Quyến rũ (phim truyền hình)"
-        },
-        {
-            "role": "actor",
-            "character": "Ca",
-            "source": "h Tùng",
-            "target": "Ghét thì yêu thôi"
-        },
-        {
-            "role": "actor",
             "character": "Khang",
             "source": "Bình Minh người mẫu",
             "target": "Chuyện tình xa xứ"
@@ -54313,12 +53907,6 @@
         },
         {
             "role": "actor",
-            "character": "khách đánh bài",
-            "source": "Timotholt",
-            "target": "Chuyện tình xa xứ"
-        },
-        {
-            "role": "actor",
             "character": "cô gái đánh bài 1",
             "source": "Donna Võ",
             "target": "Chuyện tình xa xứ"
@@ -54688,18 +54276,6 @@
             "character": "hai mẹ con trong đám cưới",
             "source": "Bé Minh và mẹ Lê",
             "target": "Cô dâu đại chiến"
-        },
-        {
-            "role": "actor",
-            "character": "Hoa Xuân",
-            "source": "Midu",
-            "target": "Thiên mệnh anh hùng"
-        },
-        {
-            "role": "actor",
-            "character": "Ngọc",
-            "source": "Midu",
-            "target": "Những thiên thần áo trắng"
         },
         {
             "role": "actor",
@@ -55402,12 +54978,6 @@
             "character": "Ông Bá",
             "source": "Kiến An",
             "target": "Sắc đẹp ngàn cân (phim 2017)"
-        },
-        {
-            "role": "actor",
-            "character": "Quản gia của Quyên",
-            "source": "MiNi",
-            "target": "Cô dâu đại chiến 2"
         },
         {
             "role": "actor",
@@ -59550,12 +59120,6 @@
         },
         {
             "role": "actor",
-            "character": "Đi Rơ",
-            "source": "Victor",
-            "target": "Đường lên Điện Biên"
-        },
-        {
-            "role": "actor",
             "character": "Chờ",
             "source": "Tạ Hương Lan",
             "target": "Đường lên Điện Biên"
@@ -60390,18 +59954,6 @@
             "role": "actor",
             "character": "Junhee (Nguyễn Hương Giang lồng tiếng)",
             "source": "Roh Haeng-ha",
-            "target": "Tuổi thanh xuân"
-        },
-        {
-            "role": "actor",
-            "character": "Cynthia (Bảo Thanh lồng tiếng Việt)",
-            "source": "enJung Hae-na",
-            "target": "Tuổi thanh xuân"
-        },
-        {
-            "role": "actor",
-            "character": "Bố của Junsu",
-            "source": "enSon Jong-hak",
             "target": "Tuổi thanh xuân"
         },
         {
@@ -66798,30 +66350,6 @@
         },
         {
             "role": "actor",
-            "character": "Khiêm",
-            "source": "Phong",
-            "target": "Không lối thoát (phim truyền hình)"
-        },
-        {
-            "role": "actor",
-            "character": "Thanh Lịch",
-            "source": "Phong",
-            "target": "Anh ba khía"
-        },
-        {
-            "role": "actor",
-            "character": "Bạn Vĩnh",
-            "source": "Phong",
-            "target": "Có hẹn với yêu thương"
-        },
-        {
-            "role": "actor",
-            "character": "Lợi",
-            "source": "Phong",
-            "target": "Ải mỹ nhân"
-        },
-        {
-            "role": "actor",
             "character": "Mai Anh",
             "source": "Mỹ Linh",
             "target": "Không lối thoát (phim truyền hình)"
@@ -67720,18 +67248,6 @@
         },
         {
             "role": "actor",
-            "character": "Bạn Vĩnh",
-            "source": "Khoa",
-            "target": "Có hẹn với yêu thương"
-        },
-        {
-            "role": "actor",
-            "character": "Bạn Vĩnh",
-            "source": "Đạt",
-            "target": "Có hẹn với yêu thương"
-        },
-        {
-            "role": "actor",
             "character": "Bà Thắm",
             "source": "Ôn Bích Hằng",
             "target": "Có hẹn với yêu thương"
@@ -67945,12 +67461,6 @@
             "character": "Thắng",
             "source": "Đan Trường",
             "target": "Võ lâm truyền kỳ (phim)"
-        },
-        {
-            "role": "actor",
-            "character": "Hoàng Huy",
-            "source": "Baggio",
-            "target": "Thứ ba học trò"
         },
         {
             "role": "actor",
@@ -68359,12 +67869,6 @@
             "character": "Bà Hai Nhếch (lúc trẻ)",
             "source": "Chế Nguyễn Quỳnh Châu",
             "target": "Sông dài (phim truyền hình)"
-        },
-        {
-            "role": "actor",
-            "character": "Tùy Anh",
-            "source": "Panny",
-            "target": "Muôn kiểu làm dâu"
         },
         {
             "role": "actor",
@@ -74847,12 +74351,6 @@
         },
         {
             "role": "actor",
-            "character": "Dũng",
-            "source": "Blacka",
-            "target": "Án mạng lầu 4"
-        },
-        {
-            "role": "actor",
             "character": "Giang",
             "source": "Lê Công Hoàng diễn viên",
             "target": "Án mạng lầu 4"
@@ -75286,12 +74784,6 @@
             "role": "actor",
             "character": "Ủn Ỉn",
             "source": "Hải Triều diễn viên",
-            "target": "Hoán đổi thân xác"
-        },
-        {
-            "role": "actor",
-            "character": "Tyason Võ",
-            "source": "Chiến",
             "target": "Hoán đổi thân xác"
         },
         {
@@ -76047,18 +75539,6 @@
         },
         {
             "role": "actor",
-            "character": "Bị cướp 1",
-            "source": "Kan",
-            "target": "Hot boy nổi loạn"
-        },
-        {
-            "role": "actor",
-            "character": "Bị cướp 1",
-            "source": "Kan",
-            "target": "Hot boy nổi loạn và câu chuyện về thằng Cười, cô gái điếm và con vịt"
-        },
-        {
-            "role": "actor",
             "character": "Bị cướp 2",
             "source": "Đại Bình",
             "target": "Hot boy nổi loạn"
@@ -76306,12 +75786,6 @@
             "role": "actor",
             "character": "DJ nữ",
             "source": "Nguyễn Hân",
-            "target": "Em là bà nội của anh"
-        },
-        {
-            "role": "actor",
-            "character": "DJ nam",
-            "source": "smo Djjing",
             "target": "Em là bà nội của anh"
         },
         {
@@ -76577,24 +76051,6 @@
             "character": "Vinh",
             "source": "Huy Ma",
             "target": "Đoạt hồn"
-        },
-        {
-            "role": "actor",
-            "character": "Bảo Trân (Tập 246 - 249)",
-            "source": "Misoa",
-            "target": "Tiệm bánh Hoàng tử bé"
-        },
-        {
-            "role": "actor",
-            "character": "chính",
-            "source": "'''Các",
-            "target": "Tiệm bánh Hoàng tử bé 2"
-        },
-        {
-            "role": "actor",
-            "character": "Lam",
-            "source": "MLee",
-            "target": "Tiệm bánh Hoàng tử bé 2"
         },
         {
             "role": "actor",
@@ -79587,12 +79043,6 @@
         },
         {
             "role": "actor",
-            "character": "Hương",
-            "source": "Suboi",
-            "target": "Đoạt hồn"
-        },
-        {
-            "role": "actor",
             "character": "Kiên",
             "source": "Thành Trung",
             "target": "Đoạt hồn"
@@ -80244,12 +79694,6 @@
             "character": "Kat",
             "source": "Dương Thùy Linh",
             "target": "Phía cuối cầu vồng"
-        },
-        {
-            "role": "actor",
-            "character": "James",
-            "source": "Isidi",
-            "target": "Taxi, em tên gì?"
         },
         {
             "role": "director",
@@ -84144,30 +83588,6 @@
         },
         {
             "role": "actor",
-            "character": "Đằng ma trơi",
-            "source": "h Thái",
-            "target": "Mê cung (phim truyền hình)"
-        },
-        {
-            "role": "actor",
-            "character": "Hưng “sẹo”",
-            "source": "h Thái",
-            "target": "Mặt nạ gương"
-        },
-        {
-            "role": "actor",
-            "character": "Dậu",
-            "source": "h Thái",
-            "target": "Bí thư Tỉnh ủy (phim truyền hình Việt Nam)"
-        },
-        {
-            "role": "actor",
-            "character": "Long",
-            "source": "h Thái",
-            "target": "Những cô gái trong thành phố"
-        },
-        {
-            "role": "actor",
             "character": "Quang lác",
             "source": "Mạnh Dũng",
             "target": "Mê cung (phim truyền hình)"
@@ -85442,12 +84862,6 @@
         },
         {
             "role": "actor",
-            "character": "Chen",
-            "source": "thเมย์ เฟื่องอารมย์",
-            "target": "Tình xa"
-        },
-        {
-            "role": "actor",
             "character": "Michiko",
             "source": "Junko Takakuwa",
             "target": "Tình xa"
@@ -85489,12 +84903,6 @@
         },
         {
             "role": "actor",
-            "character": "Damrong",
-            "source": "thสุเชาว์ พงษ์วิไล",
-            "target": "Tình xa"
-        },
-        {
-            "role": "actor",
             "character": "Nongnut",
             "source": "Naolprang Trichit",
             "target": "Tình xa"
@@ -85503,12 +84911,6 @@
             "role": "actor",
             "character": "Nidom",
             "source": "Pojet Kanpetch",
-            "target": "Tình xa"
-        },
-        {
-            "role": "actor",
-            "character": "Chittra",
-            "source": "thดวงใจ หทัยกาญจน์",
             "target": "Tình xa"
         },
         {
@@ -85612,12 +85014,6 @@
             "character": "Ông già coi đền",
             "source": "Vũ Tăng",
             "target": "Gió qua miền tối sáng"
-        },
-        {
-            "role": "actor",
-            "character": "chủ khách sạn",
-            "source": "h Nhân",
-            "target": "Mùa ổi"
         },
         {
             "role": "actor",
@@ -86947,12 +86343,6 @@
         },
         {
             "role": "actor",
-            "character": "Vĩnh Đức (lúc nhỏ)",
-            "source": "Khang",
-            "target": "Lời nguyền (phim truyền hình)"
-        },
-        {
-            "role": "actor",
             "character": "Ngọc Hân (lúc nhỏ)",
             "source": "Nhã Thơ",
             "target": "Lời nguyền (phim truyền hình)"
@@ -87380,12 +86770,6 @@
             "role": "actor",
             "character": "Phùng Tuấn",
             "source": "Văn Long",
-            "target": "Dollars trắng"
-        },
-        {
-            "role": "actor",
-            "character": "Ông chủ quán Mây Tím",
-            "source": "Bắc",
             "target": "Dollars trắng"
         },
         {
@@ -88284,12 +87668,6 @@
         },
         {
             "role": "actor",
-            "character": "Hồng",
-            "source": "Anna",
-            "target": "Cầu thang nhà A6"
-        },
-        {
-            "role": "actor",
             "character": "Mĩ",
             "source": "Thu Hằng (nghệ sĩ chèo)",
             "target": "Cầu thang nhà A6"
@@ -88370,12 +87748,6 @@
             "role": "actor",
             "character": "Nam",
             "source": "Văn Thành",
-            "target": "Chạy án"
-        },
-        {
-            "role": "actor",
-            "character": "phóng viên Trúc Quỳnh",
-            "source": "phóng viên",
             "target": "Chạy án"
         },
         {
@@ -88502,12 +87874,6 @@
             "role": "actor",
             "character": "Cường \"tồ\"",
             "source": "Ngọc Tồ",
-            "target": "Những nhân viên gương mẫu"
-        },
-        {
-            "role": "actor",
-            "character": "Nhung",
-            "source": "Lena",
             "target": "Những nhân viên gương mẫu"
         },
         {

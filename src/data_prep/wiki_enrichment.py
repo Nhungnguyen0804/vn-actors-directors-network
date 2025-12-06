@@ -102,25 +102,36 @@ def get_wikitext(title, wiki_dict, depth=0):
 
 # Tách SUMMARY từ wikitext
 
-def extract_summary(wikitext):
-    """
-    Input: raw wikitext
-    Output: first summary paragraph
-    """
-
+def extract_summary(wikitext: str) -> str:
     if not wikitext:
         return ""
 
-    # Xóa template {{...}}
-    cleaned = re.sub(r"\{\{[^{}]+\}\}", "", wikitext)
+    text = wikitext
 
-    # Lấy block trước section "=="
-    first_block = cleaned.split("==")[0]
+    # Remove comments
+    text = re.sub(r'<!--.*?-->', '', text, flags=re.DOTALL)
 
-    # Tách dòng + lấy dòng đầu tiên có nội dung
-    lines = [l.strip() for l in first_block.split("\n") if l.strip()]
+    # Remove tables
+    text = re.sub(r'\{\|.*?\|\}', '', text, flags=re.DOTALL)
 
-    return lines[0] if lines else ""
+    # Remove refs <ref>...</ref>
+    text = re.sub(r'<ref.*?\/?>.*?<\/ref>', '', text, flags=re.DOTALL)
+    text = re.sub(r'<ref.*?\/>', '', text)
+
+    # Remove all templates {{...}}
+    text = re.sub(r'\{\{.*?\}\}', '', text, flags=re.DOTALL)
+
+    # Cut first heading
+    parts = re.split(r'(?m)^==[^=].*?==\s*$', text)
+    lead = parts[0]
+
+    # Normalize lines
+    lines = [l.strip() for l in lead.splitlines()]
+    lines = [l for l in lines if l]  # remove empty
+
+    return "\n".join(lines).strip()
+
+
 
 # Convert wikitext → plain text dùng regex đơn giản
 
@@ -135,25 +146,37 @@ def extract_clean_text(wikitext):
 
     text = wikitext
 
-    # Bỏ template {{ }}
-    text = re.sub(r"\{\{[^{}]+\}\}", "", text)
+    # Remove comments
+    text = re.sub(r'<!--.*?-->', '', text, flags=re.DOTALL)
 
-    # Bỏ link nội [[A|B]] → B
-    text = re.sub(r"\[\[[^\|\]]+\|([^\]]+)\]\]", r"\1", text)
+    # Remove tables
+    text = re.sub(r'\{\|.*?\|\}', '', text, flags=re.DOTALL)
 
-    # Bỏ link dạng [[A]] → A
-    text = re.sub(r"\[\[([^\]]+)\]\]", r"\1", text)
+    # Remove templates
+    text = re.sub(r'\{\{.*?\}\}', '', text, flags=re.DOTALL)
 
-    # Bỏ headings == ==
-    text = re.sub(r"==+[^=]+==+", "", text)
+    # Remove <ref>
+    text = re.sub(r'<ref.*?\/?>.*?<\/ref>', '', text, flags=re.DOTALL)
+    text = re.sub(r'<ref.*?\/>', '', text)
 
-    # Bỏ định dạng '''bold'''
-    text = text.replace("'''", "")
+    # Remove [[A|B]] → B
+    text = re.sub(r'\[\[[^\|\]]+\|([^\]]+)\]\]', r'\1', text)
 
-    # Bỏ định dạng ''italic''
-    text = text.replace("''", "")
+    # Remove [[A]] → A
+    text = re.sub(r'\[\[([^\]]+)\]\]', r'\1', text)
+
+    # Remove headings
+    text = re.sub(r'==+.*?==+', '', text)
+
+    # Remove bold/italic
+    text = text.replace("'''", "").replace("''", "")
+
+    # Remove multiple newlines
+    text = re.sub(r'\n\s*\n', '\n', text)
 
     return text.strip()
+
+
 
 # Crawl 1 entity
 
@@ -180,7 +203,7 @@ def crawl_single_entity(name, wiki_dict):
     # ------time---------------------
     return {
         "summary": summary,
-        "text": clean_text,
+        "clean_wikitext": clean_text,
         "raw_wikitext": wikitext
     }
 
@@ -191,11 +214,6 @@ def save_entity_jsonl(name, data, output_path="data/wiki_enrichment.jsonl"):
     with open(output_path, "a", encoding="utf-8") as f:
         f.write(json.dumps(data_with_name, ensure_ascii=False) + "\n")
 
-def save_enrichment_json(data, filepath):
-    with open(filepath, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
-
-
 # Crawl nhiều entity
 
 def crawl_multiple_entities(entity_list, limit, wiki_dict,output_path="data/wiki_enrichment.jsonl"):
@@ -204,7 +222,6 @@ def crawl_multiple_entities(entity_list, limit, wiki_dict,output_path="data/wiki
     Output: dict enrichment_data
     """
 
-    enrichment_data = {}
     # ------time---------------------
     log_time(f"Bắt đầu crawl {limit} entities...")
     # ------time---------------------
