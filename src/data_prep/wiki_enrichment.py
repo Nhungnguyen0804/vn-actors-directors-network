@@ -215,32 +215,34 @@ def save_entity_jsonl(name, data, output_path="data/wiki_enrichment.jsonl"):
         f.write(json.dumps(data_with_name, ensure_ascii=False) + "\n")
 
 # Crawl nhiều entity
-
-def crawl_multiple_entities(entity_list, limit, wiki_dict,output_path="data/wiki_enrichment.jsonl"):
-    """
-    Input: list tên entity, số lượng tối đa, wiki_dict
-    Output: dict enrichment_data
-    """
-
-    # ------time---------------------
-    log_time(f"Bắt đầu crawl {limit} entities...")
-    # ------time---------------------
-
-    # Clear file đầu tiên
-    if os.path.exists(output_path):
-        os.remove(output_path)
+def crawl(entity_list,limit,wiki_dict,output_path):
     for idx, name in enumerate(entity_list[:limit], 1):
         log_time(f"[{idx}/{limit}] Đang crawl: {name}")
         result = crawl_single_entity(name, wiki_dict)
         if result:
             save_entity_jsonl(name, result, output_path)
             del result  # giảm RAM
-        
+def crawl_multiple_entities(person_list, film_list, person_limit, film_limit, wiki_dict,output_path="data/wiki_enrichment.jsonl"):
+    """
+    Input: list tên entity, số lượng tối đa, wiki_dict
+    Output: dict enrichment_data
+    """
+
+    # ------time---------------------
+    log_time(f"Bắt đầu crawl entities...")
+    # ------time---------------------
+
+    # Clear file đầu tiên
+    if os.path.exists(output_path):
+        os.remove(output_path)
+    
+    crawl(person_list,person_limit,wiki_dict,output_path)
+    crawl(film_list,film_limit,wiki_dict,output_path)
 
     
     
     # ------time---------------------
-    log_time(f"Hoàn tất crawl {limit} entities. Dữ liệu lưu tại: {output_path}")
+    log_time(f"Hoàn tất crawl entities. Dữ liệu lưu tại: {output_path}")
     # ------time---------------------
 
 
@@ -256,7 +258,11 @@ B, person_list, film_list = load_bipartite_graph_and_nodes(B)
 
 # crawl all person
 ALL_PERSON = len(person_list)
-crawl_multiple_entities(person_list, limit=ALL_PERSON, wiki_dict=wiki_dict)
+ALL_FILM = len(film_list)
+crawl_multiple_entities(person_list, film_list, person_limit=ALL_PERSON, film_limit= ALL_FILM, wiki_dict=wiki_dict)
+
+
+
 
 
 

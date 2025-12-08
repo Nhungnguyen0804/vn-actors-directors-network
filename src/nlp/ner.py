@@ -7,7 +7,7 @@ import unicodedata
 import json
 from src.constant import WIKI_ENRICHMENT, BIPARTITE_JSON
 from src.data_prep.load_graph import load_graph,load_bipartite_graph_and_nodes
-from src.nlp.clean_of_ner import normalize_text_for_nlp,normalize_entity_name,normalize_type
+from src.nlp.text_utils import normalize_text_for_nlp,normalize_entity_name,normalize_type
 
 # B-XXX = Begin entity (bắt đầu 1 thực thể)
 # I-XXX = Inside entity (các từ tiếp theo trong cùng thực thể)
@@ -279,7 +279,7 @@ def ner_override_wiki(tokens_after_graph, wiki_enrich_norm):
             phrase = " ".join(phrase_tokens)
             phrase_norm = normalize_text_for_nlp(phrase).lower()
             
-            if not phrase_norm or phrase_norm:
+            if not phrase_norm:
                 continue
 
             entity_type = detect_entity_type_from_wiki(phrase, wiki_enrich_norm)
@@ -669,7 +669,7 @@ def tokenize_and_pos_tag(text):
         if len(tok) == 1 and tok in ",.!?;:-_\"'()[]{}*/":
             continue
 
-        # Normalize token (bạn có thể tùy chỉnh)
+        # Normalize token 
         tok_norm = unicodedata.normalize("NFC", tok)
 
         results.append((tok_norm, tg))
@@ -966,19 +966,19 @@ if __name__ == "__main__":
     combine_ner = run_combine_ner(sample,person_list, film_list, wiki_enrich, B)
     print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
     print("NER raw:", combine_ner)
-    print("Locations:", extract_location_entities(combine_ner))
-    print("Films:", extract_film_entities(combine_ner))
-    print("Persons:", extract_person_entities(combine_ner))
-    print("Orgs:", extract_org_entities(combine_ner))
-    print("POS:", tokenize_and_pos_tag(sample))
-    print("Keywords by POS:", extract_keywords_from_pos(tokenize_and_pos_tag(sample), 
-          extract_film_entities(combine_ner), 
-          extract_person_entities(combine_ner),
-          extract_org_entities(combine_ner), 
-          extract_location_entities(combine_ner) 
-          ))
+#     print("Locations:", extract_location_entities(combine_ner))
+#     print("Films:", extract_film_entities(combine_ner))
+#     print("Persons:", extract_person_entities(combine_ner))
+#     print("Orgs:", extract_org_entities(combine_ner))
+#     print("POS:", tokenize_and_pos_tag(sample))
+#     print("Keywords by POS:", extract_keywords_from_pos(tokenize_and_pos_tag(sample), 
+#           extract_film_entities(combine_ner), 
+#           extract_person_entities(combine_ner),
+#           extract_org_entities(combine_ner), 
+#           extract_location_entities(combine_ner) 
+#           ))
 
-    print("Top tokens:", extract_top_keywords(sample, k=10))
-    print("Generated topic nodes:", generate_topic_nodes(["gia đình", "hài kịch", "phim"]))
-    print("Final nodes:", pipeline_extract_nodes_from_summary(sample,person_list, film_list, wiki_enrich, B))
+#     print("Top tokens:", extract_top_keywords(sample, k=10))
+#     print("Generated topic nodes:", generate_topic_nodes(["gia đình", "hài kịch", "phim"]))
+#     print("Final nodes:", pipeline_extract_nodes_from_summary(sample,person_list, film_list, wiki_enrich, B))
 

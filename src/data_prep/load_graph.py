@@ -4,7 +4,7 @@ import networkx as nx
 print(nx.__version__)
 from networkx.readwrite import json_graph
 
-from src.constant import ACTOR_COLLABORATION_JSON, BIPARTITE_JSON
+from src.constant import G_COLLAB_JSON, BIPARTITE_JSON
 '''
 load đồ thị 2 phía để lấy list film list actor
 
@@ -41,9 +41,11 @@ def load_bipartite_graph_and_nodes(B):
     return B, person_list, film_list
 
 
+
+
 print('check key trong file json +++++++++++')
 check_keys(BIPARTITE_JSON)
-check_keys(ACTOR_COLLABORATION_JSON)
+check_keys(G_COLLAB_JSON)
 print('======================================')
 
 # Load graph
@@ -62,10 +64,9 @@ else:
 
 # Kiểm tra role của node (để tách danh sách phim/diễn viên)
 print("\n--- Kiểm tra phân loại Node ---")
-person_count = 0
-film_count = 0
 
-G_collab = load_graph(ACTOR_COLLABORATION_JSON)
+
+
 
 #TEST 
 def debug_json_structure(path):
@@ -82,14 +83,14 @@ def debug_json_structure(path):
         if 'source' in data['nodes'][0]:
             print("!!! Key 'nodes' đang chứa dữ liệu của links/edges !!!")
             
-    if "links" in data:
-        print(f"Sample Link 0: {data['links'][0]}")
+    if "edges" in data:
+        print(f"Sample Link 0: {data['edges'][0]}")
 
 # Chạy debug
 debug_json_structure(BIPARTITE_JSON)
 
 B, person_list, film_list = load_bipartite_graph_and_nodes(B)
-
+G_collab = load_graph(G_COLLAB_JSON)
 #
 # In kết quả kiểm tra
 print("Số person:", len(person_list))
@@ -99,4 +100,13 @@ print("Số cạnh collab graph:", G_collab.number_of_edges())
 
 print("Ví dụ 10 actor:", person_list[:10])
 print("Ví dụ 10 movie:", film_list[:10])
+
+
+debug_json_structure(G_COLLAB_JSON)
+
+print('**************************************************')
+print("Node Trấn Thành:", G_collab.nodes["Trấn Thành"])
+print('-------------------------------------------------')
+print("Edge Trấn Thành - Uyển Ân:", G_collab["Trấn Thành"]["Uyển Ân"])
+
 
