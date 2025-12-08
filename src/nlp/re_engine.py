@@ -3,7 +3,7 @@
 # ==============================================================================
 from src.nlp.ner import person_list, film_list, wiki_enrich, run_combine_ner
 from src.data_prep.load_graph import B, G_collab
-from src.nlp.text_utils import normalize_entity, normalize_entity_name,remove_footnotes
+from src.nlp.text_utils import normalize_entity, normalize_entity_name,remove_footnotes,split_text_into_sentences
 import re
 import unicodedata
 import itertools
@@ -117,88 +117,81 @@ def run_setfit_rel_extraction(
     film_list,
     wiki_enrich=None
 ):
-    clean_text = remove_footnotes(clean_text)
-    clean_text = re.sub(r"\s+", " ", clean_text).strip()
-    # 1. Lấy vị trí các entity (Char Spans)
-    entity_spans = get_char_spans(clean_text, ner_out)
-    
-    if len(entity_spans) < 2:
-        return [] # Cần ít nhất 2 entity để có quan hệ
-
-
-
-
-
-    # 2. Tạo các cặp (Pairs) - Permutations (A->B và B->A có thể khác nhau)
-    # Nếu quan hệ của là 2 chiều (như married_to), dùng combinations.
-    # Nếu quan hệ có hướng (như father_of), dùng permutations.
-    pairs = itertools.permutations(entity_spans, 2)
-    # pairs = list(itertools.permutations(entity_spans, 2))
-    
+    # TÁCH VĂN BẢN THÀNH TỪNG CÂU
+    sentences = split_text_into_sentences(clean_text)
     triples = []
+
+    for sent in sentences:
+        sent = remove_footnotes(sent)
+        sent = re.sub(r"\s+", " ", sent).strip()
+        # 1. Lấy vị trí các entity (Char Spans)
+        entity_spans = get_char_spans(sent, ner_out)
     
-    # Chuẩn bị batch input để predict 1 lần cho nhanh
-    batch_inputs = []
-    batch_meta = [] # Lưu thông tin metadata để map lại kết quả
+        if len(entity_spans) < 2:
+            return [] # Cần ít nhất 2 entity để có quan hệ
+
+        # 2. Tạo các cặp (Pairs) - Permutations (A->B và B->A có thể khác nhau)
+        # Nếu quan hệ của là 2 chiều (như married_to), dùng combinations.
+        # Nếu quan hệ có hướng (như father_of), dùng permutations.
+        pairs = itertools.permutations(entity_spans, 2)
+        # pairs = list(itertools.permutations(entity_spans, 2))
     
-    for e1, e2 in pairs:
-        # --- FILTER 1: phải trong cùng đoạn 1 câu ---
-        if "." in clean_text:
-            s1 = clean_text.rfind(".", 0, e1['start'])
-            s2 = clean_text.rfind(".", 0, e2['start'])
-            if s1 != s2:  
-                continue  # khác câu
+        # Chuẩn bị batch input để predict 1 lần cho nhanh
+        batch_inputs = []
+        batch_meta = [] # Lưu thông tin metadata để map lại kết quả
+    
+        for e1, e2 in pairs:
+            
+            # --- FILTER 2: cách nhau < 30 từ ---
+            gap = abs(e1['start'] - e2['start'])
+            if gap > 200:   # tương đương khoảng 30–40 từ
+                continue
 
-        # --- FILTER 2: cách nhau < 30 từ ---
-        gap = abs(e1['start'] - e2['start'])
-        if gap > 200:   # tương đương khoảng 30–40 từ
-            continue
+            # --- FILTER 3: ít nhất 1 trong 2 là person/film ---
+            if not (e1["label"] in ["PER", "FILM", 'ORG', 'LOC'] or e2["label"] in ["PER", "FILM",'ORG', 'LOC']):
+                continue
 
-        # --- FILTER 3: ít nhất 1 trong 2 là person/film ---
-        if not (e1["label"] in ["PER", "FILM", 'ORG', 'LOC'] or e2["label"] in ["PER", "FILM",'ORG', 'LOC']):
-            continue
+            # 3) Mask
+            masked_input = create_masked_text(sent, e1, e2)
+            masked_input = re.sub(r"\s+", " ", masked_input).strip()
 
-        # 3) Mask
-        masked_input = create_masked_text(clean_text, e1, e2)
-        masked_input = re.sub(r"\s+", " ", masked_input).strip()
+            batch_inputs.append(masked_input)
+            batch_meta.append((e1, e2))
 
-        batch_inputs.append(masked_input)
-        batch_meta.append((e1, e2))
+        # Không có pair hợp lệ
+        if not batch_inputs:
+            return []
 
-    # Không có pair hợp lệ
-    if not batch_inputs:
-        return []
+        # 4) Predict
+        predictions = setfit_model.predict(batch_inputs)
 
-    # 4) Predict
-    predictions = setfit_model.predict(batch_inputs)
+        # 5) Map output
+        for idx, pred in enumerate(predictions):
+            rel = str(pred).upper().strip()
+            if rel in ("NO_RELATION", "NONE", "O", ""):
+                continue
 
-    # 5) Map output
-    for idx, pred in enumerate(predictions):
-        rel = str(pred).strip().upper()
-        if rel in ("NO_RELATION", "NONE", "O", ""):
-            continue
+            e1, e2 = batch_meta[idx]
+            subj_raw = normalize_entity_name(e1['text'])
+            obj_raw  = normalize_entity_name(e2['text'])
 
-        e1, e2 = batch_meta[idx]
-        subj_raw = normalize_entity_name(e1['text'])
-        obj_raw  = normalize_entity_name(e2['text'])
+            subj_norm, subj_type = normalize_entity(subj_raw, person_list, film_list, wiki_enrich)
+            obj_norm,  obj_type  = normalize_entity(obj_raw,  person_list, film_list, wiki_enrich)
 
-        subj_norm, subj_type = normalize_entity(subj_raw, person_list, film_list, wiki_enrich)
-        obj_norm,  obj_type  = normalize_entity(obj_raw,  person_list, film_list, wiki_enrich)
+            # --- FILTER UNKNOWN chỉ nếu không phải person/film ---
+            if subj_type == "Unknown" and subj_norm not in film_list + person_list:
+                continue
+            if obj_type == "Unknown" and obj_norm not in film_list + person_list:
+                continue
 
-        # --- FILTER UNKNOWN chỉ nếu không phải person/film ---
-        if subj_type == "Unknown" and subj_norm not in film_list + person_list:
-            continue
-        if obj_type == "Unknown" and obj_norm not in film_list + person_list:
-            continue
-
-        # tránh self-loop
-        if subj_norm == obj_norm:
-            continue
-        # --- NEW FILTER 4: Check type compatibility ---
-        if not is_valid_pair(subj_type, obj_type, rel):
-            # print("Invalid type pair:", (subj_type, obj_type), "for relation", rel)
-            continue
-        triples.append((subj_norm, pred, obj_norm))
+            # tránh self-loop
+            if subj_norm == obj_norm:
+                continue
+            # --- NEW FILTER 4: Check type compatibility ---
+            if not is_valid_pair(subj_type, obj_type, rel):
+                # print("Invalid type pair:", (subj_type, obj_type), "for relation", rel)
+                continue
+            triples.append((subj_norm, pred, obj_norm))
 
     # unique
     triples = list(dict.fromkeys(triples))
@@ -213,136 +206,92 @@ def run_setfit_rel_extraction_debug(
     wiki_enrich=None,
     debug=True
 ):
-    clean_text = remove_footnotes(clean_text)
-    clean_text = re.sub(r"\s+", " ", clean_text).strip()
+
     if debug:
-        print("=== DEBUG START ===")
-        print(f"Text: {clean_text[:200]}...")
-        print(f"NER out length: {len(ner_out)}")
-        for i, ent in enumerate(ner_out[:5]):
-            print(f"  Entity {i}: {ent['name']} - {ent['type']}")
+        print("\n===== DEBUG WITH SENTENCE SPLIT =====\n")
 
-    # 1. Lấy vị trí các entity (Char Spans)
-    entity_spans = get_char_spans(clean_text, ner_out)
-    
-    if debug:
-        print(f"Entity spans found: {len(entity_spans)}")
-        for sp in entity_spans:
-            print(f"  Span: '{sp['text']}' at ({sp['start']},{sp['end']}) label:{sp['label']}")
+    # ================================================================
+    # COMMENT IN HOA: TÁCH VĂN BẢN THÀNH TỪNG CÂU
+    sentences = split_text_into_sentences(clean_text)
+    # ================================================================
 
-    if len(entity_spans) < 2:
-        if debug: print("=> Less than 2 entity spans, return []")
-        return []
+    triples = []
 
-    # 2. Tạo các cặp (Pairs)
-    pairs = list(itertools.permutations(entity_spans, 2))
-    if debug:
-        print(f"Total pairs (before filter): {len(pairs)}")
+    for si, sent in enumerate(sentences):
 
-    batch_inputs = []
-    batch_meta = []
-    
-    for e1, e2 in pairs:
         if debug:
-            print(f"\nChecking pair: '{e1['text']}' ({e1['label']}) - '{e2['text']}' ({e2['label']})")
-        
-        # --- FILTER 1: phải trong cùng đoạn 1 câu ---
-        if "." in clean_text:
-            s1 = clean_text.rfind(".", 0, e1['start'])
-            s2 = clean_text.rfind(".", 0, e2['start'])
-            if s1 != s2:
-                if debug: print("  Filtered: different sentences")
+            print(f"\n--- SENTENCE {si}: {sent}\n")
+
+        sent = remove_footnotes(sent)
+        sent = re.sub(r"\s+", " ", sent).strip()
+
+        spans = get_char_spans(sent, ner_out)
+
+        if debug:
+            print("Entity spans:", spans)
+
+        if len(spans) < 2:
+            continue
+
+        pairs = list(itertools.permutations(spans, 2))
+        batch_inputs = []
+        meta = []
+
+        for e1, e2 in pairs:
+
+            if abs(e1['start'] - e2['start']) > 200:
+                if debug: print("Skip: gap too large")
                 continue
 
-        # --- FILTER 2: cách nhau < 200 char ---
-        gap = abs(e1['start'] - e2['start'])
-        if gap > 200:
-            if debug: print(f"  Filtered: gap too large ({gap} chars)")
+            masked = create_masked_text(sent, e1, e2)
+            masked = re.sub(r"\s+", " ", masked)
+
+            if debug:
+                print("Masked:", masked)
+
+            batch_inputs.append(masked)
+            meta.append((e1, e2))
+
+        if not batch_inputs:
             continue
 
-        # --- FILTER 3: ít nhất 1 trong 2 là person/film ---
-        if not (e1["label"] in ["PER", "FILM", 'ORG', 'LOC'] or e2["label"] in ["PER", "FILM", 'ORG', 'LOC']):
-            if debug: print(f"  Filtered: wrong labels ({e1['label']}, {e2['label']})")
-            continue
+        preds = setfit_model.predict(batch_inputs)
 
-        masked_input = create_masked_text(clean_text, e1, e2)
-        masked_input = re.sub(r"\s+", " ", masked_input).strip()
-        
         if debug:
-            print(f"  Masked input: {masked_input}")
+            print("Preds:", preds)
 
-        batch_inputs.append(masked_input)
-        batch_meta.append((e1, e2))
+        for idx, pred in enumerate(preds):
+            rel = str(pred).upper().strip()
+            if rel in ["NO_RELATION", "NONE", "O", ""]:
+                if debug: print("Skip no relation")
+                continue
 
-    if debug:
-        print(f"\nCandidate pairs after filters: {len(batch_inputs)}")
-        for i, inp in enumerate(batch_inputs[:3]):
-            print(f"  Input {i}: {inp}")
+            e1, e2 = meta[idx]
 
-    if not batch_inputs:
-        return []
+            subj_raw = normalize_entity_name(e1['text'])
+            obj_raw = normalize_entity_name(e2['text'])
 
-    # 4) Predict
-    try:
-        predictions = setfit_model.predict(batch_inputs)
-        if debug:
-            print(f"\nPredictions: {predictions}")
-    except Exception as e:
-        print(f"PREDICTION ERROR: {e}")
-        return []
+            subj_norm, subj_type = normalize_entity(subj_raw, person_list, film_list, wiki_enrich)
+            obj_norm, obj_type = normalize_entity(obj_raw, person_list, film_list, wiki_enrich)
 
-    # 5) Map output
-    triples = []
-    for idx, pred in enumerate(predictions):
-        rel = str(pred).strip().upper()
-        if debug:
-            print(f"\nProcessing prediction {idx}: '{rel}'")
-        
-        if rel in ("NO_RELATION", "NONE", "O", ""):
-            if debug: print("  Skipped: no relation")
-            continue
+            if not is_valid_pair(subj_type, obj_type, rel):
+                if debug: print("Invalid type pair, skip")
+                continue
 
-        e1, e2 = batch_meta[idx]
-        subj_raw = normalize_entity_name(e1['text'])
-        obj_raw = normalize_entity_name(e2['text'])
-        
-        if debug:
-            print(f"  Raw entities: subj='{subj_raw}', obj='{obj_raw}'")
+            if subj_norm == obj_norm:
+                continue
 
-        subj_norm, subj_type = normalize_entity(subj_raw, person_list, film_list, wiki_enrich)
-        obj_norm, obj_type = normalize_entity(obj_raw, person_list, film_list, wiki_enrich)
-        
-        if debug:
-            print(f"  Normalized: subj='{subj_norm}' ({subj_type}), obj='{obj_norm}' ({obj_type})")
-
-        # --- FILTER UNKNOWN ---
-        if subj_type == "Unknown" and subj_norm not in film_list + person_list:
-            if debug: print(f"  Filtered: unknown subject not in lists")
-            continue
-        if obj_type == "Unknown" and obj_norm not in film_list + person_list:
-            if debug: print(f"  Filtered: unknown object not in lists")
-            continue
-
-        # tránh self-loop
-        if subj_norm == obj_norm:
-            if debug: print(f"  Filtered: self-loop")
-            continue
-        
-        # --- NEW FILTER 4: Check type compatibility ---
-        if not is_valid_pair(subj_type, obj_type, rel):
-            # Chuyển relation về uppercase để match với keys trong VALID_TYPES
-            rel = rel.upper()
-            if debug: print(f"  Filtered: invalid type pair ({subj_type},{obj_type}) for relation '{rel}'")
-            continue
-        
-        triples.append((subj_norm, pred, obj_norm))
-        if debug:
-            print(f"  ✓ Added triple: ({subj_norm}, {pred}, {obj_norm})")
+            triples.append((subj_norm, rel, obj_norm))
+            if debug:
+                print("✓ ADD TRIPLE:", (subj_norm, rel, obj_norm))
 
     triples = list(dict.fromkeys(triples))
+
     if debug:
-        print(f"\n=== DEBUG END ===\nFinal triples: {triples}")
-    return triples 
+        print("\n======= FINAL TRIPLES =======")
+        print(triples)
+
+    return triples
 
 
 
@@ -434,11 +383,11 @@ def is_valid_pair(subj_type, obj_type, relation):
 
 
 entity = "Trấn Thành"
-# print(wiki_enrich[entity].keys())
-clean_text = "Ngày 25 tháng 12 năm 2016, Trấn Thành kết hôn với nữ ca sĩ mang hai dòng máu Việt-Hàn Hari Won[7] tại Trung tâm Hội nghị Gem Center, Thành phố Hồ Chí Minh.[8] Anh có hai người em gái tên Huỳnh Trinh Mi và Huỳnh Uyển Ân, trong đó Uyển Ân cũng trở thành một diễn viên như anh sau khi cô tham gia đóng chính trong phim Nhà bà Nữ."
+print(wiki_enrich[entity].keys())
+# clean_text = "Ngày 25 tháng 12 năm 2016, Trấn Thành kết hôn với nữ ca sĩ mang hai dòng máu Việt-Hàn Hari Won[7] tại Trung tâm Hội nghị Gem Center, Thành phố Hồ Chí Minh.[8] Anh có hai người em gái tên Huỳnh Trinh Mi và Huỳnh Uyển Ân, trong đó Uyển Ân cũng trở thành một diễn viên như anh sau khi cô tham gia đóng chính trong phim Nhà bà Nữ."
 
 
-# clean_text = wiki_enrich[entity]["clean_wikitext"]
+clean_text = wiki_enrich[entity]["clean_wikitext"]
 
 ner_out = run_combine_ner(clean_text, person_list, film_list, wiki_enrich, B)
 

@@ -1,0 +1,6 @@
+Trấn Thành	SPOUSE	Hari Won
+Hari Won	SPOUSE	Trấn Thành
+Trấn Thành	COLLABORATED_WITH	Vĩnh Long
+Vĩnh Long	COLLABORATED_WITH	Trấn Thành
+Trấn Thành	ACTED_IN	Đất phương Nam
+Mạc Can	ACTED_IN	Đất phương Nam
