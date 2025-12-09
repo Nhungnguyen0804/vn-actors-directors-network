@@ -1,0 +1,10 @@
+Ninh Dương Lan Ngọc	ACTED_IN	Gia đình phép thuật
+Ninh Dương Lan Ngọc	ACTED_IN	Bước nhảy hoàn vũ
+Ninh Dương Lan Ngọc	COLLABORATED_WITH	Angela Phương Trinh
+Angela Phương Trinh	COLLABORATED_WITH	Ninh Dương Lan Ngọc
+Ninh Dương Lan Ngọc	COLLABORATED_WITH	Linh Chi
+Ninh Dương Lan Ngọc	COLLABORATED_WITH	Ngọc Trinh
+Linh Chi	COLLABORATED_WITH	Ninh Dương Lan Ngọc
+Linh Chi	COLLABORATED_WITH	Ngọc Trinh
+Ngọc Trinh	COLLABORATED_WITH	Ninh Dương Lan Ngọc
+Ngọc Trinh	COLLABORATED_WITH	Linh Chi

@@ -1,0 +1,4 @@
+Kiều Minh Tuấn	COLLABORATED_WITH	Cát Phượng
+Cát Phượng	COLLABORATED_WITH	Kiều Minh Tuấn
+Cát Phượng	SPOUSE	Kiều Minh Tuấn
+Kiều Minh Tuấn	SPOUSE	Cát Phượng
