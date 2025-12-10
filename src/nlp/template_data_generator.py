@@ -4,7 +4,7 @@ from collections import defaultdict
 from src.nlp.ner import person_list, film_list
 
 TEMPLATES = {
-    "SPOUSE": [
+    "SPOUSE_OF": [
         "{s} và {o} là vợ chồng.",
         "{s} kết hôn với {o}.",
         "{s} và {o} đã kết hôn với nhau.",
@@ -26,6 +26,19 @@ TEMPLATES = {
         "{o} gắn bó với {s} trong quan hệ hôn nhân.",
         "{s} và {o} chính thức xác nhận quan hệ vợ chồng."
     ],
+    "SAME_SCHOOL_AS": [
+        "{s} và {o} từng học chung trường.",
+        "{s} và {o} là bạn học cùng trường.",
+        "{s} theo học cùng trường với {o}.",
+        "{s} và {o} tốt nghiệp từ cùng một trường.",
+        "{s} và {o} đều theo học tại cùng cơ sở đào tạo.",
+        "{s} và {o} chia sẻ cùng một mái trường.",
+        "{s} có thời gian học chung với {o}.",
+        "{s} và {o} xuất thân từ cùng một trường.",
+        "{s} và {o} cùng theo học tại một ngôi trường.",
+        "Cả {s} và {o} đều từng là sinh viên của cùng một trường."
+    ]
+    ,
 
     "SAME_HOMETOWN_AS": [
         "{s} cùng quê với {o}.",
@@ -221,4 +234,4 @@ def generate_text_samples_from_triple(s, r, o, n_samples=4, mask_entities=False)
     return texts
 
 
-print(generate_text_samples_from_triple('Hari Won', 'SPOUSE', 'Trấn Thành'))
+print(generate_text_samples_from_triple('Hari Won', 'SPOUSE_OF', 'Trấn Thành'))

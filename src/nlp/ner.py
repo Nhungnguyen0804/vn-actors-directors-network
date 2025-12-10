@@ -7,7 +7,7 @@ import unicodedata
 import json
 from src.constant import WIKI_ENRICHMENT, BIPARTITE_JSON
 from src.data_prep.load_graph import load_graph,load_bipartite_graph_and_nodes
-from src.nlp.text_utils import normalize_text_for_nlp,normalize_entity_name,normalize_type
+from src.nlp.text_utils import normalize_text_for_nlp,normalize_entity_name,normalize_type,canonical_title
 
 # B-XXX = Begin entity (bắt đầu 1 thực thể)
 # I-XXX = Inside entity (các từ tiếp theo trong cùng thực thể)
@@ -16,21 +16,33 @@ B = load_graph(BIPARTITE_JSON)
 B, person_list, film_list = load_bipartite_graph_and_nodes(B)
 
 # ====================================
-def load_jsonl_to_dict(path, name = "name"):
+import json
+
+def load_jsonl_to_dict(path, key_field="name"):
     result = {}
     with open(path, "r", encoding="utf-8") as f:
         for line in f:
-            if not line.strip():
+            line = line.strip()
+            if not line:
                 continue
-            obj = json.loads(line)
-            name = obj.get(name)
-            if name:
-                result[name] = obj
+            try:
+                obj = json.loads(line)
+            except json.JSONDecodeError as e:
+                print("Lỗi JSON tại dòng:", line[:200])
+                print("Chi tiết:", e)
+                continue
+
+            key = obj.get(key_field)
+            if key is not None:
+                result[key] = obj
+
     return result
 
 
 
+
 wiki_enrich = load_jsonl_to_dict(WIKI_ENRICHMENT)
+print('wiki_enrich độ lớn = ', len(wiki_enrich))
 # ===========================================
 # lọc khỏi vb tập từ ko quan trọng
 DEFAULT_STOPWORDS = {
@@ -38,6 +50,43 @@ DEFAULT_STOPWORDS = {
     "đó", "này", "khi", "đã", "tại", "về", "như", "vẫn", "để", "cũng", "bị",
     "ra", "theo", "vào", "hay", "nhưng", "vì", "do", "nên", "còn", "thì"
 }
+
+def remove_film_noise(text):
+    noise_words = ["phim", "bộ phim", "tác phẩm", "tác phẩm điện ảnh", "phim điện ảnh", "phim truyền hình", "bộ phim truyền hình"]
+    for word in noise_words:
+        # Loại bỏ từ noise ở đầu, cuối hoặc cả cụm
+        if text.lower().startswith(word + " "):
+            text = text[len(word):].strip()
+        elif text.lower().endswith(" " + word):
+            text = text[:-len(word)].strip()
+        # Nếu cả cụm là noise thì bỏ
+        if text.lower() == word:
+            text = ""
+    return text
+
+
+
+def normalize_person_name(text):
+    # Có thể loại bỏ các danh xưng nếu cần
+    # Nhưng tạm thời giống normalize_text_for_nlp
+    return normalize_text_for_nlp(text)
+
+def normalize_film_name(text):
+    # Loại bỏ các từ noise thường gặp trong tên phim
+    noise_words = ["phim", "bộ phim", "tác phẩm", "tác phẩm điện ảnh", "phim điện ảnh", "phim truyền hình", "bộ phim truyền hình"]
+    text_lower = text.lower()
+    for word in noise_words:
+        # Loại bỏ từ noise ở đầu
+        if text_lower.startswith(word + " "):
+            text = text[len(word):].strip()
+            text_lower = text.lower()
+        # Loại bỏ từ noise ở cuối
+        elif text_lower.endswith(" " + word):
+            text = text[:-len(word)].strip()
+            text_lower = text.lower()
+    # Sau đó chuẩn hóa bình thường
+    return normalize_text_for_nlp(text)
+
 
 
 # =====================================================================
@@ -99,19 +148,7 @@ def ner_raw_underthesea(text):
             fixed.append((w, t))
     return fixed
 
-def canonical_title(name: str) -> str:
-    """
-    Chuẩn hoá.
-    Xoá tất cả mọi thứ trong ngoặc (bao gồm cả ngoặc và nội dung bên trong).
-    """
-    # raw = name
 
-    # Xoá tất cả mọi thứ trong ngoặc (bao gồm cả ngoặc)
-    name = re.sub(r"\(.*?\)", "", name)
-
-    # Thu gọn khoảng trắng
-    name = " ".join(name.split())
-    return name
 
 def build_map(input_list):
     """
@@ -134,6 +171,22 @@ def build_map(input_list):
 
     return res_map
 
+def build_normalized_sets(person_list, film_list):
+    person_map = build_map(person_list)
+    film_map = build_map(film_list)
+    
+    person_set = set(normalize_person_name(k) for k in person_map.keys())
+    film_set   = set(normalize_film_name(k) for k in film_map.keys())
+
+    for key, arr in film_map.items():
+        for full in arr:
+            film_set.add(normalize_film_name(full)) 
+    
+    for k, arr in person_map.items():
+        for full in arr: 
+            person_set.add(normalize_person_name(full))
+    
+    return person_set, film_set
 
 def ner_override_graph(raw_tokens, person_list, film_list):
     """
@@ -158,20 +211,10 @@ def ner_override_graph(raw_tokens, person_list, film_list):
     '''
     # Chuẩn hóa lookup: tạo set 
       # ----- PERSON/ FILM MAP + SET -----
-    person_map = build_map(person_list)
-    film_map = build_map(film_list)
-   
-    person_set = set(normalize_text_for_nlp(k) for k in person_map.keys())
-    film_set   = set(normalize_text_for_nlp(k) for k in film_map.keys())
-
-    # thêm cả bản đầy đủ (bố già (phim 2021)) vào set (trc đó set chỉ có bố già)
-    for key, arr in film_map.items():
-        for full in arr:
-            film_set.add(normalize_text_for_nlp(full)) 
     
-    for k, arr in person_map.items():
-        for full in arr: 
-            person_set.add(normalize_text_for_nlp(full))
+   
+    # Xây dựng set chuẩn hóa
+    person_set, film_set = build_normalized_sets(person_list, film_list)
     
     out = []
     i = 0
@@ -185,19 +228,19 @@ def ner_override_graph(raw_tokens, person_list, film_list):
         for length in range(min(5, len(raw_tokens) - i), 0, -1):
             phrase_tokens = [raw_tokens[i + j][0] for j in range(length)]
             phrase = " ".join(phrase_tokens)
-            phrase_norm = normalize_text_for_nlp(phrase)
+            # phrase_norm = normalize_text_for_nlp(phrase)
             # Bỏ qua nếu phrase rỗng hoặc là noise
-            if not phrase_norm:
+            if not phrase:
                 continue
             # Check person match
-            if phrase_norm in person_set:
+            if normalize_person_name(phrase) in person_set:
                 best_match_length = length
                 best_match_type = "PER"
                 matched = True
                 break  # Tìm được match dài nhất, dừng ngay
             
             # Check film match
-            if phrase_norm in film_set:
+            if normalize_film_name(phrase) in film_set:
                 best_match_length = length
                 best_match_type = "FILM"
                 matched = True
@@ -206,8 +249,23 @@ def ner_override_graph(raw_tokens, person_list, film_list):
         # Nếu match được, gán tag mới
         if matched and best_match_length > 0:
             phrase_tokens = [raw_tokens[i + j][0] for j in range(best_match_length)]
-            for j in range(best_match_length):
-                prefix = "B" if j == 0 else "I"
+            # Tính normalized phrase để check noise
+            original_phrase = " ".join(phrase_tokens)
+            normalized = normalize_film_name(original_phrase) if best_match_type == "FILM" else normalize_person_name(original_phrase)
+            noise_length = 0
+            if len(normalized) < len(original_phrase.strip()):  # Noise bị bỏ
+                # Tìm độ dài noise prefix
+                noise = original_phrase[:-len(normalized)].strip()  # Giả sử noise ở đầu
+                noise_tokens = noise.split()
+                noise_length = len(noise_tokens)
+            
+            # Gán O cho noise prefix
+            for j in range(noise_length):
+                out.append((phrase_tokens[j], "O"))
+            
+            # Gán B-/I- cho phần entity thật
+            for j in range(noise_length, best_match_length):
+                prefix = "B" if j == noise_length else "I"
                 out.append((phrase_tokens[j], f"{prefix}-{best_match_type}"))
             i += best_match_length
         else:
@@ -221,35 +279,155 @@ def ner_override_graph(raw_tokens, person_list, film_list):
 # ====================================
 # LAYER 3: WIKI ENRICHMENT
 # Keywords để detect entity type từ Wiki
-PERSON_KEYWORDS = ["diễn viên", "đạo diễn", "ca sĩ", "nghệ sĩ", "mc", "nhà sản xuất"]
-FILM_KEYWORDS = ["phim", "bộ phim", "tác phẩm điện ảnh"]
-
 def detect_entity_type_from_wiki(entity_text, wiki_enrich):
     """
-    Phát hiện loại entity từ Wikipedia summary.
-    
+    Phát hiện loại entity từ Wikipedia.
     Returns: "PER" | "FILM" | None
     """
-    entity_norm = normalize_text_for_nlp(entity_text)
-    if entity_norm not in wiki_enrich:
+    if not entity_text or not wiki_enrich:
         return None
     
-    wiki_data = wiki_enrich[entity_norm]
+    entity_norm = normalize_text_for_nlp(canonical_title(entity_text))
+    
+    # Build normalized-key map
+    wiki_norm = {}
+    for k, v in wiki_enrich.items():
+        if k is None:
+            continue
+        key_canon = canonical_title(k)
+        key_norm = normalize_text_for_nlp(key_canon)
+        if not key_norm:
+            continue
+        if key_norm not in wiki_norm:
+            wiki_norm[key_norm] = v
+    
+    # Exact lookup
+    wiki_data = wiki_norm.get(entity_norm)
+    
+    
+    
+    if not wiki_data:
+        return None
+    
     summary = str(wiki_data.get("summary", "")).lower()
     if not summary:
         return None
-    # Check PERSON (ưu tiên cao hơn)
-    if any(kw in summary for kw in PERSON_KEYWORDS):
-        return "PER"
     
-    # Check FILM
-    if any(kw in summary for kw in FILM_KEYWORDS):
+    # ===== LOGIC PHÁT HIỆN CẢI TIẾN =====
+    
+    # 1. Kiểm tra câu ĐẦU TIÊN (quan trọng nhất!)
+    first_sentence = summary.split('.')[0] if '.' in summary else summary[:200]
+    
+    # PERSON: Câu đầu thường là "X (sinh ngày...) là..."
+    person_first_sentence_patterns = [
+        r'sinh ngày',
+        r'sinh năm \d{4}',
+        r'tên khai sinh',
+        r'\(\d{1,2} tháng \d{1,2}',  # (15 tháng 3...)
+        r'là một diễn viên',
+        r'là diễn viên',
+        r'là đạo diễn',
+        r'là ca sĩ',
+        r'là nhạc sĩ',
+        r'là họa sĩ',
+        r'là nhà',  # nhà văn, nhà thơ...
+    ]
+    
+    # FILM: Câu đầu thường là "X là một bộ phim..."
+    film_first_sentence_patterns = [
+        r'là một bộ phim',
+        r'là bộ phim',
+        r'là phim',
+        r'phim \w+ năm \d{4}',  # phim hành động năm 2020
+        r'do đạo diễn .+ đạo diễn',  # "do đạo diễn X đạo diễn"
+        r'phim của đạo diễn',
+    ]
+    
+    import re
+    
+    # Check PERSON trong câu đầu (priority cao)
+    for pattern in person_first_sentence_patterns:
+        if re.search(pattern, first_sentence):
+            return "PER"
+    
+    # Check FILM trong câu đầu (priority cao)
+    for pattern in film_first_sentence_patterns:
+        if re.search(pattern, first_sentence):
+            return "FILM"
+    
+    # 2. Kiểm tra toàn bộ summary với scoring
+    person_score = 0
+    film_score = 0
+    
+    # PERSON indicators
+    person_indicators = {
+        'sinh ngày': 5,
+        'sinh năm': 5,
+        'tên khai sinh': 5,
+        'là một diễn viên': 4,
+        'là diễn viên': 4,
+        'là đạo diễn': 4,
+        'là ca sĩ': 4,
+        'là nhạc sĩ': 4,
+        'ông ': 3,  # ông Nguyễn Văn A
+        'bà ': 3,
+        'anh ': 2,
+        'chị ': 2,
+        'nghệ sĩ': 2,
+        'diễn xuất': 2,
+    }
+    
+    # FILM indicators
+    film_indicators = {
+        'là một bộ phim': 5,
+        'là bộ phim': 5,
+        'phim năm': 4,
+        'bộ phim năm': 4,
+        'do đạo diễn': 4,
+        'phim của đạo diễn': 4,
+        'ra mắt năm': 3,
+        'công chiếu': 3,
+        'doanh thu': 3,
+        'phòng vé': 3,
+        'trailer': 3,
+        'phim hành động': 2,
+        'phim tình cảm': 2,
+        'phim kinh dị': 2,
+    }
+    
+    # Calculate scores
+    for keyword, score in person_indicators.items():
+        if keyword in summary:
+            person_score += score
+    
+    for keyword, score in film_indicators.items():
+        if keyword in summary:
+            film_score += score
+    
+    # 3. Loại trừ false positives
+    # Nếu có "đóng vai" + "trong phim" → đang nói về người diễn trong phim
+    if 'đóng vai' in summary and 'trong phim' in summary:
+        person_score += 3
+    
+    # Nếu có "đạo diễn bởi" hoặc "của đạo diễn" → đang nói về phim
+    if 'đạo diễn bởi' in summary or 'của đạo diễn' in summary:
+        film_score += 3
+    
+    # 4. Quyết định dựa trên score
+    if person_score > film_score and person_score >= 4:
+        return "PER"
+    elif film_score > person_score and film_score >= 4:
+        return "FILM"
+    
+    # 5. Fallback: kiểm tra keywords đơn giản
+    if person_score > 0 and film_score == 0:
+        return "PER"
+    if film_score > 0 and person_score == 0:
         return "FILM"
     
     return None
-    
 
-def ner_override_wiki(tokens_after_graph, wiki_enrich_norm):
+def ner_override_wiki(tokens_after_graph, wiki_enrich):
     """
     Tầng 3 — override NER dựa vào wiki enrichment.
     Override NER tags dựa trên Wikipedia enrichment.
@@ -257,32 +435,30 @@ def ner_override_wiki(tokens_after_graph, wiki_enrich_norm):
 
     Input:
         - tokens_after_graph: [(token, tag)]
-        - wiki_enrich: dict JSONL đã load thành dict
+        - wiki_enrich: dict JSONL (gốc hoặc đã normalized đều được)
     Output:
         [(token, final_tag)]
-
     """
-    if not wiki_enrich_norm:
+    if not wiki_enrich:
         return tokens_after_graph
-    # # Chuẩn hóa wiki dict
-    # wiki_norm = {clean_token(k).lower(): v for k, v in wiki_enrich_norm.items()}
-
+    
     out = []
-    i=0
+    i = 0
     while i < len(tokens_after_graph):
         matched = False
         best_match_length = 0
         best_match_type = None
+        
         # Thử match từ dài nhất xuống 1 từ
         for length in range(min(5, len(tokens_after_graph) - i), 0, -1):
             phrase_tokens = [tokens_after_graph[i + j][0] for j in range(length)]
             phrase = " ".join(phrase_tokens)
-            phrase_norm = normalize_text_for_nlp(phrase).lower()
+            phrase_norm = normalize_text_for_nlp(phrase)
             
             if not phrase_norm:
                 continue
 
-            entity_type = detect_entity_type_from_wiki(phrase, wiki_enrich_norm)
+            entity_type = detect_entity_type_from_wiki(phrase, wiki_enrich)
                 
             if entity_type:
                 best_match_length = length
@@ -418,7 +594,7 @@ ROLE_MAP = {
 }
 
 # --- TRÍCH XUẤT TỪ NGỮ CẢNH ---
-def extract_roles_from_context(text, entity_name, window_chars=40):
+def extract_roles_from_context(text, entity_name, window_chars=200):
     """
     Tìm role dựa trên từ khóa xuất hiện xung quanh entity trong câu gốc.
     Hỗ trợ tìm cả trước (prefix) và sau (suffix).
@@ -504,17 +680,26 @@ def extract_roles_from_wiki(person_name, wiki_enrich):
     # Trích xuất vai trò từ Wikipedia summary
     if not wiki_enrich:
         return []
+    
+    # Tạo normalized-key map để lookup an toàn
+    wiki_norm = {}
+    for k, v in wiki_enrich.items():
+        if k is None:
+            continue
+        key_norm = normalize_text_for_nlp(k)
+        if not key_norm:
+            continue
+        if key_norm not in wiki_norm:
+            wiki_norm[key_norm] = v
+    
     person_norm = normalize_text_for_nlp(person_name)
     roles = set()
 
     # Tìm key tương ứng
-    entry = None
-    for key, val in wiki_enrich.items():
-        if normalize_text_for_nlp(key) == person_norm:
-            entry = val
-            break
+    entry = wiki_norm.get(person_norm)
     if not entry:
         return []
+        
     summary = entry.get("summary", "").lower()
     for keyword, role in ROLE_MAP.items():
         if keyword in summary:
@@ -548,7 +733,6 @@ def simple_org_fix(entity):
             return entity
     return entity
 
-# COMBINED NER
 def run_combine_ner(text, person_list, film_list, wiki_enrich, bipartite_graph):
     # Pipeline NER hoàn chỉnh 3 tầng.
     if not text or not text.strip():
@@ -560,10 +744,8 @@ def run_combine_ner(text, person_list, film_list, wiki_enrich, bipartite_graph):
     # Layer 2: Graph override
     stage2 = ner_override_graph(stage1, person_list, film_list)
     
-    # Layer 3: Wiki override
-    # wiki_enrich_lower = { k.lower(): k for k in wiki_enrich }
-    wiki_enrich_norm = { normalize_text_for_nlp(k): v for k, v in wiki_enrich.items() }
-    stage3 = ner_override_wiki(stage2, wiki_enrich_norm)
+    # Layer 3: Wiki override (truyền wiki_enrich gốc, hàm sẽ tự normalize)
+    stage3 = ner_override_wiki(stage2, wiki_enrich)
 
     # Cuối cùng: gom lại theo BIO để ra entity
     entities = extract_entities_from_bio(stage3)
@@ -571,6 +753,9 @@ def run_combine_ner(text, person_list, film_list, wiki_enrich, bipartite_graph):
     results = []
 
     for entity_name, entity_type in entities:
+        clean_name = normalize_entity_name(entity_name)
+        if not clean_name or clean_name.lower() in ["phim", "bo phim"]:  # Add noise list
+            continue
         if entity_type == "O":
             continue
         result = {
@@ -584,13 +769,51 @@ def run_combine_ner(text, person_list, film_list, wiki_enrich, bipartite_graph):
                 text, 
                 entity_name, 
                 bipartite_graph, 
-                wiki_enrich_norm
+                wiki_enrich  # truyền wiki_enrich gốc
             )
         
         results.append(result)
     results = [simple_org_fix(ent) for ent in results]
+
+
+    # Chuẩn hóa PERSON/FILM cuối pipeline
+    # build normalized wiki map once for final checks
+    wiki_norm = {}
+    for k, v in (wiki_enrich or {}).items():
+        if k is None:
+            continue
+        key_canon = canonical_title(k)
+        key_norm = normalize_text_for_nlp(key_canon)
+        if key_norm:
+            wiki_norm[key_norm] = v
+
+    person_set, film_set = build_normalized_sets(person_list, film_list)
+
+    for ent in results:
+        ent_norm = normalize_text_for_nlp(ent["name"])
+
+        # Không override nếu wiki_enrich biết rõ entity
+        if ent_norm in wiki_enrich:
+            continue
+
+        if ent_norm in person_set:
+            ent["type"] = "PERSON"
+        elif ent_norm in film_set:
+            ent["type"] = "FILM"
+        else:
+            if ent["type"] == "PER":
+                ent["type"] = "PERSON"
+        
+        
+
+        ent["name"] = normalize_entity_name(ent["name"])
+
+        # lọc ra nếu là film thì thôi ko cần roles => roles = none 
+        if ent["type"] == "FILM":  ent["roles"] = None
+
+    # Thêm filter ở run_combine_ner 
+
     return results
-     
 
 # DEBUG & TESTING
 
@@ -952,20 +1175,89 @@ def pipeline_extract_nodes_from_summary(summary_text,person_list, film_list, wik
 
 
 
-if __name__ == "__main__":
+
+
+print(detect_entity_type_from_wiki("Trấn Thành", wiki_enrich))      # EXPECT: "PER"
+print(detect_entity_type_from_wiki("Bố Già", wiki_enrich))          # EXPECT: "FILM"
+
+def test_ner_output(text, person_list, film_list, wiki_enrich, bipartite_graph):
+    print("============ TEST NER OUTPUT ============")
+
+    ner_out = run_combine_ner(
+        text=text,
+        person_list=person_list,
+        film_list=film_list,
+        wiki_enrich=wiki_enrich,
+        bipartite_graph=bipartite_graph
+    )
+
+    # 1) In bảng kết quả
+    print("\n--- NER RESULTS ---")
+    for ent in ner_out:
+        print(f"[{ent['type']}] {ent['name']}   | roles={ent.get('roles', [])}")
+
+    # 2) Kiểm tra lỗi cơ bản
+    errors = []
+
+    # 2.1 Trùng tên nhưng type khác
+    type_map = {}
+    for ent in ner_out:
+        name = ent["name"]
+        t = ent["type"]
+        if name not in type_map:
+            type_map[name] = t
+        else:
+            if type_map[name] != t:
+                errors.append(
+                    f"Lỗi TYPE: entity '{name}' có type {type_map[name]} và {t}"
+                )
+
+    # 2.2 Entity name rỗng
+    for ent in ner_out:
+        if not ent["name"].strip():
+            errors.append("Lỗi: Entity rỗng")
+
+    # 2.3 PERSON nhưng roles rỗng
+    for ent in ner_out:
+        if ent["type"] == "PERSON" and not ent.get("roles"):
+            errors.append(f"PERSON thiếu roles: {ent['name']}")
+
+    # 2.4 FILM nhưng map roles?
+    # (tạm chưa dùng, nhưng để placeholder)
     
-    sample = "Bố Già là một phim điện ảnh chủ đề gia đình, hài kịch, bối cảnh tại TP.HCM. Diễn viên chính: Trấn Thành, Ninh Dương Lan Ngọc, kiều minh tuấn. Bộ phim do Galaxy Studio sản xuất."
+    print("\n--- VALIDATION ---")
+    if errors:
+        print("❌ FAIL – Có lỗi:")
+        for e in errors:
+            print("   -", e)
+    else:
+        print("NER ổn, chuyển sang bước RE được.")
 
-    from underthesea import ner
+    return ner_out
 
 
 
-    ner_raw = ner(sample)
+text = """
+Trấn Thành đóng trong phim Bố Già cùng với Tuấn Trần. 
+Ninh Dương Lan Ngọc tham gia Cua Lại Vợ Bầu.
+"""
+
+test_ner_output(text, person_list, film_list, wiki_enrich, B)
+
+# if __name__ == "__main__":
+    
+#     sample = "Bố Già là một phim điện ảnh chủ đề gia đình, hài kịch, bối cảnh tại TP.HCM. Diễn viên chính: Trấn Thành, Ninh Dương Lan Ngọc, kiều minh tuấn. Bộ phim do Galaxy Studio sản xuất."
+
+#     from underthesea import ner
 
 
-    combine_ner = run_combine_ner(sample,person_list, film_list, wiki_enrich, B)
-    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
-    print("NER raw:", combine_ner)
+
+#     ner_raw = ner(sample)
+
+
+#     combine_ner = run_combine_ner(sample,person_list, film_list, wiki_enrich, B)
+#     print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+#     print("NER raw:", combine_ner)
 #     print("Locations:", extract_location_entities(combine_ner))
 #     print("Films:", extract_film_entities(combine_ner))
 #     print("Persons:", extract_person_entities(combine_ner))

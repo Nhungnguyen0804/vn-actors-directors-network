@@ -52,14 +52,14 @@ def detect_spouse_relations(G_collab):
             if pair not in seen_pairs:
                 seen_pairs.add(pair)
                 # Lưu theo thứ tự alphabet
-                out.append((pair[0], "SPOUSE", pair[1]))
+                out.append((pair[0], "SPOUSE_OF", pair[1] , {}))
     
     return out
 
 
 
 def find_co_spouse_groups(pairs):
-    """Tìm các nhóm người có chung vợ/chồng"""
+    # tìm các cặp bị lặp
     person_to_spouses = defaultdict(set)
     for a, _, b in pairs:
         person_to_spouses[a].add(b)
@@ -95,7 +95,7 @@ def normalize_spouse_pairs(pairs):
     # Step 1: gom spouse theo anchor
     spouse_map = defaultdict(list)
 
-    for a, _, b in pairs:
+    for a, _, b, _ in pairs:
         spouse_map[a].append(b)
         spouse_map[b].append(a)
 
@@ -127,18 +127,28 @@ def normalize_spouse_pairs(pairs):
     # Step 3: Apply normalize
     normalized = []
 
-    for a, rel, b in pairs:
+    for a, rel, b, _ in pairs:
+        # Nếu input có dùng "SPOUSE" cũ, chuẩn hoá về "SPOUSE_OF"
+        if rel == "SPOUSE":
+            rel = "SPOUSE_OF"
         a_new = name_fix_map.get(a, a)
         b_new = name_fix_map.get(b, b)
 
         # sort lại để giữ canonical order
         pair = tuple(sorted([a_new, b_new]))
-        normalized.append((pair[0], rel, pair[1]))
+        normalized.append((pair[0], rel, pair[1], {}))
 
-    # Step 4: remove duplicate
-    normalized = list(dict.fromkeys(normalized))
+    # Step 4: remove duplicate (chỉ dựa trên a, rel, b, không dùng metadata)
+    seen = set()
+    deduped = []
+    for a, rel, b, metadata in normalized:
+        key = (a, rel, b)  # CHỈ dùng 3 field đầu để check duplicate
+        if key not in seen:
+            seen.add(key)
+            deduped.append((a, rel, b, metadata))
+    
 
-    return normalized
+    return deduped
 
 
 def canonical_name(name, all_names):
@@ -256,51 +266,91 @@ def dedup_spouse_pairs(raw_pairs):
 
 
 # cùng quê
-
+HOMETOWN_PATTERNS = [
+    r"quê ở",
+    r"sinh ra tại",
+    r"xuất thân từ",
+    r"người.*đến từ",
+    r"người.*quê.*",
+]
+import re
+from collections import defaultdict
 def detect_same_hometown(G_collab):
     """
     Phát hiện quan hệ 'cùng quê quán' giữa các person trong G_collab.
-    Điều kiện: cạnh giữa hai node có cả 'location' và 'same_location'.
-    
+    Dựa trên quê quán thật từ infobox của node (ưu tiên 'quê quán', fallback 'birth_place' nếu không có).
+    Chuẩn hóa quê quán để so sánh (lower case, strip, lấy phần tỉnh/quốc gia nếu có định dạng '..., Tỉnh, Quốc gia').
+
     Returns:
         List[Tuple[str, str, str]]:
             [(personA, "SAME_HOMETOWN_AS", personB), ...]
             Đã loại trùng lặp và chuẩn hoá thứ tự A < B.
     """
+    # Thu thập tất cả person và quê quán của họ
+    hometowns = defaultdict(list)  # hometown_normalized -> list of persons
+    original_hometowns = {}  # person -> original hometown string
+    possible_keys = ['quê quán', 'quê', 'hometown', 'birth_place']  # Các key có thể trong infobox, ưu tiên theo thứ tự
+
+    for node, data in G_collab.nodes(data=True):
+        if data.get("type") != "person":
+            continue
+        info = data.get("info", {})
+        if not info:
+            continue
+        
+        # Tìm quê quán từ các key возможные, ưu tiên đầu tiên có giá trị
+        hometown = None
+        for key in possible_keys:
+            if key in info and info[key]:
+                hometown = info[key]
+                break
+        
+        if not hometown:
+            continue  # Skip nếu không có quê quán
+        original_hometowns[node] = hometown
+        # Chuẩn hóa quê quán
+        # - Lower case
+        # - Remove extra spaces
+        # - Nếu có comma, lấy last 2 parts (ví dụ: 'ABC, Quảng Đông, Trung Quốc' -> 'Quảng Đông, Trung Quốc')
+        # - Loại bỏ dấu ngoặc, text thừa nếu cần (cải tiến: dùng regex đơn giản)
+        hometown = re.sub(r'\(.*?\)', '', hometown)  # Loại phần trong ngoặc (nếu có note)
+        hometown = hometown.strip().lower()
+        parts = [p.strip() for p in hometown.split(',') if p.strip()]
+        if len(parts) > 1:
+            normalized = ', '.join(parts[-2:])  # Lấy 2 phần cuối: tỉnh, quốc gia
+        else:
+            normalized = parts[0] if parts else ''
+        
+        if normalized:
+            hometowns[normalized].append(node)
+    
+    # Tạo cặp từ các group có >=2 persons
     out = []
     seen = set()
-
-    for u, v, data in G_collab.edges(data=True):
-        loc = data.get("location")
-        same_loc = data.get("same_location")
-
-        # Điều kiện 
-        if not (loc and same_loc):
+    # FIX: Dùng .items() thay vì .values()
+    for normalized, persons in hometowns.items():  # <-- SỬA Ở ĐÂY
+        if len(persons) < 2:
             continue
+        # Capitalize normalized cho output đẹp
+        normalized_cap = ', '.join(word.capitalize() for word in normalized.split(', '))
 
-        # Chỉ lấy person–person
-        if G_collab.nodes[u].get("type") != "person":
-            continue
-        if G_collab.nodes[v].get("type") != "person":
-            continue
-
-        # Chuẩn hóa thứ tự để không bị duplicate
-        a, b = sorted([u, v])
-
-        key = (a, b)
-        if key not in seen:
-            seen.add(key)
-            out.append((a, "SAME_HOMETOWN_AS", b))
-
+        # Sort persons để thứ tự nhất quán
+        persons = sorted(persons)
+        for i in range(len(persons)):
+            for j in range(i+1, len(persons)):
+                a, b = persons[i], persons[j]
+                key = (a, b)
+                if key not in seen:
+                    seen.add(key)
+                    out.append((a, "SAME_HOMETOWN_AS", b,{"hometown": normalized_cap}))
+    
     return out
-
-
 # ĐÓNG TRONG PHIM
 def detect_acted_in(G_bipartite):
     out = []
     for u, v, data in G_bipartite.edges(data=True):
         if data.get("role", "").lower() == "actor":
-            out.append((u, "ACTED_IN", v))
+            out.append((u, "ACTED_IN", v, {}))
     return out
 
 
@@ -311,7 +361,7 @@ def detect_directed(G_bipartite):
         role = data.get("role", "").lower()
 
         if role == "director":
-            out.append((u, "DIRECTED", v))
+            out.append((u, "DIRECTED", v, {}))
 
     return out
 
@@ -366,6 +416,62 @@ def detect_collaboration(G_collab):
     return detect_collaboration_with_weight(G_collab, min_films=1, min_weight=0.0)
 
 
+def detect_same_school(G_collab):
+    """
+    Phát hiện quan hệ 'cùng trường học' giữa các person trong graph.
+    Ưu tiên các key như education, alma_mater, học_vấn.
+    """
+    school_keys = ["alma_mater", "education", "học_vấn", "education_background"]
+
+    school_map = defaultdict(list)
+    import re
+
+    for node, data in G_collab.nodes(data=True):
+        if data.get("type") != "person":
+            continue
+
+        info = data.get("info", {})
+        school = None
+
+        for key in school_keys:
+            if key in info and info[key]:
+                school = info[key]
+                break
+
+        if not school:
+            continue
+
+        # Chuẩn hóa trường học
+        s = school
+        s = re.sub(r'\(.*?\)', '', s)
+        s = s.strip().lower()
+        parts = [p.strip() for p in s.split(',') if p.strip()]
+        normalized = parts[-1] if parts else ""
+
+        if normalized:
+            school_map[normalized].append(node)
+
+    out = []
+    seen = set()
+
+    for normalized, persons in school_map.items():
+        if len(persons) < 2:
+            continue
+
+        persons = sorted(persons)
+        norm_cap = normalized.capitalize()
+
+        for i in range(len(persons)):
+            for j in range(i+1, len(persons)):
+                a, b = persons[i], persons[j]
+                if (a, b) not in seen:
+                    seen.add((a, b))
+                    out.append((a, "SAME_SCHOOL_AS", b, {"school": norm_cap}))
+
+    return out
+
+
+
 raw = normalize_spouse_pairs(detect_spouse_relations(G_collab))
 
 # print("\n\nRUNNING DEDUP DEBUG...\n")
@@ -395,9 +501,11 @@ def collect_all_relations():
     triples += detect_same_hometown(G_collab)
     triples += detect_acted_in(B)
     triples += detect_directed(B)
+    triples += detect_same_school(G_collab)
 
-    for a, rel, b, *_ in detect_collaboration(G_collab):
-        triples.append((a, rel, b))
+
+    for a, rel, b, meta in detect_collaboration(G_collab):
+        triples.append((a, rel, b, meta ))
 
     return triples
 
@@ -407,3 +515,66 @@ with open("data/triples_for_RE.json", "w", encoding="utf8") as f:
     json.dump(triples, f, ensure_ascii=False, indent=2)
 
 print('Done DETECT!')
+
+
+# ==== TEST 1: SPOUSE ====
+raw_spouse = detect_spouse_relations(G_collab)
+normalized_spouse = normalize_spouse_pairs(raw_spouse)
+
+print("\n=== SPOUSE TEST ===")
+print("Raw spouse count:", len(raw_spouse))
+print("Normalized spouse count:", len(normalized_spouse))
+
+assert all(rel == "SPOUSE_OF" for _, rel, _ , _ in normalized_spouse)
+
+# ==== TEST 2: SAME_HOMETOWN_AS ====
+same_hometown = detect_same_hometown(G_collab)
+same_school = detect_same_school(G_collab)
+print("\n=== SAME_HOMETOWN TEST ===")
+print("Count:", len(same_hometown))
+assert all(rel == "SAME_HOMETOWN_AS" for _, rel, _ ,_ in same_hometown)
+
+# ==== TEST 3: ACTED_IN ====
+acted_in = detect_acted_in(B)
+print("\n=== ACTED_IN TEST ===")
+print("Count:", len(acted_in))
+assert all(rel == "ACTED_IN" for _, rel, _ , _ in acted_in)
+
+# ==== TEST 4: DIRECTED ====
+directed = detect_directed(B)
+print("\n=== DIRECTED TEST ===")
+print("Count:", len(directed))
+assert all(rel == "DIRECTED" for _, rel, _ , _ in directed)
+
+# ==== TEST 5: COLLABORATED_WITH ====
+collab = detect_collaboration(G_collab)
+print("\n=== COLLABORATION TEST ===")
+print("Count:", len(collab))
+assert all(rel == "COLLABORATED_WITH" for _, rel, _,_ in collab)
+
+# ==== TEST 6: Collect All Relations ====
+triples = collect_all_relations()
+
+print("\n=== ALL TRIPLES TEST ===")
+print("Total triples:", len(triples))
+assert any(t[1] == "SPOUSE_OF" for t in triples)
+assert any(t[1] == "SAME_HOMETOWN_AS" for t in triples)
+assert any(t[1] == "ACTED_IN" for t in triples)
+assert any(t[1] == "DIRECTED" for t in triples)
+assert any(t[1] == "COLLABORATED_WITH" for t in triples)
+assert any(t[1] == "SAME_SCHOOL_AS" for t in triples)
+print('Done TEST')
+
+
+for x in normalized_spouse[:10]:
+    print(x)
+for x in same_hometown[:10]:
+    print(x)
+for x in acted_in[:10]:
+    print(x)
+for x in directed[:10]:
+    print(x)
+for x in collaboration_pairs[:10]:
+    print(x)
+for x in same_school[:10]:
+    print(x)

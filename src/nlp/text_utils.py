@@ -129,3 +129,16 @@ def normalize_entity(entity_text, person_list, film_list, wiki_enrich=None):
 
     return t, "UNK"
 
+def canonical_title(name: str) -> str:
+    """
+    Chuẩn hoá.
+    Xoá tất cả mọi thứ trong ngoặc (bao gồm cả ngoặc và nội dung bên trong).
+    """
+    # raw = name
+
+    # Xoá tất cả mọi thứ trong ngoặc (bao gồm cả ngoặc)
+    name = re.sub(r"\(.*?\)", "", name)
+
+    # Thu gọn khoảng trắng
+    name = " ".join(name.split())
+    return name

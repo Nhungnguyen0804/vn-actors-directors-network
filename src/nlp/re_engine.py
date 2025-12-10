@@ -50,7 +50,7 @@ def get_char_spans(clean_text, ner_out):
     for ent in ner_out:
         raw_name = ent["name"]
         label = ent["type"] # Ví dụ: PER, ORG...
-
+        # clean_text = normalize_entity_name(raw_name)
         norm_name = normalize_entity_name(raw_name)
         if not norm_name:
             continue
@@ -299,19 +299,6 @@ def run_setfit_rel_extraction_debug(
 # Set global relation set để dedup toàn cục
 
 
-# def dedup_triples(triples, graph_relation_set=None):
-#     if graph_relation_set is None:
-#         graph_relation_set = set()  # Set cục bộ cho mỗi lần gọi
-#     new = []
-#     for s, r, o in triples:
-#         key = (s, r, o)
-#         if key not in graph_relation_set:
-#             graph_relation_set.add(key)
-#             new.append((s, r, o))
-#     return new
-
-# XÓA DÒNG NÀY: graph_relation_set = set()
-
 def dedup_triples(triples, seen_set=None):
     """
     Dedup triples, có thể dùng set cục bộ hoặc toàn cục
@@ -355,13 +342,24 @@ except Exception as e:
     print("Chưa load được model SetFit (hãy train trước):", e)
     re_model = None
 
+RELATION_TYPES = {
+    "ACTED_IN",
+    "DIRECTED",
+    "SPOUSE_OF",
+    "COLLABORATED_WITH",
+    "SAME_HOMETOWN_AS",
+    "SAME_SCHOOL_AS"
+}
 VALID_TYPES = {
-    "SPOUSE":                [("PER", "PER")],
-    "SAME_HOMETOWN_AS":     [("PER", "PER")],
-    "COLLABORATED_WITH":    [("PER", "PER")],
-    
-    "ACTED_IN":             [("PER", "FILM")],
-    "DIRECTED":             [("PER", "FILM")],
+    "ACTED_IN": [("PER", "FILM")],
+    "DIRECTED": [("PER", "FILM")],
+    "PRODUCED": [("PER", "FILM")],
+    "WRITER_OF": [("PER", "FILM")],
+    "SPOUSE_OF": [("PER", "PER")],
+    "CO_STARRED": [("PER", "PER")],
+    "COLLABORATED_WITH": [("PER", "PER")],
+    "SEQUEL_OF": [("FILM", "FILM")],
+    "REMAKE_OF": [("FILM", "FILM")]
 }
 
 def is_valid_pair(subj_type, obj_type, relation):
@@ -527,4 +525,3 @@ else:
 # predictions = re_model.predict(test_sentences)
 # for sent, pred in zip(test_sentences, predictions):
 #     print(f"{sent} ====> {pred}")
-

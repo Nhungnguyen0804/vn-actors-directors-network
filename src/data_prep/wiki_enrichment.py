@@ -252,6 +252,13 @@ from src.constant import XML_FILE, BIPARTITE_JSON
 from src.data_prep.load_graph import load_graph,load_bipartite_graph_and_nodes
 wiki_dict = load_wiki_dump(XML_FILE)
 
+OUTPUT_FILE = "data/wiki_dict.json"
+
+with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+    json.dump(wiki_dict, f, ensure_ascii=False, indent=2)
+
+print("Đã xuất wiki_dict ra", OUTPUT_FILE)
+
 print('==================================')
 B = load_graph(BIPARTITE_JSON)
 B, person_list, film_list = load_bipartite_graph_and_nodes(B)
