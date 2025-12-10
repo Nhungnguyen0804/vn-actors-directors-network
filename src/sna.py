@@ -1,7 +1,8 @@
 import networkx as nx
 import community.community_louvain as community_louvain
 import json
-from load_graph import load_graphs   
+
+from data_prep.load_graph import load_graph   
 def compute_page_rank(G):
     """
     Tính PageRank cho đồ thị
@@ -78,7 +79,7 @@ def analyze_actor_importance(G):
     
     return importance_data
 
-G_actor_collab, G_bipartite = load_graphs()
+G_actor_collab = load_graph('data/updated/G_collab.json')
 page_rank = compute_page_rank(G_actor_collab)
 actor_importance = analyze_actor_importance(G_actor_collab)
 degree_centrality = compute_degree_centrality(G_actor_collab)
