@@ -1,0 +1,47 @@
+Trịnh Kim Chi	COLLABORATED_WITH	Trương Ngọc Ánh
+Trịnh Kim Chi	COLLABORATED_WITH	Minh Anh
+Trịnh Kim Chi	COLLABORATED_WITH	Chung Vũ Thanh Uyên
+Trương Ngọc Ánh	COLLABORATED_WITH	Trịnh Kim Chi
+Trương Ngọc Ánh	COLLABORATED_WITH	Minh Anh
+Trương Ngọc Ánh	COLLABORATED_WITH	Chung Vũ Thanh Uyên
+Minh Anh	COLLABORATED_WITH	Trịnh Kim Chi
+Minh Anh	COLLABORATED_WITH	Trương Ngọc Ánh
+Minh Anh	COLLABORATED_WITH	Chung Vũ Thanh Uyên
+Chung Vũ Thanh Uyên	COLLABORATED_WITH	Trịnh Kim Chi
+Chung Vũ Thanh Uyên	COLLABORATED_WITH	Trương Ngọc Ánh
+Chung Vũ Thanh Uyên	COLLABORATED_WITH	Minh Anh
+Quốc Bảo	COLLABORATED_WITH	Ngô Thanh Vân
+Quốc Bảo	COLLABORATED_WITH	Phương Nam
+Ngô Thanh Vân	COLLABORATED_WITH	Quốc Bảo
+Ngô Thanh Vân	COLLABORATED_WITH	Phương Nam
+Phương Nam	COLLABORATED_WITH	Quốc Bảo
+Phương Nam	COLLABORATED_WITH	Ngô Thanh Vân
+Ngô Thanh Vân	ACTED_IN	Phim ca nhạc
+Ngô Thanh Vân	SPOUSE	Thành Công
+Thành Công	SPOUSE	Ngô Thanh Vân
+Ngô Thanh Vân	DIRECTED	Dòng máu anh hùng
+Johnny Trí Nguyễn	DIRECTED	Dòng máu anh hùng
+Thành Lộc	COLLABORATED_WITH	Võ Thành Tâm
+Võ Thành Tâm	COLLABORATED_WITH	Thành Lộc
+Ngô Thanh Vân	ACTED_IN	Dòng máu anh hùng
+Anh Thư	ACTED_IN	Dòng máu anh hùng
+Bằng Lăng	ACTED_IN	Dòng máu anh hùng
+Quốc Bảo	COLLABORATED_WITH	Quốc Dũng
+Quốc Dũng	COLLABORATED_WITH	Quốc Bảo
+Ngô Thanh Vân	COLLABORATED_WITH	Johnny Trí Nguyễn
+Ngô Thanh Vân	COLLABORATED_WITH	Ninh Dương Lan Ngọc
+Johnny Trí Nguyễn	COLLABORATED_WITH	Ngô Thanh Vân
+Johnny Trí Nguyễn	COLLABORATED_WITH	Ninh Dương Lan Ngọc
+Ninh Dương Lan Ngọc	COLLABORATED_WITH	Ngô Thanh Vân
+Ninh Dương Lan Ngọc	COLLABORATED_WITH	Johnny Trí Nguyễn
+Ngô Thanh Vân	DIRECTED	Siêu trộm
+Ngô Thanh Vân	ACTED_IN	Hai Phượng
+Thành Công	ACTED_IN	Dòng máu anh hùng
+Thành Công	ACTED_IN	Bẫy rồng
+Ngô Thanh Vân	ACTED_IN	Bẫy rồng
+Xuân Lan	SPOUSE	Nam Trung
+Nam Trung	SPOUSE	Xuân Lan
+Ngọc Lan	ACTED_IN	Về quê ăn Tết
+Tăng Thanh Hà	ACTED_IN	Về quê ăn Tết
+Thu Minh	ACTED_IN	Về quê ăn Tết
+Đông Nhi	ACTED_IN	Về quê ăn Tết

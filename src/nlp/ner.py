@@ -16,14 +16,14 @@ B = load_graph(BIPARTITE_JSON)
 B, person_list, film_list = load_bipartite_graph_and_nodes(B)
 
 # ====================================
-def load_jsonl_to_dict(path):
+def load_jsonl_to_dict(path, name = "name"):
     result = {}
     with open(path, "r", encoding="utf-8") as f:
         for line in f:
             if not line.strip():
                 continue
             obj = json.loads(line)
-            name = obj.get("name")
+            name = obj.get(name)
             if name:
                 result[name] = obj
     return result

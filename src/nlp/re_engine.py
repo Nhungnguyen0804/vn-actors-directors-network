@@ -18,7 +18,7 @@ from setfit import SetFitModel
 graph_nodes = []
 for e in (person_list + film_list):
     if e in wiki_enrich:
-        clean_text = wiki_enrich[e].get("clean_text", "")
+        clean_text = wiki_enrich[e].get("clean_wikitext", "")
         if isinstance(clean_text, str) and clean_text.strip():
             graph_nodes.append(e)
 
@@ -126,9 +126,10 @@ def run_setfit_rel_extraction(
         sent = re.sub(r"\s+", " ", sent).strip()
         # 1. Lấy vị trí các entity (Char Spans)
         entity_spans = get_char_spans(sent, ner_out)
-    
+
+        
         if len(entity_spans) < 2:
-            return [] # Cần ít nhất 2 entity để có quan hệ
+           continue # bỏ qa câu này # Cần ít nhất 2 entity để có quan hệ
 
         # 2. Tạo các cặp (Pairs) - Permutations (A->B và B->A có thể khác nhau)
         # Nếu quan hệ của là 2 chiều (như married_to), dùng combinations.
@@ -160,7 +161,7 @@ def run_setfit_rel_extraction(
 
         # Không có pair hợp lệ
         if not batch_inputs:
-            return []
+            continue
 
         # 4) Predict
         predictions = setfit_model.predict(batch_inputs)
@@ -281,9 +282,9 @@ def run_setfit_rel_extraction_debug(
             if subj_norm == obj_norm:
                 continue
 
-            triples.append((subj_norm, rel, obj_norm))
+            triples.append(((subj_norm, subj_type), rel, (obj_norm, obj_type)))
             if debug:
-                print("✓ ADD TRIPLE:", (subj_norm, rel, obj_norm))
+                print("✓ ADD TRIPLE:", ((subj_norm, subj_type), rel, (obj_norm, obj_type)))
 
     triples = list(dict.fromkeys(triples))
 
@@ -296,14 +297,44 @@ def run_setfit_rel_extraction_debug(
 
 
 # Set global relation set để dedup toàn cục
-graph_relation_set = set()
 
-def dedup_triples(triples):
+
+# def dedup_triples(triples, graph_relation_set=None):
+#     if graph_relation_set is None:
+#         graph_relation_set = set()  # Set cục bộ cho mỗi lần gọi
+#     new = []
+#     for s, r, o in triples:
+#         key = (s, r, o)
+#         if key not in graph_relation_set:
+#             graph_relation_set.add(key)
+#             new.append((s, r, o))
+#     return new
+
+# XÓA DÒNG NÀY: graph_relation_set = set()
+
+def dedup_triples(triples, seen_set=None):
+    """
+    Dedup triples, có thể dùng set cục bộ hoặc toàn cục
+    """
+    if seen_set is None:
+        seen_set = set()  # Set cục bộ cho mỗi lần gọi
+    
     new = []
     for s, r, o in triples:
-        key = (s, r, o)
-        if key not in graph_relation_set:
-            graph_relation_set.add(key)
+        # Đảm bảo s và o là strings, không phải tuples
+        if isinstance(s, tuple):
+            s_str = s[0] if isinstance(s[0], str) else str(s[0])
+        else:
+            s_str = str(s)
+            
+        if isinstance(o, tuple):
+            o_str = o[0] if isinstance(o[0], str) else str(o[0])
+        else:
+            o_str = str(o)
+        
+        key = (s_str, r, o_str)
+        if key not in seen_set:
+            seen_set.add(key)
             new.append((s, r, o))
     return new
 
@@ -324,49 +355,6 @@ except Exception as e:
     print("Chưa load được model SetFit (hãy train trước):", e)
     re_model = None
 
-# # Logic chạy chính
-# if re_model:
-#     for entity in graph_nodes:
-#         # skip nếu không có wiki text
-#         if entity not in wiki_enrich:
-#             continue
-
-#         clean_text = wiki_enrich[entity].get("clean_wikitext", "")
-#         if not clean_text:
-#             continue
-
-#         # 1) NER combine (graph + wiki + raw NER)
-#         ner_out = run_combine_ner(
-#             clean_text,
-#             person_list,
-#             film_list,
-#             wiki_enrich,
-#             B  # G_bipartite
-#         )
-
-#         # 2) RE bằng SetFit (Thay thế SpERT)
-#         # Không cần tokenizer nữa vì SetFit tự lo bên trong
-#         relations = run_setfit_rel_extraction_debug(
-#             clean_text=clean_text,
-#             ner_out=ner_out,
-#             setfit_model=re_model,
-#             person_list=person_list,
-#             film_list=film_list,
-#             wiki_enrich=wiki_enrich
-#         )
-
-#         # 3) Bỏ trùng
-#         relations = dedup_triples(relations)
-
-#         # 4) In ra
-#         print('************************* RE ********************************')
-#         if relations:
-#             print(f"[{entity}] → {relations}")
-
-# else:
-#     print("Dừng chương trình: Vui lòng train model SetFit RE trước khi chạy bước này.")
-
-
 VALID_TYPES = {
     "SPOUSE":                [("PER", "PER")],
     "SAME_HOMETOWN_AS":     [("PER", "PER")],
@@ -382,46 +370,161 @@ def is_valid_pair(subj_type, obj_type, relation):
     return (subj_type, obj_type) in valid
 
 
-entity = "Trấn Thành"
-print(wiki_enrich[entity].keys())
-# clean_text = "Ngày 25 tháng 12 năm 2016, Trấn Thành kết hôn với nữ ca sĩ mang hai dòng máu Việt-Hàn Hari Won[7] tại Trung tâm Hội nghị Gem Center, Thành phố Hồ Chí Minh.[8] Anh có hai người em gái tên Huỳnh Trinh Mi và Huỳnh Uyển Ân, trong đó Uyển Ân cũng trở thành một diễn viên như anh sau khi cô tham gia đóng chính trong phim Nhà bà Nữ."
+
+RE_RES_FILE = f"data/re_results.jsonl"
 
 
-clean_text = wiki_enrich[entity]["clean_wikitext"]
+if re_model is not None:
 
-ner_out = run_combine_ner(clean_text, person_list, film_list, wiki_enrich, B)
+    for entity in graph_nodes:
 
-rels = run_setfit_rel_extraction_debug(
-    clean_text,
-    ner_out,
-    re_model,
-    person_list,
-    film_list,
-    wiki_enrich
-)
+        if entity not in wiki_enrich:
+            continue
 
-import os
-os.makedirs("test/re", exist_ok=True)
+        clean_text = wiki_enrich[entity].get("clean_wikitext", "")
+        if not clean_text:
+            continue
 
-out_path = f"test/re/{entity}.txt"
-with open(out_path, "w", encoding="utf-8") as f:
-    for (s, r, o) in rels:
-        f.write(f"{s}\t{r}\t{o}\n")
+        # --------------------------
+        # 1) NER kết hợp
+        # --------------------------
+        ner_out = run_combine_ner(
+            text=clean_text,
+            person_list=person_list,
+            film_list=film_list,
+            wiki_enrich=wiki_enrich,
+            bipartite_graph=B
+        )
 
-print("Saved:", out_path)
+        # --------------------------
+        # 2) RE bằng SetFit
+        # --------------------------
+        relations = run_setfit_rel_extraction_debug(
+            clean_text=clean_text,
+            ner_out=ner_out,
+            setfit_model=re_model,
+            person_list=person_list,
+            film_list=film_list,
+            wiki_enrich=wiki_enrich
+        )
+
+        # --------------------------
+        # 3) Dedup
+        # --------------------------
+        # 3) Lọc quan hệ sai schema (dựa vào VALID_TYPES)
+        filtered_relations = []
+        for (s, r, o) in relations:
+            # s và o là tuple (name, type)
+            subj_type = s[1]  # Lấy type từ tuple
+            obj_type = o[1]   # Lấy type từ tuple
+            
+            if is_valid_pair(subj_type, obj_type, r):
+                filtered_relations.append((s, r, o))
+        # 4) Dedup
+        filtered_relations = dedup_triples(filtered_relations)
 
 
-print('+++++++++++++++ test thử ++++++++++++++++++++++++++')
-# Test với các câu đơn giản
-test_sentences = [
-    "[PER] A [/PER] kết hôn với [PER] B [/PER].",
-    "[PER] A [/PER] đóng vai chính trong [FILM] C [/FILM].",
-    "[PER] A [/PER] đạo diễn phim [FILM] C [/FILM].",
-    "[PER] A [/PER] hợp tác với [PER] B [/PER] trong dự án.",
-    "[PER] A [/PER] và [PER] B [/PER] cùng quê ở [LOC] Hà Nội [/LOC]."
-]
+        # --------------------------
+        # 4) Xuất file cho entity
+        # --------------------------
+        
+        # Mỗi lần chạy toàn pipeline → reset file
+        # (Chỉ reset 1 lần ở entity đầu tiên)
+        if entity == graph_nodes[0]:  
+            open(RE_RES_FILE, "w", encoding="utf-8").close()
 
-predictions = re_model.predict(test_sentences)
-for sent, pred in zip(test_sentences, predictions):
-    print(f"{sent} ====> {pred}")
+        # Chuẩn bị danh sách quan hệ cho entity này
+        import json
+        relations_list = []
+        for (s, r, o) in filtered_relations:
+            s_name = s[0] if isinstance(s, tuple) else s
+            o_name = o[0] if isinstance(o, tuple) else o
+            
+            relations_list.append({
+                "subject": s_name,
+                "relation": r,
+                "object": o_name
+            })
+
+        # Ghi 1 dòng JSON cho entity
+        with open(RE_RES_FILE, "a", encoding="utf-8") as f:
+            json.dump({
+                "entity": entity,
+                "relations": relations_list
+            }, f, ensure_ascii=False)
+            f.write("\n")
+
+        print(f"Wrote RE for {entity} → {RE_RES_FILE}")
+        # --------------------------
+        # 5) In ra console
+        # --------------------------
+        # print("\n************************* RE ********************************")
+        # if filtered_relations:
+        #     print(f"[{entity}] → {filtered_relations}")
+        # else:
+        #     print(f"[{entity}] → (no extracted relations)")
+
+else:
+    print("Chưa train model SetFit RE!")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# test thử 1 entity cụ thể =================================
+# entity = "Trấn Thành"
+# print(wiki_enrich[entity].keys())
+# # clean_text = "Ngày 25 tháng 12 năm 2016, Trấn Thành kết hôn với nữ ca sĩ mang hai dòng máu Việt-Hàn Hari Won[7] tại Trung tâm Hội nghị Gem Center, Thành phố Hồ Chí Minh.[8] Anh có hai người em gái tên Huỳnh Trinh Mi và Huỳnh Uyển Ân, trong đó Uyển Ân cũng trở thành một diễn viên như anh sau khi cô tham gia đóng chính trong phim Nhà bà Nữ."
+
+
+# clean_text = wiki_enrich[entity]["clean_wikitext"]
+
+# ner_out = run_combine_ner(clean_text, person_list, film_list, wiki_enrich, B)
+
+# rels = run_setfit_rel_extraction_debug(
+#     clean_text,
+#     ner_out,
+#     re_model,
+#     person_list,
+#     film_list,
+#     wiki_enrich
+# )
+
+# import os
+# os.makedirs("test/re", exist_ok=True)
+
+# out_path = f"test/re/{entity}.txt"
+# with open(out_path, "w", encoding="utf-8") as f:
+#     for (s, r, o) in rels:
+#         f.write(f"{s}\t{r}\t{o}\n")
+
+# print("Saved:", out_path)
+
+
+# print('+++++++++++++++ test thử ++++++++++++++++++++++++++')
+# # Test với các câu đơn giản
+# test_sentences = [
+#     "[PER] A [/PER] kết hôn với [PER] B [/PER].",
+#     "[PER] A [/PER] đóng vai chính trong [FILM] C [/FILM].",
+#     "[PER] A [/PER] đạo diễn phim [FILM] C [/FILM].",
+#     "[PER] A [/PER] hợp tác với [PER] B [/PER] trong dự án.",
+#     "[PER] A [/PER] và [PER] B [/PER] cùng quê ở [LOC] Hà Nội [/LOC]."
+# ]
+
+# predictions = re_model.predict(test_sentences)
+# for sent, pred in zip(test_sentences, predictions):
+#     print(f"{sent} ====> {pred}")
 
