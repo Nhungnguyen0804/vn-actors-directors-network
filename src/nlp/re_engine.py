@@ -353,13 +353,13 @@ RELATION_TYPES = {
 VALID_TYPES = {
     "ACTED_IN": [("PER", "FILM")],
     "DIRECTED": [("PER", "FILM")],
-    "PRODUCED": [("PER", "FILM")],
-    "WRITER_OF": [("PER", "FILM")],
+    
     "SPOUSE_OF": [("PER", "PER")],
-    "CO_STARRED": [("PER", "PER")],
     "COLLABORATED_WITH": [("PER", "PER")],
-    "SEQUEL_OF": [("FILM", "FILM")],
-    "REMAKE_OF": [("FILM", "FILM")]
+
+    "SAME_HOMETOWN_AS" : [("PER", "PER")],
+    "SAME_SCHOOL_AS": [("PER", "PER")],
+   
 }
 
 def is_valid_pair(subj_type, obj_type, relation):
