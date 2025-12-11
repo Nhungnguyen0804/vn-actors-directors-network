@@ -200,7 +200,7 @@ for item in final_candidates:
     output_json.append(q_obj)
 
 # Save to file
-with open('evaluation_dataset.json', 'w', encoding='utf-8') as f:
+with open('data/evaluation_dataset.json', 'w', encoding='utf-8') as f:
     json.dump(output_json, f, ensure_ascii=False, indent=2)
 
 print(f"Generated {len(output_json)} questions.")

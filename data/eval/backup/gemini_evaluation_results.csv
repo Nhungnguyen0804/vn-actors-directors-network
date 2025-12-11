@@ -1,0 +1,2001 @@
+question_id,question,gold_answer,model_raw_output,model_normalized_answer,correct
+1,Đạo diễn của bộ phim 'Sài Gòn Yo!' có sự tham gia của Tấn Thi là ai?,C,C,C,True
+2,Phim nào có sự tham gia của cả Hoài Linh và Charlie Chaplin?,A,A,A,True
+3,Phim nào có sự tham gia của cả Trung Dân và Miu Lê?,B,B,B,True
+4,Phim nào có sự tham gia của cả Phi Phụng và Thiên Thủy (diễn viên)?,A,B,B,False
+5,Phim nào có sự tham gia của cả Thanh Vy và Bảo Trúc?,B,C,C,False
+6,Phim nào có sự tham gia của cả Tinna Tình và Thanh Bùi?,D,D,D,True
+7,Phim nào có sự tham gia của cả Mai Thế Hiệp và Lâm Văn Quốc?,D,A,A,False
+8,Phim nào có sự tham gia của cả Thành Nam (diễn viên) và Bé Vỹ?,B,B,B,True
+9,Đạo diễn của bộ phim 'Vali tình yêu' có sự tham gia của Vy Oanh là ai?,C,C,C,True
+10,Phim nào có sự tham gia của cả Huang Kiem và Mạnh Cường?,C,C,C,True
+11,Phim nào có sự tham gia của cả Hải Triều (diễn viên) và Thanh Tâm (diễn viên)?,C,B,B,False
+12,Phim nào có sự tham gia của cả Hoàng Bách và Văn Tùng?,B,C,C,False
+13,Phim nào có sự tham gia của cả Hồng Ánh và Thu Trang?,B,D,D,False
+14,Phim nào có sự tham gia của cả Oanh Kiều và Thanh Thức?,C,C,C,True
+15,Phim nào có sự tham gia của cả Thành Tài và Bé Vỹ?,D,D,D,True
+16,Đạo diễn của bộ phim 'Hello cô Ba' có sự tham gia của Phi Nhung là ai?,C,C,C,True
+17,Phim nào có sự tham gia của cả Ngân Quỳnh và Bùi Tấn Trường?,C,D,D,False
+18,Phim nào có sự tham gia của cả Thu Trang và Miu Lê?,B,B,B,True
+19,Đạo diễn của bộ phim 'Bộ tứ báo thủ' có sự tham gia của Ngọc Giàu là ai?,A,B,B,False
+20,Phim nào có sự tham gia của cả Mạnh Tràng và Kim Ngọc (nghệ sĩ)?,B,A,A,False
+21,Phim nào có sự tham gia của cả Phương Thanh và DJ?,D,D,D,True
+22,Đạo diễn của bộ phim 'Hello cô Ba' có sự tham gia của Trịnh Kim Chi là ai?,C,C,C,True
+23,Phim nào có sự tham gia của cả Bùi Hoàng Huy và Huang Kiem?,B,B,B,True
+24,"Đạo diễn của bộ phim 'Hot boy nổi loạn và câu chuyện về thằng Cười, cô gái điếm và con vịt' có sự tham gia của Huy Cường là ai?",A,A,A,True
+25,Đạo diễn của bộ phim 'Hai Cũ' có sự tham gia của Thùy Liên là ai?,D,C,C,False
+26,Phim nào có sự tham gia của cả Hiếu Hiền và Nikki Dương Nhật Vi?,B,C,C,False
+27,Phim nào có sự tham gia của cả Charlie Nguyễn và Trương Thế Vinh?,A,A,A,True
+28,Phim nào có sự tham gia của cả Mạc Can và Việt Thắng (diễn viên)?,A,A,A,True
+29,Phim nào có sự tham gia của cả Huy Cường và Phúc An?,B,D,D,False
+30,Đạo diễn của bộ phim 'Nụ hôn thần chết' có sự tham gia của Thủy Tiên (ca sĩ) là ai?,C,C,C,True
+31,Phim nào có sự tham gia của cả Mai Trần và Ngọc Oanh?,D,B,B,False
+32,Phim nào có sự tham gia của cả Võ Vĩnh Phúc và Phạm Văn Nhân (diễn viên)?,A,A,A,True
+33,Đạo diễn của bộ phim 'Nghề siêu dễ (phim 2022)' có sự tham gia của Quang Tuấn là ai?,B,B,B,True
+34,Phim nào có sự tham gia của cả Văn Hiệp và Hoàng Yến (diễn viên)?,D,D,D,True
+35,Phim nào có sự tham gia của cả Kim Xuân và Nam Thư?,B,B,B,True
+36,Phim nào có sự tham gia của cả Vân Trang và Elly Trần?,A,B,B,False
+37,Phim nào có sự tham gia của cả Phạm Ngọc Liễu và Lê Anh Sơn?,A,A,A,True
+38,Phim nào có sự tham gia của cả Vân Trang và nhà ngoại cảm?,C,D,D,False
+39,Phim nào có sự tham gia của cả Ninh Dương Lan Ngọc và Quốc Huy (diễn viên)?,B,B,B,True
+40,Đạo diễn của bộ phim 'Gia sư nữ quái' có sự tham gia của Isaac (ca sĩ) là ai?,C,C,C,True
+41,Phim nào có sự tham gia của cả Phi Phụng và Trọng Hải?,B,B,B,True
+42,Đạo diễn của bộ phim 'Áo lụa Hà Đông (phim)' có sự tham gia của Quang Thắng là ai?,C,C,C,True
+43,Đạo diễn của bộ phim 'Chuyện của Pao' có sự tham gia của Đỗ Thị Hải Yến là ai?,A,A,A,True
+44,Vợ/chồng của diễn viên đóng vai 'Đậu Xanh' trong phim 'Về quê ăn Tết' là ai?,B,B,B,True
+45,Phim nào có sự tham gia của cả Thanh Hằng và Phi Điểu?,A,A,A,True
+46,Phim nào có sự tham gia của cả Yaya Trương Nhi và Thu Trang?,A,D,D,False
+47,Thể loại của bộ phim 'Sông dài (phim truyền hình)' do Quý Bình đóng là gì?,C,C,C,True
+48,Đạo diễn của bộ phim 'Những thiên thần áo trắng' có sự tham gia của Mỹ Duyên là ai?,A,A,A,True
+49,Phim nào có sự tham gia của cả Rima Thanh Vy và Bình Minh (người mẫu)?,C,B,B,False
+50,Phim nào có sự tham gia của cả Song Luân và Phan Thanh Hiền?,C,B,B,False
+51,Vợ/chồng của diễn viên đóng vai 'đại tiểu thư' trong phim 'Bố già (phim 2021)' là ai?,B,A,A,False
+52,Đạo diễn của bộ phim 'Khi đàn ông có bầu' có sự tham gia của Bảo Quốc là ai?,A,A,A,True
+53,Phim nào có sự tham gia của cả Kaity Nguyễn và Huỳnh Kiến An?,A,A,A,True
+54,Phim nào có sự tham gia của cả Lương Thế Thành và Hải Băng?,C,D,D,False
+55,Phim nào có sự tham gia của cả Hạnh Thúy và Bình Minh (người mẫu)?,C,C,C,True
+56,Đạo diễn của bộ phim 'Áo lụa Hà Đông (phim)' có sự tham gia của Thanh Vy là ai?,D,D,D,True
+57,Đạo diễn của bộ phim 'Để mai tính' có sự tham gia của Dominic Pereira là ai?,A,A,A,True
+58,Phim nào có sự tham gia của cả Trần Nữ Yên Khê và Nguyễn Tuyết Ngân?,A,A,A,True
+59,Phim nào có sự tham gia của cả Tăng Bảo Quyên và Bảo Thanh (diễn viên)?,B,B,B,True
+60,Phim nào có sự tham gia của cả Tấn Beo và Ái Phương?,D,C,C,False
+61,Phim nào có sự tham gia của cả Mạnh Cường và Trương Thanh Nghi?,A,A,A,True
+62,Thể loại của bộ phim 'Những thiên thần áo trắng' do Phi Thanh Vân đóng là gì?,D,D,D,True
+63,Phim nào có sự tham gia của cả Thanh Thúy (diễn viên sinh 1982) và Như Cầm?,C,C,C,True
+64,Phim nào có sự tham gia của cả Thanh Nam và Nguyễn Hải Phong?,B,C,C,False
+65,Đạo diễn của bộ phim 'Lật mặt' có sự tham gia của Phi Phụng là ai?,A,A,A,True
+66,Đạo diễn của bộ phim 'Chị chị em em 2' có sự tham gia của Lê Thị Nhị là ai?,B,B,B,True
+67,Vợ/chồng của đạo diễn bộ phim 'Để Mai tính 2' (Charlie Nguyễn) là ai?,C,C,C,True
+68,Phim nào có sự tham gia của cả Ngọc Quyên và Lương Mạnh Hải?,B,B,B,True
+69,Phim nào có sự tham gia của cả Lan Phương và Nguyễn Minh Tú?,D,D,D,True
+70,Phim nào có sự tham gia của cả Thanh Hiền và Mạnh Dung?,A,C,C,False
+71,Phim nào có sự tham gia của cả Hiếu Hiền và Johnny Trí Nguyễn?,C,C,C,True
+72,Đạo diễn của bộ phim 'Nhiệm vụ đặc biệt' có sự tham gia của Hoàng Phúc (diễn viên) là ai?,D,B,B,False
+73,Phim nào có sự tham gia của cả Võ Vĩnh Phúc và Gia Khoan?,B,B,B,True
+74,Phim nào có sự tham gia của cả Bảo Quốc và Đơn Dương (diễn viên)?,C,A,A,False
+75,Đạo diễn của bộ phim 'Địa đạo: Mặt trời trong bóng tối' có sự tham gia của Quang Tuấn là ai?,D,A,A,False
+76,Phim nào có sự tham gia của cả Phi Phụng và Trung Dân?,A,C,C,False
+77,Phim nào có sự tham gia của cả Võ Thế Vỹ và Trần Lộc?,A,A,A,True
+78,Phim nào có sự tham gia của cả Hari Won và Petey Majik Nguyễn?,D,D,D,True
+79,Phim nào có sự tham gia của cả Nguyễn Hậu và Dominic Pereira?,A,A,A,True
+80,Phim nào có sự tham gia của cả Mạnh Tràng và Hiếu Hiền?,B,B,B,True
+81,Đạo diễn của bộ phim 'Khi đàn ông có bầu' có sự tham gia của Minh Thuận (ca sĩ) là ai?,A,A,A,True
+82,Phim nào có sự tham gia của cả Charlie Nguyễn và gái mại dâm?,A,C,C,False
+83,Phim nào có sự tham gia của cả Bùi Thị Minh Đức và Trương Thanh Nghi?,D,D,D,True
+84,Phim nào có sự tham gia của cả Diễm My và Minh Đức (diễn viên)?,D,C,C,False
+85,Phim nào có sự tham gia của cả Như Quỳnh (diễn viên) và Phạm Ngọc Liễu?,A,A,A,True
+86,Phim nào có sự tham gia của cả Vân Trang và Thanh Nam?,B,B,B,True
+87,Phim nào có sự tham gia của cả Hoài Linh và Kiều Mai Lý?,D,D,D,True
+88,Phim nào có sự tham gia của cả Hứa Vĩ Văn và Thu Trang?,C,C,C,True
+89,Phim nào có sự tham gia của cả Mai Thành và Mạc Anh Thư?,B,B,B,True
+90,Phim nào có sự tham gia của cả Johnny Trí Nguyễn và Minh Đức (diễn viên)?,D,D,D,True
+91,Phim nào có sự tham gia của cả Marilyn Monroe và Michael Jackson?,A,A,A,True
+92,Đạo diễn của bộ phim 'Tiệm bánh Hoàng tử bé 2' có sự tham gia của Lê Hạ Anh là ai?,D,D,D,True
+93,Phim nào có sự tham gia của cả Thành Lộc và Lê Bình (diễn viên)?,B,B,B,True
+94,Phim nào có sự tham gia của cả Thanh Vy và Tất Bình?,C,C,C,True
+95,Phim nào có sự tham gia của cả Minh Thuận (ca sĩ) và Bảo Chung?,B,B,B,True
+96,Phim nào có sự tham gia của cả Kaity Nguyễn và Hồng Vân (diễn viên)?,D,D,D,True
+97,Phim nào có sự tham gia của cả Đồng Ánh Quỳnh và Gi A Nguyễn?,A,A,A,True
+98,Phim nào có sự tham gia của cả Kiều Minh Tuấn và Don Nguyễn?,B,B,B,True
+99,Đạo diễn của bộ phim 'Chàng trai năm ấy' có sự tham gia của Tấn Thi là ai?,D,D,D,True
+100,Vợ/chồng của diễn viên đóng vai 'Tuấn' trong phim 'Cua lại vợ bầu' là ai?,D,A,A,False
+101,Đạo diễn của bộ phim 'Bay vào cõi mộng' có sự tham gia của Tommy Ngô là ai?,A,C,C,False
+102,Phim nào có sự tham gia của cả Huy Khánh và Huỳnh Lập?,C,A,A,False
+103,Đạo diễn của bộ phim 'Sinh mệnh (phim)' có sự tham gia của Võ Thành Tâm là ai?,B,C,C,False
+104,Phim nào có sự tham gia của cả Mạc Can và nhà ngoại cảm?,B,B,B,True
+105,Phim nào có sự tham gia của cả Hà Trí Quang và Quốc Thuận?,B,B,B,True
+106,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Lý Hải?,B,B,B,True
+107,Phim nào có sự tham gia của cả Thu Trang và Võ Ngọc Trai?,D,C,C,False
+108,Phim nào có sự tham gia của cả Trần Bảo Sơn và Đại Nghĩa (diễn viên)?,A,A,A,True
+109,Phim nào có sự tham gia của cả Yến Trang và Mạnh Tràng?,C,C,C,True
+110,Phim nào có sự tham gia của cả Hoàng Phúc (diễn viên) và Trịnh Thịnh?,A,A,A,True
+111,Phim nào có sự tham gia của cả Phạm Hồng Phước và Hoàng Phúc?,B,A,A,False
+112,Đạo diễn của bộ phim 'Những cô gái chân dài' có sự tham gia của Tống Bạch Thủy là ai?,D,D,D,True
+113,Đạo diễn của bộ phim 'Em chưa 18' có sự tham gia của Quang Minh - Hồng Đào là ai?,B,B,B,True
+114,Đạo diễn của bộ phim 'Công chúa teen và ngũ hổ tướng' có sự tham gia của Phương Trinh Jolie là ai?,A,A,A,True
+115,Phim nào có sự tham gia của cả Thái Hòa (diễn viên) và Dustin Nguyễn?,D,D,D,True
+116,Phim nào có sự tham gia của cả Jun Vũ và Trúc Anh?,C,C,C,True
+117,Phim nào có sự tham gia của cả Minh Hằng và Ngọc Trinh (người mẫu)?,D,D,D,True
+118,Phim nào có sự tham gia của cả Khương Lê và Lê Khánh?,A,A,A,True
+119,Phim nào có sự tham gia của cả Nguyễn Hậu và Vân Trang?,B,A,A,False
+120,Đạo diễn của bộ phim 'Tiệm ăn của quỷ' có sự tham gia của Võ Tấn Phát là ai?,B,D,D,False
+121,Phim nào có sự tham gia của cả Hoàng Phúc (diễn viên) và Vai diễn khách mời?,B,B,B,True
+122,Phim nào có sự tham gia của cả Thái Hòa (diễn viên) và Nguyễn Hậu?,C,C,C,True
+123,Phim nào có sự tham gia của cả Khánh Huyền và Nhan Phúc Vinh?,A,D,D,False
+124,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Lê Khánh?,A,A,A,True
+125,Phim nào có sự tham gia của cả Thành Lộc và Thủy Tiên (ca sĩ)?,C,C,C,True
+126,Phim nào có sự tham gia của cả Hiếu Hiền và Mai Thế Hiệp?,D,B,B,False
+127,Phim nào có sự tham gia của cả Khánh Như và Lâm Văn Quốc?,D,D,D,True
+128,Phim nào có sự tham gia của cả Ba Luân và Quang Khang?,A,A,A,True
+129,Vợ/chồng của diễn viên đóng vai 'Quyên' trong phim 'Cô dâu đại chiến 2' là ai?,C,C,C,True
+130,"Vợ/chồng của diễn viên đóng vai 'nữ ca sĩ' trong phim 'Taxi, em tên gì?' là ai?",D,A,A,False
+131,Phim nào có sự tham gia của cả Văn Tùng và Lý Hải?,A,A,A,True
+132,Phim nào có sự tham gia của cả Khương Ngọc và Kim Hiền (diễn viên)?,B,C,C,False
+133,Phim nào có sự tham gia của cả Tiết Cương và Mạnh Dung?,D,D,D,True
+134,Phim nào có sự tham gia của cả Trương Thanh Nghi và Phạm Văn Nhân (diễn viên)?,C,C,C,True
+135,Phim nào có sự tham gia của cả Việt Hương và Nguyễn Vinh Sơn?,C,A,A,False
+136,Phim nào có sự tham gia của cả Văn Tùng và Thanh Hằng?,C,D,D,False
+137,Phim nào có sự tham gia của cả Như Quỳnh (diễn viên) và Ánh Hoa?,C,C,C,True
+138,Phim nào có sự tham gia của cả Việt Hương và Nam Thư?,C,C,C,True
+139,Phim nào có sự tham gia của cả Hoài Linh và Quý Bình?,A,A,A,True
+140,Phim nào có sự tham gia của cả Ngô Thanh Vân và Nguyễn Chánh Tín?,D,D,D,True
+141,Phim nào có sự tham gia của cả Lê Bình (diễn viên) và Nguyễn Quang Dũng (đạo diễn)?,B,B,B,True
+142,Phim nào có sự tham gia của cả Kiều Trinh và Huy Cường?,A,D,D,False
+143,Phim nào có sự tham gia của cả ảo thuật gia và nhà ngoại cảm?,C,C,C,True
+144,Phim nào có sự tham gia của cả Phi Thanh Vân và Nhan Phúc Vinh?,C,A,A,False
+145,Đạo diễn của bộ phim 'Võ lâm truyền kỳ (phim)' có sự tham gia của Ngọc Giàu là ai?,D,D,D,True
+146,Phim nào có sự tham gia của cả Hoài Linh và Isaac (ca sĩ)?,D,D,D,True
+147,Đạo diễn của bộ phim 'Tấm Cám: Chuyện chưa kể' có sự tham gia của Ngọc Giàu là ai?,D,D,D,True
+148,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Thành Lộc?,D,C,C,False
+149,Phim nào có sự tham gia của cả Kaity Nguyễn và TyhD Thùy Dương?,D,D,D,True
+150,Phim nào có sự tham gia của cả Thủy Tiên (ca sĩ) và Lê Quốc Nam?,B,B,B,True
+151,Phim nào có sự tham gia của cả Hữu Châu và Will?,D,D,D,True
+152,Phim nào có sự tham gia của cả Tinna Tình và Nguyễn Hậu?,D,C,C,False
+153,Vợ/chồng của diễn viên đóng vai 'Giáo sư Sâm' trong phim 'Song song (phim)' là ai?,D,A,A,False
+154,Phim nào có sự tham gia của cả Hoàng Phúc (diễn viên) và Bùi Hoàng Huy?,A,C,C,False
+155,Đạo diễn của bộ phim 'Tuyết nhiệt đới' có sự tham gia của Diễm My là ai?,A,A,A,True
+156,Phim nào có sự tham gia của cả Lý Hải và Tiết Cương?,A,A,A,True
+157,Vợ/chồng của diễn viên đóng vai 'Huy' trong phim 'Bao giờ có yêu nhau' là ai?,C,C,C,True
+158,Phim nào có sự tham gia của cả Cát Tường (diễn viên) và Thanh Bạch?,B,B,B,True
+159,Phim nào có sự tham gia của cả Quốc Cường và Quách Ngọc Tuyên?,C,C,C,True
+160,Vợ/chồng của diễn viên đóng vai 'Thái lúc tuổi teen' trong phim 'Cô dâu đại chiến' là ai?,B,A,A,False
+161,Đạo diễn của bộ phim 'Lẵng hoa tình yêu' có sự tham gia của Ngọc Giàu là ai?,C,C,C,True
+162,Phim nào có sự tham gia của cả Hoài Linh và Elly Trần?,B,B,B,True
+163,Phim nào có sự tham gia của cả Hồ Kiểng và Đơn Dương (diễn viên)?,D,D,D,True
+164,Phim nào có sự tham gia của cả Ngọc Oanh và Tân Trực?,A,A,A,True
+165,Phim nào có sự tham gia của cả Mai Trần và Nikki Dương Nhật Vi?,D,B,B,False
+166,Phim nào có sự tham gia của cả Hồng Ánh và Uyên Linh?,C,A,A,False
+167,Vợ/chồng của diễn viên đóng vai 'Kiều Dung' trong phim 'Cô thủ môn tội nghiệp' là ai?,D,B,B,False
+168,Phim nào có sự tham gia của cả Hari Won và Khánh Huyền?,A,A,A,True
+169,Phim nào có sự tham gia của cả Phạm Ngọc Liễu và Đặng Văn Đức?,C,C,C,True
+170,Phim nào có sự tham gia của cả Trung Dân và Đài Truyền hình Việt Nam?,A,B,B,False
+171,Phim nào có sự tham gia của cả Hà Trí Quang và Thanh Bạch?,C,C,C,True
+172,Phim nào có sự tham gia của cả Hoàng Sơn (diễn viên) và Đông Nhi?,A,D,D,False
+173,Đạo diễn của bộ phim 'Võ lâm truyền kỳ (phim)' có sự tham gia của Michael Jackson là ai?,C,C,C,True
+174,Phim nào có sự tham gia của cả Bích Ngọc và Lâm Văn Quốc?,C,C,C,True
+175,Phim nào có sự tham gia của cả Lan Phương và Chiều Xuân?,C,C,C,True
+176,Phim nào có sự tham gia của cả Thái Hòa (diễn viên) và Kim Xuân?,C,B,B,False
+177,Phim nào có sự tham gia của cả Siu Black và Nhan Phúc Vinh?,C,C,C,True
+178,Phim nào có sự tham gia của cả Lê Tuấn Anh (diễn viên) và Ánh Hoa?,C,C,C,True
+179,Đạo diễn của bộ phim 'Địa đạo: Mặt trời trong bóng tối' có sự tham gia của Tô Văn Đực là ai?,B,D,D,False
+180,Phim nào có sự tham gia của cả Chí Tài và Quang Khang?,B,B,B,True
+181,Phim nào có sự tham gia của cả Mai Ngô và Gina M?,A,D,D,False
+182,Đạo diễn của bộ phim 'Cô dâu đại chiến 2' có sự tham gia của Huỳnh Đông là ai?,C,C,C,True
+183,Đạo diễn của bộ phim 'Nụ hôn thần chết (phim)' có sự tham gia của Nguyễn Quang Dũng (đạo diễn) là ai?,D,D,D,True
+184,Phim nào có sự tham gia của cả Thanh Thảo (ca sĩ) và Michael Jackson?,A,A,A,True
+185,Phim nào có sự tham gia của cả Michael Caine và Công Lý (diễn viên)?,C,C,C,True
+186,Phim nào có sự tham gia của cả Hoài Linh và Lê Khánh?,A,A,A,True
+187,Phim nào có sự tham gia của cả Trấn Thành và Bảo Thy?,B,B,B,True
+188,Vợ/chồng của diễn viên đóng vai 'Nguyệt Ánh' trong phim 'Tiệc trăng máu' là ai?,C,C,C,True
+189,Phim nào có sự tham gia của cả Phi Thanh Vân và Mỹ Duyên?,B,A,A,False
+190,Phim nào có sự tham gia của cả Chí Tài và Dustin Nguyễn?,D,D,D,True
+191,Phim nào có sự tham gia của cả Trần Quốc Hùng và Trần Minh Tuấn (diễn viên)?,C,C,C,True
+192,Phim nào có sự tham gia của cả Trần Tiểu Vy và Quân A.P?,B,A,A,False
+193,Phim nào có sự tham gia của cả Sam Elliott và Clark Gregg?,C,C,C,True
+194,Phim nào có sự tham gia của cả Ngọc Trinh (người mẫu) và Lê Thị Nhị?,A,A,A,True
+195,Phim nào có sự tham gia của cả Bảo Quốc và Ngọc Giàu?,D,D,D,True
+196,Phim nào có sự tham gia của cả Bảo Quốc và Quyền Linh?,D,D,D,True
+197,Phim nào có sự tham gia của cả Trinh Hoan và Lê Hóa?,C,C,C,True
+198,Phim nào có sự tham gia của cả Minh Hằng và Lê Thị Nhị?,A,A,A,True
+199,Phim nào có sự tham gia của cả Hồ Kiểng và Phương Thanh (diễn viên)?,C,C,C,True
+200,Phim nào có sự tham gia của cả Công Ninh và Oanh Kiều?,C,C,C,True
+201,Phim nào có sự tham gia của cả Ngô Thanh Vân và S.T Sơn Thạch?,A,A,A,True
+202,Phim nào có sự tham gia của cả Lan Phương và Trúc Nhân?,C,C,C,True
+203,Phim nào có sự tham gia của cả Nguyễn Phi Hùng (ca sĩ) và Kim Khánh (diễn viên)?,A,A,A,True
+204,Phim nào có sự tham gia của cả Mai Thế Hiệp và Vân Trang?,A,A,A,True
+205,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Minh Thuận (ca sĩ)?,C,D,D,False
+206,Phim nào có sự tham gia của cả Tấn Beo và Quốc Thuận?,C,C,C,True
+207,Phim nào có sự tham gia của cả Đinh Ngọc Diệp và Tăng Bảo Quyên?,D,D,D,True
+208,Phim nào có sự tham gia của cả Ngọc Giàu và Lê Giang?,B,A,A,False
+209,Đạo diễn của bộ phim 'Tiệm bánh Hoàng tử bé 2' có sự tham gia của Xuân Lan là ai?,A,A,A,True
+210,Phim nào có sự tham gia của cả Khổng Tú Quỳnh và Mỹ Uyên?,D,D,D,True
+211,Phim nào có sự tham gia của cả Kim Xuân và Bình Minh (người mẫu)?,A,A,A,True
+212,Phim nào có sự tham gia của cả Dương Hoàng Anh và Mỹ Duyên?,B,D,D,False
+213,Đạo diễn của bộ phim 'Scandal: Bí mật thảm đỏ' có sự tham gia của Maya (ca sĩ) là ai?,D,D,D,True
+214,Phim nào có sự tham gia của cả Lương Triều Vĩ và Nguyễn Tuyết Ngân?,D,D,D,True
+215,Đạo diễn của bộ phim 'Scandal: Bí mật thảm đỏ' có sự tham gia của Lan Phương là ai?,D,D,D,True
+216,Phim nào có sự tham gia của cả Quang Minh - Hồng Đào và Trung Dân?,B,B,B,True
+217,Phim nào có sự tham gia của cả Jun Vũ và Lê Xuân Tiền?,C,C,C,True
+218,Phim nào có sự tham gia của cả Bình Minh (người mẫu) và Maya (ca sĩ)?,D,D,D,True
+219,Phim nào có sự tham gia của cả Vân Trang và Dương Khắc Linh?,C,C,C,True
+220,Phim nào có sự tham gia của cả Lê Thiện (nghệ sĩ) và Đức Khuê?,C,C,C,True
+221,Phim nào có sự tham gia của cả Nguyễn Hữu An và Jsu Garcia?,A,A,A,True
+222,Vợ/chồng của diễn viên đóng vai 'Phát' trong phim 'Lật Mặt 6: Tấm vé định mệnh' là ai?,D,D,D,True
+223,Phim nào có sự tham gia của cả Thanh Khang và Thanh Tâm (diễn viên)?,A,B,B,False
+224,Vợ/chồng của diễn viên đóng vai 'Quyên' trong phim 'Cô dâu đại chiến' là ai?,D,D,D,True
+225,Phim nào có sự tham gia của cả Nguyễn Gia Linh và Bạch Tuyết (nghệ sĩ cải lương)?,C,D,D,False
+226,Phim nào có sự tham gia của cả Mai Thế Hiệp và Dustin Nguyễn?,B,B,B,True
+227,Phim nào có sự tham gia của cả Kiều Mai Lý và Minh Luân?,C,C,C,True
+228,Phim nào có sự tham gia của cả Bé Vỹ và Công Huy?,B,C,C,False
+229,Phim nào có sự tham gia của cả Đông Nhi và Bảo Quốc?,C,C,C,True
+230,Đạo diễn của bộ phim 'Mỹ nhân kế (phim)' có sự tham gia của Diễm My 9x là ai?,B,B,B,True
+231,Phim nào có sự tham gia của cả Long Đẹp Trai và Bạch Long (nghệ sĩ cải lương?,D,D,D,True
+232,Phim nào có sự tham gia của cả Lê Khắc Minh và Kang Phạm?,D,D,D,True
+233,Phim nào có sự tham gia của cả Nguyễn Minh Tú và Mai Trần?,B,B,B,True
+234,Phim nào có sự tham gia của cả Lê Đình Huy và Huang Kiem?,D,C,C,False
+235,Phim nào có sự tham gia của cả Don Nguyễn và Hồ Vĩnh Khoa?,B,B,B,True
+236,Phim nào có sự tham gia của cả Như Quỳnh (diễn viên) và Đỗ Thị Hải Yến?,C,C,C,True
+237,Phim nào có sự tham gia của cả Chí Thiện (ca sĩ) và Phương Thanh?,C,C,C,True
+238,Phim nào có sự tham gia của cả Ngọc Giàu và Nguyễn Chánh Tín?,A,A,A,True
+239,Phim nào có sự tham gia của cả Tấn Beo và Hải Băng?,B,B,B,True
+240,Phim nào có sự tham gia của cả Anh Thư và Thanh Thúy (diễn viên sinh 1982)?,C,C,C,True
+241,Phim nào có sự tham gia của cả Nguyễn Chánh Tín và Mỹ Uyên?,B,B,B,True
+242,Phim nào có sự tham gia của cả Huy Khánh và Phạm Trưởng?,C,A,A,False
+243,Phim nào có sự tham gia của cả Phước Sang và Kim Ngọc (nghệ sĩ)?,C,C,C,True
+244,Phim nào có sự tham gia của cả Hồng Vân (diễn viên) và Quyền Linh?,C,B,B,False
+245,Đạo diễn của bộ phim 'Tuyết nhiệt đới' có sự tham gia của Lương Mạnh Hải là ai?,A,A,A,True
+246,Phim nào có sự tham gia của cả Bùi Thị Minh Đức và Trần Minh Tuấn (diễn viên)?,B,B,B,True
+247,Phim nào có sự tham gia của cả Trấn Thành và Ngân Quỳnh?,A,A,A,True
+248,Phim nào có sự tham gia của cả Hữu Châu và Mai Thế Hiệp?,C,C,C,True
+249,Phim nào có sự tham gia của cả Thành Lộc và Việt Hương?,A,B,B,False
+250,Phim nào có sự tham gia của cả Chiều Xuân và Võ Tấn Phát?,A,B,B,False
+251,Phim nào có sự tham gia của cả Chu Hùng và Phạm Duy Hương?,B,B,B,True
+252,Phim nào có sự tham gia của cả Ngân Chi và Lan Phương?,B,B,B,True
+253,Phim nào có sự tham gia của cả Hải Triều (diễn viên) và Thành Tài?,D,D,D,True
+254,Phim nào có sự tham gia của cả Ngân Khánh và Thanh Bạch?,B,B,B,True
+255,Phim nào có sự tham gia của cả Việt Hương và Hồng Tơ?,A,A,A,True
+256,Phim nào có sự tham gia của cả Trung Dũng (diễn viên) và Diệp Bảo Ngọc?,C,C,C,True
+257,Phim nào có sự tham gia của cả Phi Phụng và Lương Thế Thành?,A,B,B,False
+258,Phim nào có sự tham gia của cả Tóc Tiên (ca sĩ) và Phan Thanh Hiền?,D,B,B,False
+259,Đạo diễn của bộ phim 'Đất rừng phương Nam (phim)' có sự tham gia của bác Ba Phi là ai?,A,C,C,False
+260,Phim nào có sự tham gia của cả Vân Trang và Mỹ Duyên?,C,D,D,False
+261,Phim nào có sự tham gia của cả Hà Trí Quang và Quốc Trường (diễn viên)?,B,B,B,True
+262,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Thanh Thủy (diễn viên)?,B,B,B,True
+263,Phim nào có sự tham gia của cả Trương Thế Vinh và Quang Khang?,D,C,C,False
+264,Phim nào có sự tham gia của cả Bảo Thy và Bảo Quốc?,C,C,C,True
+265,Phim nào có sự tham gia của cả Vũ Thu Phương và Cát Phượng?,A,A,A,True
+266,Phim nào có sự tham gia của cả Mai Thế Hiệp và Hạnh Thúy?,D,B,B,False
+267,Phim nào có sự tham gia của cả Đơn Dương (diễn viên) và Harold G. Moore?,A,A,A,True
+268,Vợ/chồng của diễn viên đóng vai 'bà vợ đi đường' trong phim 'Năm sau con lại về' là ai?,C,B,B,False
+269,Phim nào có sự tham gia của cả Vũ Ngọc Đãng và Minh Đức (diễn viên)?,D,D,D,True
+270,Phim nào có sự tham gia của cả Hồng Vân (diễn viên) và Khánh Huyền?,B,B,B,True
+271,Phim nào có sự tham gia của cả Việt Hương và Hà Trí Quang?,A,A,A,True
+272,Phim nào có sự tham gia của cả Lê Bình (diễn viên) và Thanh Hằng?,B,B,B,True
+273,Phim nào có sự tham gia của cả Hồng Vân (diễn viên) và Trương Ngọc Ánh?,C,C,C,True
+274,Đạo diễn của bộ phim 'Sắc đẹp ngàn cân (phim 2017)' có sự tham gia của Minh Hằng là ai?,D,D,D,True
+275,Phim nào có sự tham gia của cả Diệp Bảo Ngọc và Ốc Thanh Vân?,A,C,C,False
+276,Vợ/chồng của đạo diễn bộ phim 'Oan hồn (phim 2004)' (Victor Vũ) là ai?,B,B,B,True
+277,Đạo diễn của bộ phim 'Xích lô (phim)' có sự tham gia của Nguyễn Tuyết Ngân là ai?,D,D,D,True
+278,Đạo diễn của bộ phim 'Khi đàn ông có bầu' có sự tham gia của Hồng Nga là ai?,A,A,A,True
+279,Phim nào có sự tham gia của cả Mạnh Tràng và Phước Sang?,A,A,A,True
+280,Phim nào có sự tham gia của cả Khánh Huyền và Lan Hương (diễn viên sinh 1961)?,B,B,B,True
+281,Phim nào có sự tham gia của cả Mai Ngô và Phương Quỳnh?,A,A,A,True
+282,Phim nào có sự tham gia của cả Vũ Ngọc Đãng và Tuấn Trần?,C,C,C,True
+283,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Huỳnh Anh Tuấn?,C,C,C,True
+284,Phim nào có sự tham gia của cả Ngọc Giàu và Huy Khánh?,C,A,A,False
+285,Phim nào có sự tham gia của cả Thái Hòa (diễn viên) và Quý Bình?,D,D,D,True
+286,Đạo diễn của bộ phim 'Chuyện tình trong ngõ hẹp' có sự tham gia của Thanh Quý là ai?,D,B,B,False
+287,Đạo diễn của bộ phim 'Bẫy rồng' có sự tham gia của Hiếu Hiền là ai?,A,A,A,True
+288,Phim nào có sự tham gia của cả Oanh Kiều và Đài Truyền hình Việt Nam?,C,C,C,True
+289,Phim nào có sự tham gia của cả Marilyn Monroe và Charlie Chaplin?,B,A,A,False
+290,Phim nào có sự tham gia của cả Tấn Beo và Marilyn Monroe?,C,A,A,False
+291,Phim nào có sự tham gia của cả Phi Phụng và Trịnh Kim Chi?,B,B,B,True
+292,Đạo diễn của bộ phim 'Đảo của dân ngụ cư' có sự tham gia của Ngọc Hiệp (diễn viên) là ai?,B,B,B,True
+293,Phim nào có sự tham gia của cả Hồ Kiểng và Khương Mễ?,D,D,D,True
+294,Phim nào có sự tham gia của cả Thanh Hằng và Hương Giang (diễn viên)?,A,A,A,True
+295,Phim nào có sự tham gia của cả Lều Phương Anh và Nguyễn Quang Dũng?,C,B,B,False
+296,Phim nào có sự tham gia của cả Hoàng Sơn (diễn viên) và Quách Ngọc Tuyên?,B,C,C,False
+297,Phim nào có sự tham gia của cả Johnny Trí Nguyễn và Mai Thế Hiệp?,C,C,C,True
+298,Thể loại của bộ phim 'Như một huyền thoại' do Hồng Vân (diễn viên) đóng là gì?,D,D,D,True
+299,Phim nào có sự tham gia của cả Lê Tuấn Anh (diễn viên) và Gia Khoan?,C,A,A,False
+300,Phim nào có sự tham gia của cả Nguyễn Hậu và Bình Minh (người mẫu)?,A,C,C,False
+301,Phim nào có sự tham gia của cả Trọng Hải và Đinh Y Nhung?,C,A,A,False
+302,Phim nào có sự tham gia của cả Chiều Xuân và Nguyệt Hằng?,B,B,B,True
+303,Phim nào có sự tham gia của cả Phi Phụng và Ngân Khánh?,A,A,A,True
+304,Phim nào có sự tham gia của cả Chí Tài và Hứa Vĩ Văn?,B,B,B,True
+305,Phim nào có sự tham gia của cả Thiên Thủy (diễn viên) và Bé Vỹ?,B,A,A,False
+306,Đạo diễn của bộ phim 'Nụ hôn thần chết' có sự tham gia của Thanh Hằng là ai?,D,D,D,True
+307,Đạo diễn của bộ phim 'Khi đàn ông có bầu' có sự tham gia của Thúy Nga (nghệ sĩ) là ai?,A,A,A,True
+308,Phim nào có sự tham gia của cả bác Ba Phi và Hồng Ánh?,A,A,A,True
+309,Phim nào có sự tham gia của cả Nguyễn Hậu và Hồ Kiểng?,C,C,C,True
+310,Phim nào có sự tham gia của cả Hương Giang (diễn viên) và Tường Vi (diễn viên)?,C,C,C,True
+311,Phim nào có sự tham gia của cả Lan Phương và Miu Lê?,D,D,D,True
+312,Phim nào có sự tham gia của cả Diễm My 9x và Ngọc Quyên?,A,A,A,True
+313,Phim nào có sự tham gia của cả Tuấn Trần và nói dối?,A,A,A,True
+314,Phim nào có sự tham gia của cả Mai Thế Hiệp và Midu?,D,D,D,True
+315,Phim nào có sự tham gia của cả Ngọc Diệp và Wanbi Tuấn Anh?,B,B,B,True
+316,Phim nào có sự tham gia của cả Lê Khánh và Minh Thuận (ca sĩ)?,C,C,C,True
+317,Phim nào có sự tham gia của cả Lê Khanh và Khương Lê?,D,D,D,True
+318,Phim nào có sự tham gia của cả Võ Ngọc Trai và Tường Vi (diễn viên)?,D,D,D,True
+319,Phim nào có sự tham gia của cả Lương Triều Vĩ và Gia Khoan?,A,A,A,True
+320,Đạo diễn của bộ phim 'Lật mặt 6: Tấm vé định mệnh' có sự tham gia của Quốc Cường là ai?,B,B,B,True
+321,Phim nào có sự tham gia của cả Trần Minh Tuấn (diễn viên) và Đặng Minh Châu (diễn viên)?,A,A,A,True
+322,Phim nào có sự tham gia của cả Yến Trang và Hiếu Hiền?,D,D,D,True
+323,Phim nào có sự tham gia của cả Victor Vũ và Khương Ngọc?,A,A,A,True
+324,Đạo diễn của bộ phim 'Thiên mệnh anh hùng' có sự tham gia của Kim Hiền (diễn viên) là ai?,B,B,B,True
+325,Phim nào có sự tham gia của cả Thanh Lam và Mạnh Cường?,C,C,C,True
+326,Phim nào có sự tham gia của cả Lê Tuấn Anh (diễn viên) và Phạm Văn Nhân (diễn viên)?,A,A,A,True
+327,Đạo diễn của bộ phim 'Võ lâm truyền kỳ (phim)' có sự tham gia của Cát Phượng là ai?,B,B,B,True
+328,Phim nào có sự tham gia của cả Thái Hòa (diễn viên) và Mỹ Duyên?,A,B,B,False
+329,Phim nào có sự tham gia của cả Isaac (ca sĩ) và Jun Phạm?,D,D,D,True
+330,Phim nào có sự tham gia của cả Hứa Vĩ Văn và Hồng Ánh?,A,A,A,True
+331,Phim nào có sự tham gia của cả Minh Đức (diễn viên) và Hữu Luân?,B,C,C,False
+332,Phim nào có sự tham gia của cả Mai Thế Hiệp và Lê Khắc Minh?,D,C,C,False
+333,Phim nào có sự tham gia của cả Phi Nhung và Cát Tường (diễn viên)?,C,A,A,False
+334,Đạo diễn của bộ phim 'Tết ở làng địa ngục' có sự tham gia của Ngọc Thư là ai?,B,B,B,True
+335,Phim nào có sự tham gia của cả Thương Tín (diễn viên) và Nhung Kate (diễn viên)?,C,A,A,False
+336,Phim nào có sự tham gia của cả Long Đẹp Trai và Long Ho?,A,B,B,False
+337,Phim nào có sự tham gia của cả Như Quỳnh (diễn viên) và Trịnh Thịnh?,C,C,C,True
+338,Phim nào có sự tham gia của cả Ryan Hurst và Jsu Garcia?,C,C,C,True
+339,Phim nào có sự tham gia của cả Nikki Dương Nhật Vi và Thu Tuyết?,A,B,B,False
+340,Phim nào có sự tham gia của cả Bùi Hoàng Huy và Trịnh Thịnh?,A,A,A,True
+341,Vợ/chồng của diễn viên đóng vai 'Bà Sáu' trong phim 'Thanh Sói – Cúc dại trong đêm' là ai?,B,C,C,False
+342,Phim nào có sự tham gia của cả Ngô Kiến Huy và Hoàng Thùy Linh?,D,D,D,True
+343,Vợ/chồng của diễn viên đóng vai 'Toàn' trong phim 'Chuyện tình trong ngõ hẹp' là ai?,D,A,A,False
+344,Phim nào có sự tham gia của cả Thu Trang và Huy Khánh?,A,A,A,True
+345,Phim nào có sự tham gia của cả Hoài Linh và Phi Điểu?,A,A,A,True
+346,Vợ/chồng của diễn viên đóng vai 'Ái Như' trong phim 'Chuyện ma gần nhà' là ai?,C,A,A,False
+347,Phim nào có sự tham gia của cả Hạnh Thúy và Đại Nghĩa (diễn viên)?,B,B,B,True
+348,Phim nào có sự tham gia của cả Vũ Ngọc Đãng và Johnny Trí Nguyễn?,A,A,A,True
+349,Phim nào có sự tham gia của cả Nguyễn Hậu và Phạm Quỳnh Anh?,A,A,A,True
+350,Phim nào có sự tham gia của cả Lê Dương Bảo Lâm và Thiên Kim (diễn viên)?,A,D,D,False
+351,Phim nào có sự tham gia của cả Mạc Văn Khoa và Thanh Thúy (sinh 1982)?,D,D,D,True
+352,Phim nào có sự tham gia của cả Phi Phụng và Thanh Khang?,C,B,B,False
+353,Phim nào có sự tham gia của cả Phương Thanh và Nhan Phúc Vinh?,D,D,D,True
+354,Vợ/chồng của diễn viên đóng vai 'cậu ba' trong phim 'Cưới ngay kẻo lỡ' là ai?,D,C,C,False
+355,Phim nào có sự tham gia của cả Bá Nhân và Thanh Khang?,C,B,B,False
+356,Phim nào có sự tham gia của cả Bảo Thy và Hoài Linh?,D,D,D,True
+357,Phim nào có sự tham gia của cả Ngân Khánh và Minh Thuận (ca sĩ)?,C,D,D,False
+358,Thể loại của bộ phim 'Tuyết nhiệt đới' do Diễm My đóng là gì?,C,C,C,True
+359,Phim nào có sự tham gia của cả Trương Thế Vinh và Tùng Linh?,D,B,B,False
+360,Vợ/chồng của diễn viên đóng vai 'Loan' trong phim 'Tro tàn rực rỡ' là ai?,B,A,A,False
+361,Phim nào có sự tham gia của cả Hữu Châu và 365daband?,C,C,C,True
+362,Đạo diễn của bộ phim 'Nụ hôn thần chết (phim)' có sự tham gia của Johnny Trí Nguyễn là ai?,B,B,B,True
+363,Phim nào có sự tham gia của cả Phạm Ngọc Liễu và Huang Kiem?,B,B,B,True
+364,Phim nào có sự tham gia của cả Phương Thanh và Anh Vũ (nghệ sĩ)?,B,B,B,True
+365,Đạo diễn của bộ phim 'Chàng trai năm ấy' có sự tham gia của Hari Won là ai?,C,C,C,True
+366,Phim nào có sự tham gia của cả Nhan Phúc Vinh và Phạm Hồng Phước?,C,C,C,True
+367,Phim nào có sự tham gia của cả Ngô Thanh Vân và Oanh Kiều?,A,A,A,True
+368,Phim nào có sự tham gia của cả Linh Trung (diễn viên) và Công Huy?,B,C,C,False
+369,Phim nào có sự tham gia của cả Võ Ngọc Trai và Duy Khánh (diễn viên)?,A,A,A,True
+370,Phim nào có sự tham gia của cả Phi Phụng và Will?,A,A,A,True
+371,Phim nào có sự tham gia của cả Phi Phụng và Võ Ngọc Trai?,A,A,A,True
+372,Thể loại của bộ phim 'Ngũ quái Sài Gòn' do Kim Hiền (diễn viên) đóng là gì?,D,D,D,True
+373,Phim nào có sự tham gia của cả Minh Thảo và Quốc Trường (diễn viên)?,A,B,B,False
+374,Phim nào có sự tham gia của cả Quang Thắng và Tú Trinh?,B,B,B,True
+375,Phim nào có sự tham gia của cả Ngân Quỳnh và Phúc An?,D,A,A,False
+376,Phim nào có sự tham gia của cả Quang Thắng và Tấn Thi?,D,A,A,False
+377,Phim nào có sự tham gia của cả Đan Trường và Cát Phượng?,C,C,C,True
+378,Phim nào có sự tham gia của cả Khánh Như và Bạch Tuyết (nghệ sĩ cải lương)?,B,C,C,False
+379,Phim nào có sự tham gia của cả Quốc Khánh (nghệ sĩ) và Tú Trinh?,D,D,D,True
+380,Phim nào có sự tham gia của cả Yaya Trương Nhi và Dustin Nguyễn?,B,B,B,True
+381,Vợ/chồng của diễn viên đóng vai 'Phượng' trong phim 'Người Mỹ trầm lặng (phim 2002)' là ai?,C,C,C,True
+382,Đạo diễn của bộ phim 'Thanh Sói – Cúc dại trong đêm' có sự tham gia của Thuận Nguyễn là ai?,A,A,A,True
+383,Phim nào có sự tham gia của cả Hứa Vĩ Văn và Thành Lộc?,B,C,C,False
+384,Đạo diễn của bộ phim 'Em là bà nội của anh' có sự tham gia của Trung Dân là ai?,B,B,B,True
+385,Đạo diễn của bộ phim 'Võ lâm truyền kỳ (phim)' có sự tham gia của Chi Bảo là ai?,A,A,A,True
+386,Đạo diễn của bộ phim 'Năm sau con lại về' có sự tham gia của Thu Trang là ai?,B,B,B,True
+387,Đạo diễn của bộ phim 'Đảo của dân ngụ cư' có sự tham gia của Hoàng Phúc là ai?,B,B,B,True
+388,Phim nào có sự tham gia của cả 365daband và S.T Sơn Thạch?,D,D,D,True
+389,Phim nào có sự tham gia của cả Thành Tài và Long Ho?,C,B,B,False
+390,Phim nào có sự tham gia của cả Mạc Can và Thanh Lam?,D,D,D,True
+391,Phim nào có sự tham gia của cả Yaya Trương Nhi và Việt Hương?,B,B,B,True
+392,Phim nào có sự tham gia của cả Kiều Mai Lý và Quách Ngọc Tuyên?,A,A,A,True
+393,Phim nào có sự tham gia của cả Thủy Tiên (ca sĩ) và Lê Hóa?,A,A,A,True
+394,Đạo diễn của bộ phim 'Thanh Sói - Cúc dại trong đêm' có sự tham gia của Tóc Tiên (ca sĩ) là ai?,D,D,D,True
+395,Phim nào có sự tham gia của cả Don Nguyễn và Tấn Thi?,B,C,C,False
+396,Đạo diễn của bộ phim 'Công chúa teen và ngũ hổ tướng' có sự tham gia của Phi Phụng là ai?,C,B,B,False
+397,Phim nào có sự tham gia của cả Nguyễn Chánh Tín và Huy Khánh?,A,B,B,False
+398,Phim nào có sự tham gia của cả Lê Khắc Minh và Gina M?,A,A,A,True
+399,Phim nào có sự tham gia của cả Kiều Mai Lý và Nam Thư?,B,B,B,True
+400,Phim nào có sự tham gia của cả Minh Anh (diễn viên) và Hải Đông?,C,A,A,False
+401,Phim nào có sự tham gia của cả Xuân Lan và Công Dương?,C,C,C,True
+402,Phim nào có sự tham gia của cả Khương Ngọc và Maya (ca sĩ)?,C,C,C,True
+403,Thể loại của bộ phim 'Những thiên thần áo trắng' do Thanh Hoàng (nghệ sĩ) đóng là gì?,A,A,A,True
+404,Phim nào có sự tham gia của cả Chiến và Bá Nhân?,A,A,A,True
+405,Phim nào có sự tham gia của cả Hoài Linh và Ngân Khánh?,B,B,B,True
+406,Phim nào có sự tham gia của cả Văn Tùng và Thanh Thúy (diễn viên sinh 1982)?,A,A,A,True
+407,Phim nào có sự tham gia của cả Nguyễn Văn Đây và Trần Minh Tuấn (diễn viên)?,D,D,D,True
+408,Phim nào có sự tham gia của cả Lương Mạnh Hải và Hồ Vĩnh Khoa?,B,B,B,True
+409,Phim nào có sự tham gia của cả Văn Tùng và Thanh Thức?,A,B,B,False
+410,Phim nào có sự tham gia của cả Mel Gibson và Nguyễn Hữu An?,A,A,A,True
+411,Phim nào có sự tham gia của cả Bảo Anh (ca sĩ) và Quốc Thuận?,A,C,C,False
+412,Phim nào có sự tham gia của cả Tăng Nhật Tuệ và Nguyễn Hải Phong?,A,C,C,False
+413,Phim nào có sự tham gia của cả Isaac (ca sĩ) và phượng hoàng?,C,C,C,True
+414,Thể loại của bộ phim 'Sông dài (phim)' do Quý Bình đóng là gì?,D,D,D,True
+415,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Tất Bình?,A,A,A,True
+416,Phim nào có sự tham gia của cả Ngọc Hiệp (diễn viên) và Thương Tín (diễn viên)?,D,B,B,False
+417,Phim nào có sự tham gia của cả Mạc Can và Thương Tín (diễn viên)?,D,D,D,True
+418,Phim nào có sự tham gia của cả Hồng Ánh và Chi Pu?,C,C,C,True
+419,Phim nào có sự tham gia của cả Hoài Linh và Phương Thanh?,C,C,C,True
+420,Phim nào có sự tham gia của cả Hứa Vĩ Văn và Đại Nghĩa (diễn viên)?,D,B,B,False
+421,"Vợ/chồng của diễn viên đóng vai 'Thượng Phong' trong phim 'Taxi, em tên gì?' là ai?",A,A,A,True
+422,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Thanh Hoàng (nghệ sĩ)?,A,A,A,True
+423,Phim nào có sự tham gia của cả Lan Hương (diễn viên sinh 1961) và Bảo Thanh (diễn viên)?,C,C,C,True
+424,Phim nào có sự tham gia của cả Nguyễn Hậu và Lâm Minh Thắng?,A,B,B,False
+425,Phim nào có sự tham gia của cả Mai Thế Hiệp và Kang Phạm?,B,B,B,True
+426,Đạo diễn của bộ phim 'Xích lô (phim)' có sự tham gia của Bá Phan Châu Toàn là ai?,B,B,B,True
+427,Phim nào có sự tham gia của cả Thiên Thủy (diễn viên) và Thanh Tâm (diễn viên)?,A,D,D,False
+428,Phim nào có sự tham gia của cả Hồng Nga và Bảo Chung?,D,D,D,True
+429,Phim nào có sự tham gia của cả Trấn Thành và Khả Như?,B,B,B,True
+430,Phim nào có sự tham gia của cả Thanh Hằng và Lê Quốc Nam?,A,A,A,True
+431,Phim nào có sự tham gia của cả Lê Giang và Lê Thị Nhị?,C,C,C,True
+432,Phim nào có sự tham gia của cả Ngọc Oanh và Cát Trắng?,C,C,C,True
+433,Phim nào có sự tham gia của cả Trương Thanh Nghi và Trần Minh Tuấn (diễn viên)?,A,A,A,True
+434,Đạo diễn của bộ phim 'Những người viết huyền thoại (phim)' có sự tham gia của Bảo Thanh (diễn viên) là ai?,C,C,C,True
+435,Phim nào có sự tham gia của cả Harold G. Moore và Sam Elliott?,D,D,D,True
+436,Phim nào có sự tham gia của cả Đại Nghĩa (diễn viên) và Cát Tường (diễn viên)?,B,C,C,False
+437,Phim nào có sự tham gia của cả Phi Phụng và Thành Nam (diễn viên)?,C,B,B,False
+438,Phim nào có sự tham gia của cả Hiếu Hiền và Bảo Quốc?,D,D,D,True
+439,Phim nào có sự tham gia của cả Khả Như và Maya (ca sĩ)?,B,C,C,False
+440,Vợ/chồng của diễn viên đóng vai 'bà bán ve chai' trong phim 'Nhà có 5 nàng tiên' là ai?,D,D,D,True
+441,Đạo diễn của bộ phim 'Thạch Thảo (phim)' có sự tham gia của Gina M là ai?,C,C,C,True
+442,Phim nào có sự tham gia của cả Ngô Thanh Vân và Phạm Anh Khoa?,B,A,A,False
+443,Phim nào có sự tham gia của cả Hứa Vĩ Văn và Lê Thiện (nghệ sĩ)?,C,C,C,True
+444,Vợ/chồng của diễn viên đóng vai 'Thiện' trong phim 'Năm sau con lại về' là ai?,A,A,A,True
+445,Phim nào có sự tham gia của cả Nguyễn Hậu và Nguyễn Chánh Tín?,C,C,C,True
+446,Phim nào có sự tham gia của cả Khả Như và Phương Anh Đào?,D,D,D,True
+447,Phim nào có sự tham gia của cả Trần Nữ Yên Khê và Chu Hùng?,A,A,A,True
+448,Phim nào có sự tham gia của cả Hà Trí Quang và Nam Thư?,B,C,C,False
+449,Phim nào có sự tham gia của cả Lê Giang và Nguyễn Cao Kỳ Duyên (người mẫu)?,A,C,C,False
+450,Vợ/chồng của diễn viên đóng vai 'Mèo Giang Hồ' trong phim 'Nghề siêu dễ (phim 2022)' là ai?,B,D,D,False
+451,Phim nào có sự tham gia của cả Kim Xuân và Văn Tùng?,D,A,A,False
+452,Đạo diễn của bộ phim 'Cột mốc 23' có sự tham gia của Mạnh Hùng là ai?,A,A,A,True
+453,Phim nào có sự tham gia của cả Chiến và Thành Nam (diễn viên)?,C,C,C,True
+454,Phim nào có sự tham gia của cả Vũ Thu Phương và Charlie Chaplin?,B,B,B,True
+455,Phim nào có sự tham gia của cả Bảo Quốc và Trương Ngọc Ánh?,D,D,D,True
+456,Phim nào có sự tham gia của cả Ngân Chi và Oanh Kiều?,D,D,D,True
+457,Phim nào có sự tham gia của cả Thanh Hằng và Đức Khuê?,B,D,D,False
+458,Phim nào có sự tham gia của cả Lê Văn Lộc (diễn viên) và Đặng Văn Đức?,A,A,A,True
+459,Phim nào có sự tham gia của cả Thanh Quý và Vũ Hà (ca sĩ)?,C,C,C,True
+460,Phim nào có sự tham gia của cả Tấn Beo và Phi Phụng?,C,C,C,True
+461,Phim nào có sự tham gia của cả Hồng Vân (diễn viên) và Lê Khánh?,C,C,C,True
+462,Phim nào có sự tham gia của cả Hương Giang (diễn viên) và Diễm My (diễn viên)?,C,C,C,True
+463,Phim nào có sự tham gia của cả Lan Phương và Khương Ngọc?,A,A,A,True
+464,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Phi Phụng?,D,B,B,False
+465,Phim nào có sự tham gia của cả Maya (ca sĩ) và Đoan Trang?,D,A,A,False
+466,Phim nào có sự tham gia của cả Ngô Thanh Vân và Trần Bảo Sơn?,A,A,A,True
+467,Phim nào có sự tham gia của cả Mạnh Cường và Lê Thái Ngọc Hoan?,B,B,B,True
+468,Phim nào có sự tham gia của cả Tấn Bo và Xuân Lan?,D,D,D,True
+469,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Quý Bình?,A,D,D,False
+470,Phim nào có sự tham gia của cả Nguyễn Văn Tùng (diễn viên) và Đặng Minh Châu (diễn viên)?,A,A,A,True
+471,Phim nào có sự tham gia của cả Bá Nhân và Tùng Linh?,C,C,C,True
+472,Phim nào có sự tham gia của cả Phi Thanh Vân và Ngọc Diệp?,A,A,A,True
+473,Phim nào có sự tham gia của cả Kathy Uyên và Thanh Hằng?,D,D,D,True
+474,Đạo diễn của bộ phim 'Trại hoa đỏ (phim)' có sự tham gia của Hạnh Thúy là ai?,A,A,A,True
+475,Đạo diễn của bộ phim 'Tôi thấy hoa vàng trên cỏ xanh (phim)' có sự tham gia của Khánh Hiền là ai?,B,B,B,True
+476,Phim nào có sự tham gia của cả Mạc Can và Phương Thanh?,D,C,C,False
+477,Thể loại của bộ phim 'Như một huyền thoại' do Võ Thị Sáu đóng là gì?,C,C,C,True
+478,Phim nào có sự tham gia của cả Nguyễn Hậu và Văn Tùng?,B,B,B,True
+479,Phim nào có sự tham gia của cả Mạnh Cường và Võ Thế Vỹ?,C,C,C,True
+480,Đạo diễn của bộ phim 'Nhà có 5 nàng tiên' có sự tham gia của Hoài Linh là ai?,B,B,B,True
+481,Phim nào có sự tham gia của cả Vân Trang và Dương Hoàng Anh?,B,B,B,True
+482,Phim nào có sự tham gia của cả Hoàng Phúc (diễn viên) và Bá Phan Châu Toàn?,C,C,C,True
+483,Phim nào có sự tham gia của cả Anh Thư và Trương Thanh Long?,D,D,D,True
+484,Đạo diễn của bộ phim 'Trạng Tí phiêu lưu ký' có sự tham gia của Quang Thắng là ai?,D,D,D,True
+485,Phim nào có sự tham gia của cả Trần Nữ Yên Khê và Trần Minh Tuấn (diễn viên)?,A,A,A,True
+486,Phim nào có sự tham gia của cả Tất Bình và Hà Kiều Anh?,A,A,A,True
+487,Phim nào có sự tham gia của cả Kiều Mai Lý và Trịnh Kim Chi?,A,A,A,True
+488,Phim nào có sự tham gia của cả Nam Thư và Võ Thành Tâm?,A,A,A,True
+489,Phim nào có sự tham gia của cả Hồng Vân (diễn viên) và Vân Trang?,C,B,B,False
+490,Phim nào có sự tham gia của cả Hoài Linh và Linh Trung (diễn viên)?,A,D,D,False
+491,Phim nào có sự tham gia của cả Trung Anh và Nhã Phương?,D,D,D,True
+492,Phim nào có sự tham gia của cả Vân Trang và ảo thuật?,B,D,D,False
+493,Phim nào có sự tham gia của cả Duy Khánh (diễn viên) và Tăng Nhật Tuệ?,C,C,C,True
+494,Phim nào có sự tham gia của cả Nguyễn Minh Tú và Lê Dương Bảo Lâm?,A,C,C,False
+495,Phim nào có sự tham gia của cả Võ Thanh Hòa và Cát Tường (diễn viên)?,A,A,A,True
+496,Phim nào có sự tham gia của cả Trần Nữ Yên Khê và Như Quỳnh (diễn viên)?,C,C,C,True
+497,Phim nào có sự tham gia của cả Nguyễn Quang Dũng và Uyên Linh?,B,B,B,True
+498,Phim nào có sự tham gia của cả Kim Khánh (diễn viên) và Hồng Tơ?,D,B,B,False
+499,Đạo diễn của bộ phim 'Cua lại vợ bầu' có sự tham gia của Hoàng Thanh Mai là ai?,B,B,B,True
+500,Phim nào có sự tham gia của cả Việt Hương và quần vợt?,D,D,D,True
+501,Phim nào có sự tham gia của cả Khương Ngọc và Mai Thế Hiệp?,A,A,A,True
+502,Phim nào có sự tham gia của cả Bình Minh (người mẫu) và Hoàng Bách?,A,A,A,True
+503,Đạo diễn của bộ phim 'Em là bà nội của anh' có sự tham gia của Võ Ngọc Trai là ai?,B,B,B,True
+504,Phim nào có sự tham gia của cả Thiên Thủy (diễn viên) và Tân Trực?,D,D,D,True
+505,Phim nào có sự tham gia của cả Phương Quỳnh và Gina M?,D,C,C,False
+506,Đạo diễn của bộ phim 'Mùa ổi' có sự tham gia của Tuấn Dương là ai?,C,C,C,True
+507,Phim nào có sự tham gia của cả Trung Dân và Kim Xuân?,D,D,D,True
+508,"Vợ/chồng của diễn viên đóng vai 'Việt Phương' trong phim 'Sài Gòn, anh yêu em' là ai?",A,A,A,True
+509,Phim nào có sự tham gia của cả Bùi Thị Minh Đức và Phạm Văn Nhân (diễn viên)?,B,B,B,True
+510,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Lê Giang (nghệ sĩ)?,A,A,A,True
+511,Phim nào có sự tham gia của cả Lê Hóa và DJ?,B,C,C,False
+512,Phim nào có sự tham gia của cả Quang Tuấn và Võ Tấn Phát?,C,C,C,True
+513,Phim nào có sự tham gia của cả Quang Minh (diễn viên) và Mạc Can?,B,A,A,False
+514,Phim nào có sự tham gia của cả Bảo Quốc và Marilyn Monroe?,D,D,D,True
+515,Phim nào có sự tham gia của cả Ninh Dương Lan Ngọc và Thân Thúy Hà?,D,D,D,True
+516,Phim nào có sự tham gia của cả Bùi Thị Minh Đức và Lê Anh Sơn?,A,A,A,True
+517,Đạo diễn của bộ phim 'Dòng máu anh hùng' có sự tham gia của Nguyễn Thắng là ai?,A,A,A,True
+518,Phim nào có sự tham gia của cả Thanh Lam và Trần Văn Lợi?,C,C,C,True
+519,Phim nào có sự tham gia của cả Quang Thắng và Hà Kiều Anh?,C,C,C,True
+520,Phim nào có sự tham gia của cả Trấn Thành và Huỳnh Đông?,D,C,C,False
+521,Phim nào có sự tham gia của cả Lan Phương và Phi Thanh Vân?,C,C,C,True
+522,Phim nào có sự tham gia của cả Vũ Ngọc Đãng và Lê Dương Bảo Lâm?,A,D,D,False
+523,Phim nào có sự tham gia của cả Huỳnh Lập và Thảo Trang?,A,C,C,False
+524,Phim nào có sự tham gia của cả Hữu Châu và Siu Black?,A,A,A,True
+525,Đạo diễn của bộ phim 'Tía tui là cao thủ' có sự tham gia của Cát Tường (diễn viên) là ai?,D,D,D,True
+526,Phim nào có sự tham gia của cả Bùi Văn Hải và Leon Lê?,B,B,B,True
+527,Phim nào có sự tham gia của cả Trần Quốc Hùng và Trần Văn Lợi?,A,A,A,True
+528,Phim nào có sự tham gia của cả Hoàng Dũng và TyhD Thùy Dương?,A,A,A,True
+529,Phim nào có sự tham gia của cả Lê Bình (diễn viên) và Lê Quốc Nam?,B,B,B,True
+530,Phim nào có sự tham gia của cả Hữu Châu và Võ Ngọc Trai?,C,C,C,True
+531,Phim nào có sự tham gia của cả Nguyễn Hậu và David Minetti?,B,B,B,True
+532,Phim nào có sự tham gia của cả Đế quốc thực dân Pháp và David Minetti?,A,A,A,True
+533,Phim nào có sự tham gia của cả Hiếu Hiền và Ngọc Giàu?,C,C,C,True
+534,Phim nào có sự tham gia của cả Phi Phụng và Lý Hải?,A,A,A,True
+535,Phim nào có sự tham gia của cả Lương Triều Vĩ và Phạm Văn Nhân (diễn viên)?,D,D,D,True
+536,Phim nào có sự tham gia của cả Ngọc Thư và Hoàng Hà (diễn viên)?,D,D,D,True
+537,Phim nào có sự tham gia của cả Phi Điểu và Trọng Hải?,A,A,A,True
+538,Phim nào có sự tham gia của cả Phương Thanh và Miu Lê?,A,B,B,False
+539,Phim nào có sự tham gia của cả Mai Trần và Bạch Long (nghệ sĩ cải lương?,C,C,C,True
+540,Phim nào có sự tham gia của cả Hoài Linh và Công Huy?,B,B,B,True
+541,Vợ/chồng của diễn viên đóng vai 'Thượng sĩ Basil Plumley' trong phim 'Chúng tôi từng là lính' là ai?,B,A,A,False
+542,Phim nào có sự tham gia của cả Kiều Chinh và Suboi?,D,D,D,True
+543,Phim nào có sự tham gia của cả Mai Thế Hiệp và Huy Cường?,D,D,D,True
+544,Phim nào có sự tham gia của cả Thanh Hằng và Trinh Hoan?,D,C,C,False
+545,Phim nào có sự tham gia của cả Đơn Dương (diễn viên) và Clark Gregg?,D,D,D,True
+546,Phim nào có sự tham gia của cả Lê Bình (diễn viên) và Tấn Thi?,D,B,B,False
+547,Phim nào có sự tham gia của cả Lan Phương và Minh Thuận (ca sĩ)?,D,D,D,True
+548,Phim nào có sự tham gia của cả Phạm Quỳnh Anh và Trần Lực?,D,D,D,True
+549,Phim nào có sự tham gia của cả Phương Trinh Jolie và Thái Hòa (diễn viên)?,A,A,A,True
+550,Phim nào có sự tham gia của cả Long Đẹp Trai và Tùng Linh?,A,B,B,False
+551,Đạo diễn của bộ phim 'Những thiên thần áo trắng' có sự tham gia của Dương Hoàng Anh là ai?,B,B,B,True
+552,Phim nào có sự tham gia của cả Ngọc Nga và Trương Thanh Long?,A,A,A,True
+553,Phim nào có sự tham gia của cả Kiều Mai Lý và Thanh Trúc?,A,A,A,True
+554,Phim nào có sự tham gia của cả Ngô Kiến Huy và Khánh Huyền?,C,A,A,False
+555,Phim nào có sự tham gia của cả Dustin Nguyễn và Leon Lê?,B,B,B,True
+556,Phim nào có sự tham gia của cả Chu Hùng và Mạnh Cường?,A,A,A,True
+557,Phim nào có sự tham gia của cả Hoài Linh và Hiếu Hiền?,A,A,A,True
+558,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Lan Phương?,A,B,B,False
+559,Phim nào có sự tham gia của cả Quang Minh - Hồng Đào và Nguyễn Chánh Tín?,C,A,A,False
+560,Phim nào có sự tham gia của cả Hứa Vĩ Văn và Miu Lê?,D,D,D,True
+561,Đạo diễn của bộ phim 'Tiền chùa' có sự tham gia của Vân Trang là ai?,B,B,B,True
+562,Phim nào có sự tham gia của cả Yaya Trương Nhi và Phan Thanh Nhiên?,B,B,B,True
+563,Phim nào có sự tham gia của cả Trấn Thành và Tấn Bo?,B,B,B,True
+564,Đạo diễn của bộ phim 'Hoán đổi thân xác' có sự tham gia của Thành Tài là ai?,B,D,D,False
+565,Phim nào có sự tham gia của cả Hồng Nga và Hồng Tơ?,D,C,C,False
+566,Phim nào có sự tham gia của cả Dustin Nguyễn và Minh Hằng?,D,D,D,True
+567,Phim nào có sự tham gia của cả Bùi Thị Minh Đức và Trần Quốc Hùng?,C,C,C,True
+568,Phim nào có sự tham gia của cả Vũ Ngọc Đãng và Việt Anh (nghệ sĩ)?,D,D,D,True
+569,Đạo diễn của bộ phim 'Thạch Thảo (phim)' có sự tham gia của Lâm Văn Quốc là ai?,A,A,A,True
+570,Phim nào có sự tham gia của cả Ninh Dương Lan Ngọc và Thanh Bùi?,D,B,B,False
+571,Đạo diễn của bộ phim 'Mùa ổi' có sự tham gia của Hoàng Yến (diễn viên) là ai?,C,C,C,True
+572,Phim nào có sự tham gia của cả Lê Thiện (nghệ sĩ) và Lý Hồng Ân?,D,A,A,False
+573,Phim nào có sự tham gia của cả Huang Kiem và Ánh Hoa?,A,A,A,True
+574,Phim nào có sự tham gia của cả Đức Sơn (diễn viên) và Hoàng Lan (diễn viên)?,C,C,C,True
+575,Phim nào có sự tham gia của cả Diễm My và Hữu Luân?,C,D,D,False
+576,Phim nào có sự tham gia của cả Bảo Quốc và Tấn Bo?,D,C,C,False
+577,Phim nào có sự tham gia của cả Hoàng Hải (diễn viên) và Bảo Thanh (diễn viên)?,B,B,B,True
+578,Đạo diễn của bộ phim 'Thiên mệnh anh hùng' có sự tham gia của Huỳnh Đông là ai?,B,B,B,True
+579,Phim nào có sự tham gia của cả Ngân Quỳnh và Thanh Nam?,D,B,B,False
+580,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Bảo Quốc?,C,C,C,True
+581,Phim nào có sự tham gia của cả Thảo Trang và Tăng Nhật Tuệ?,C,C,C,True
+582,Đạo diễn của bộ phim 'Giải cứu thần chết' có sự tham gia của Trinh Hoan là ai?,C,C,C,True
+583,Phim nào có sự tham gia của cả Ngân Quỳnh và Lý Hồng Ân?,D,D,D,True
+584,Vợ/chồng của đạo diễn bộ phim 'Dòng máu anh hùng' (Charlie Nguyễn) là ai?,B,B,B,True
+585,Phim nào có sự tham gia của cả Võ Vĩnh Phúc và Trần Nhật Vũ?,D,A,A,False
+586,"Đạo diễn của bộ phim 'Hot boy nổi loạn và câu chuyện về thằng Cười, cô gái điếm và con vịt' có sự tham gia của Lê Dương Bảo Lâm là ai?",A,A,A,True
+587,Đạo diễn của bộ phim 'Bóng ma học đường' có sự tham gia của Trương Quỳnh Anh là ai?,B,B,B,True
+588,Phim nào có sự tham gia của cả Tấn Beo và Hoàng Sơn (diễn viên)?,C,A,A,False
+589,Phim nào có sự tham gia của cả Nguyễn Chánh Tín và Stephane Gauger?,C,C,C,True
+590,Phim nào có sự tham gia của cả Nhã Phương (diễn viên) và Mai Phương (diễn viên)?,B,B,B,True
+591,Phim nào có sự tham gia của cả Chi Bảo và Anh Vũ (nghệ sĩ)?,B,B,B,True
+592,Phim nào có sự tham gia của cả Hứa Vĩ Văn và Nguyễn Hậu?,C,C,C,True
+593,Phim nào có sự tham gia của cả Hoài Linh và Tấn Beo?,A,A,A,True
+594,Phim nào có sự tham gia của cả Nguyễn Hữu An và Barry Pepper?,D,D,D,True
+595,Phim nào có sự tham gia của cả Johnny Trí Nguyễn và Trương Thế Vinh?,A,C,C,False
+596,Đạo diễn của bộ phim 'Lật mặt (phim)' có sự tham gia của Võ Thành Tâm là ai?,A,A,A,True
+597,Phim nào có sự tham gia của cả Trinh Hoan và Tường Vi (diễn viên)?,D,B,B,False
+598,Phim nào có sự tham gia của cả Trương Minh Quốc Thái và Dũng Nhi?,C,A,A,False
+599,Phim nào có sự tham gia của cả Thanh Hằng và Lê Hóa?,C,C,C,True
+600,Phim nào có sự tham gia của cả Lê Công Tuấn Anh và Lương Triều Vĩ?,C,C,C,True
+601,Phim nào có sự tham gia của cả Johnny Trí Nguyễn và Maryline Tâm Võ?,D,D,D,True
+602,Phim nào có sự tham gia của cả Võ Ngọc Trai và Nhan Phúc Vinh?,C,D,D,False
+603,Phim nào có sự tham gia của cả Ngọc Giàu và Tiến Luật?,C,C,C,True
+604,Phim nào có sự tham gia của cả Tiết Cương và Ốc Thanh Vân?,B,C,C,False
+605,Phim nào có sự tham gia của cả Johnny Trí Nguyễn và Bùi Văn Hải?,B,B,B,True
+606,Phim nào có sự tham gia của cả Kaity Nguyễn và Don Nguyễn?,B,B,B,True
+607,Phim nào có sự tham gia của cả Quang Thắng và Harry Lu?,D,D,D,True
+608,Phim nào có sự tham gia của cả Mai Sơn Lâm và Tấn Thi?,B,A,A,False
+609,Phim nào có sự tham gia của cả Ngân Quỳnh và Minh Thuận (ca sĩ)?,D,D,D,True
+610,Phim nào có sự tham gia của cả Mai Thế Hiệp và Phạm Thị Ngọc Trinh?,A,B,B,False
+611,Phim nào có sự tham gia của cả Lê Dương Bảo Lâm và Lương Mạnh Hải?,C,C,C,True
+612,Đạo diễn của bộ phim 'Tháng năm rực rỡ' có sự tham gia của Hoàng Phúc (diễn viên) là ai?,B,B,B,True
+613,Phim nào có sự tham gia của cả Phi Phụng và Trung Dũng (diễn viên)?,C,A,A,False
+614,Phim nào có sự tham gia của cả Don Nguyễn và Diễn viên Chí Tâm?,C,B,B,False
+615,Phim nào có sự tham gia của cả Lương Thế Thành và Bùi Tấn Trường?,C,B,B,False
+616,Phim nào có sự tham gia của cả Mạnh Tràng và Phi Phụng?,A,A,A,True
+617,Phim nào có sự tham gia của cả Đoàn Việt Hà và Đặng Văn Đức?,A,A,A,True
+618,Phim nào có sự tham gia của cả Tường Vi (diễn viên) và Hồng Nhung?,B,B,B,True
+619,Phim nào có sự tham gia của cả Đại Nghĩa (diễn viên) và Nguyễn Thùy Dương?,C,B,B,False
+620,Phim nào có sự tham gia của cả Trấn Thành và Tấn Beo?,A,D,D,False
+621,Phim nào có sự tham gia của cả Oanh Kiều và Trung Anh?,A,C,C,False
+622,Phim nào có sự tham gia của cả Hứa Vĩ Văn và Văn Tùng?,C,C,C,True
+623,Phim nào có sự tham gia của cả Thái Hòa (diễn viên) và Minh Đức (diễn viên)?,B,D,D,False
+624,Phim nào có sự tham gia của cả Chris Klein và Clark Gregg?,A,A,A,True
+625,Đạo diễn của bộ phim 'Công chúa teen và ngũ hổ tướng' có sự tham gia của Hoài Linh là ai?,A,D,D,False
+626,Phim nào có sự tham gia của cả Nguyễn Cao Kỳ Duyên (người mẫu) và Quân A.P?,C,C,C,True
+627,Phim nào có sự tham gia của cả Hoài Linh và Phước Sang?,D,D,D,True
+628,Vợ/chồng của diễn viên đóng vai 'Mẹ bề trên (Ma sơ Lài)' trong phim 'Gái già lắm chiêu V' là ai?,D,D,D,True
+629,Phim nào có sự tham gia của cả Nguyễn Hậu và Johnny Trí Nguyễn?,B,B,B,True
+630,Phim nào có sự tham gia của cả Thương Tín (diễn viên) và Thùy Liên?,C,D,D,False
+631,Phim nào có sự tham gia của cả Trương Thế Vinh và Bạch Long (nghệ sĩ cải lương?,D,D,D,True
+632,Phim nào có sự tham gia của cả Lương Thế Thành và Lê Huỳnh?,B,C,C,False
+633,Vợ/chồng của diễn viên đóng vai 'Quynh' trong phim 'Cột mốc 23' là ai?,B,B,B,True
+634,Phim nào có sự tham gia của cả Hứa Vĩ Văn và Bình Minh (người mẫu)?,B,B,B,True
+635,Phim nào có sự tham gia của cả Đặng Minh Châu (diễn viên) và Trần Nhật Vũ?,D,D,D,True
+636,Phim nào có sự tham gia của cả Ngọc Giàu và Nguyễn Phi Hùng (ca sĩ)?,B,B,B,True
+637,Phim nào có sự tham gia của cả Noo Phước Thịnh và hủ tiếu?,C,C,C,True
+638,Phim nào có sự tham gia của cả Việt Thắng (diễn viên) và Huang Kiem?,A,A,A,True
+639,Đạo diễn của bộ phim 'Chuyện ma gần nhà' có sự tham gia của ảo thuật gia là ai?,A,A,A,True
+640,Phim nào có sự tham gia của cả Vũ Thu Phương và Minh Béo?,D,D,D,True
+641,Phim nào có sự tham gia của cả Ngân Khánh và Quách Ngọc Tuyên?,A,A,A,True
+642,Đạo diễn của bộ phim 'Xích lô (phim)' có sự tham gia của Ngô Vũ Quang Hải là ai?,D,D,D,True
+643,Phim nào có sự tham gia của cả Cát Tường (diễn viên) và Ngọc Phước?,C,C,C,True
+644,Đạo diễn của bộ phim 'Siêu lừa gặp siêu lầy' có sự tham gia của Mạc Văn Khoa là ai?,D,D,D,True
+645,Phim nào có sự tham gia của cả Kim Xuân và Tiết Cương?,B,D,D,False
+646,Phim nào có sự tham gia của cả diễn viên đóng thế và Trung Anh?,A,A,A,True
+647,Phim nào có sự tham gia của cả Victor Vũ và Đại Nghĩa (diễn viên)?,A,A,A,True
+648,Đạo diễn của bộ phim 'Tấm Cám: Chuyện chưa kể' có sự tham gia của Jun Phạm là ai?,C,C,C,True
+649,Phim nào có sự tham gia của cả Huỳnh Anh Tuấn và Phương Thanh?,A,C,C,False
+650,Đạo diễn của bộ phim 'Quả tim máu' có sự tham gia của Thái Hòa (diễn viên) là ai?,D,D,D,True
+651,Đạo diễn của bộ phim 'Hot boy nổi loạn' có sự tham gia của Thiên Kim (diễn viên) là ai?,A,A,A,True
+652,Đạo diễn của bộ phim 'Hai Phượng' có sự tham gia của Phan Thanh Nhiên là ai?,B,B,B,True
+653,Đạo diễn của bộ phim 'Chị trợ lý của anh' có sự tham gia của Công Ninh là ai?,C,C,C,True
+654,Vợ/chồng của diễn viên đóng vai 'Lan' trong phim 'Lửa Phật' là ai?,B,B,B,True
+655,Phim nào có sự tham gia của cả Ninh Dương Lan Ngọc và Mai Thế Hiệp?,D,D,D,True
+656,Đạo diễn của bộ phim 'Mai (phim)' có sự tham gia của Hồng Đào (diễn viên) là ai?,A,A,A,True
+657,Phim nào có sự tham gia của cả Huỳnh Đông và Lý Hải?,A,A,A,True
+658,Phim nào có sự tham gia của cả Chí Tài và Isaac (ca sĩ)?,A,A,A,True
+659,Phim nào có sự tham gia của cả Kiều Minh Tuấn và Thanh Thủy (diễn viên)?,B,C,C,False
+660,Phim nào có sự tham gia của cả Hồng Đào (diễn viên) và Thanh Hằng (nghệ sĩ cải lương)?,A,A,A,True
+661,Phim nào có sự tham gia của cả Madeleine Stowe và Chris Klein?,D,D,D,True
+662,Phim nào có sự tham gia của cả Mạc Can và Hà Kiều Anh?,C,C,C,True
+663,Phim nào có sự tham gia của cả Ngọc Oanh và Bá Nhân?,C,C,C,True
+664,Phim nào có sự tham gia của cả Mạc Can và Trương Thanh Nghi?,B,D,D,False
+665,Đạo diễn của bộ phim 'Em là bà nội của anh' có sự tham gia của Huỳnh Lập là ai?,A,A,A,True
+666,Phim nào có sự tham gia của cả Văn Hiệp và Chiều Xuân?,A,A,A,True
+667,Đạo diễn của bộ phim 'Nụ hôn thần chết' có sự tham gia của Vũ Ngọc Đãng là ai?,D,D,D,True
+668,Vợ/chồng của diễn viên đóng vai 'Ba Sang' trong phim 'Đất rừng phương Nam (phim)' là ai?,C,D,D,False
+669,Phim nào có sự tham gia của cả Kiều Minh Tuấn và Chí Tài?,C,D,D,False
+670,Phim nào có sự tham gia của cả Ngô Thanh Vân và Nguyễn Hậu?,B,B,B,True
+671,Phim nào có sự tham gia của cả Trấn Thành và Lê Dương Bảo Lâm?,A,A,A,True
+672,Đạo diễn của bộ phim 'Vật đổi sao dời' có sự tham gia của Quang Minh (diễn viên) là ai?,D,D,D,True
+673,Phim nào có sự tham gia của cả Tấn Beo và Lương Thế Thành?,A,A,A,True
+674,Phim nào có sự tham gia của cả Đoàn Việt Hà và Lê Thái Ngọc Hoan?,D,D,D,True
+675,Đạo diễn của bộ phim 'Em chưa 18' có sự tham gia của Kathy Uyên là ai?,B,B,B,True
+676,Đạo diễn của bộ phim 'Hồn papa da con gái' có sự tham gia của Vân Trang là ai?,B,B,B,True
+677,Phim nào có sự tham gia của cả Băng Di và bác Ba Phi?,D,D,D,True
+678,Phim nào có sự tham gia của cả Tấn Beo và Huỳnh Anh Tuấn?,B,B,B,True
+679,Phim nào có sự tham gia của cả Hữu Lộc và Thúy Nga (nghệ sĩ)?,A,A,A,True
+680,Phim nào có sự tham gia của cả Nguyễn Tuyết Ngân và Đặng Văn Đức?,A,A,A,True
+681,Đạo diễn của bộ phim 'Lật Mặt 6: Tấm vé định mệnh' có sự tham gia của Huy Khánh là ai?,A,A,A,True
+682,Phim nào có sự tham gia của cả Huy Khánh và Mạnh Dung?,B,C,C,False
+683,Phim nào có sự tham gia của cả Chiến và Long Ho?,A,A,A,True
+684,Phim nào có sự tham gia của cả Phi Phụng và Ngọc Oanh?,D,D,D,True
+685,Phim nào có sự tham gia của cả Thu Trang và Lê Khánh?,C,C,C,True
+686,Đạo diễn của bộ phim 'Hello cô Ba' có sự tham gia của Việt Anh (nghệ sĩ) là ai?,B,B,B,True
+687,Phim nào có sự tham gia của cả Hồng Vân (diễn viên) và Hạnh Thúy?,A,D,D,False
+688,Phim nào có sự tham gia của cả Thành Lộc và Lê Hóa?,C,A,A,False
+689,Phim nào có sự tham gia của cả Ngân Chi và Lý Hải?,D,D,D,True
+690,Phim nào có sự tham gia của cả Khả Như và Hoàng Thanh Mai?,A,A,A,True
+691,Phim nào có sự tham gia của cả Phi Phụng và Dung Nhon?,A,B,B,False
+692,Phim nào có sự tham gia của cả Ngô Thanh Vân và Tóc Tiên (ca sĩ)?,B,B,B,True
+693,Phim nào có sự tham gia của cả Ưng Hoàng Phúc và Đông Nhi?,B,D,D,False
+694,Đạo diễn của bộ phim 'Chị trợ lý của anh' có sự tham gia của Đức Phúc là ai?,C,C,C,True
+695,Phim nào có sự tham gia của cả Hữu Châu và Yaya Trương Nhi?,C,C,C,True
+696,Phim nào có sự tham gia của cả Hữu Châu và Thuận Hoàng?,D,D,D,True
+697,Phim nào có sự tham gia của cả Trấn Thành và Ngọc Giàu?,A,A,A,True
+698,Phim nào có sự tham gia của cả Ngân Quỳnh và Nikki Dương Nhật Vi?,B,D,D,False
+699,Phim nào có sự tham gia của cả Công Ninh và Hồng Nhung?,D,D,D,True
+700,Đạo diễn của bộ phim 'Vali tình yêu' có sự tham gia của Thảo Trang (diễn viên) là ai?,D,D,D,True
+701,Phim nào có sự tham gia của cả Phước Sang và Trịnh Kim Chi?,B,B,B,True
+702,Phim nào có sự tham gia của cả nói dối và Huỳnh Đông?,B,B,B,True
+703,Phim nào có sự tham gia của cả Phương Trinh Jolie và Kim Ngọc (nghệ sĩ)?,A,A,A,True
+704,Phim nào có sự tham gia của cả Mỹ Duyên và Anh Thư?,D,D,D,True
+705,Đạo diễn của bộ phim 'Khi đàn ông có bầu' có sự tham gia của Nguyễn Phi Hùng (ca sĩ) là ai?,C,C,C,True
+706,Đạo diễn của bộ phim 'Em và Trịnh' có sự tham gia của Trần Lực là ai?,D,D,D,True
+707,Phim nào có sự tham gia của cả Kim Xuân và Vân Trang?,D,B,B,False
+708,Phim nào có sự tham gia của cả Charlie Nguyễn và Leon Lê?,B,B,B,True
+709,Phim nào có sự tham gia của cả Minh Thuận (ca sĩ) và Hồng Nga?,A,A,A,True
+710,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và quần vợt?,A,A,A,True
+711,Vợ/chồng của diễn viên đóng vai 'Trang' trong phim 'Cô dâu đại chiến' là ai?,B,A,A,False
+712,Phim nào có sự tham gia của cả Lều Phương Anh và Tăng Nhật Tuệ?,A,A,A,True
+713,Đạo diễn của bộ phim 'Hồn papa da con gái' có sự tham gia của Kathy Uyên là ai?,D,D,D,True
+714,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Bảo Chung?,C,C,C,True
+715,Vợ/chồng của diễn viên đóng vai 'trò bạn diễn với Lý Hải ở' trong phim 'Lật mặt 2: Phim trường' là ai?,C,D,D,False
+716,Đạo diễn của bộ phim 'Gái già lắm chiêu V' có sự tham gia của Jun Vũ là ai?,C,C,C,True
+717,Phim nào có sự tham gia của cả Lê Công Tuấn Anh và Như Quỳnh (diễn viên)?,D,D,D,True
+718,Phim nào có sự tham gia của cả Yến Trang và Chí Tài?,C,C,C,True
+719,Phim nào có sự tham gia của cả Quốc Cường và Phúc An?,B,C,C,False
+720,Phim nào có sự tham gia của cả Thúy Nga (nghệ sĩ) và gà?,D,D,D,True
+721,Vợ/chồng của diễn viên đóng vai 'Hằng' trong phim 'Tuyết nhiệt đới' là ai?,A,A,A,True
+722,Phim nào có sự tham gia của cả Mạc Can và Hồng Nga?,D,D,D,True
+723,Đạo diễn của bộ phim 'Đoạt hồn' có sự tham gia của Trần Bảo Sơn là ai?,C,C,C,True
+724,Đạo diễn của bộ phim 'Chị chị em em 2' có sự tham gia của Trung Dân là ai?,B,B,B,True
+725,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Nguyễn Chánh Tín?,B,B,B,True
+726,Phim nào có sự tham gia của cả Công Ninh và Phan Mạnh Quỳnh?,B,A,A,False
+727,Phim nào có sự tham gia của cả Gi A Nguyễn và Phan Thanh Hiền?,A,C,C,False
+728,Phim nào có sự tham gia của cả Bình Minh (người mẫu) và Tất Bình?,D,C,C,False
+729,Phim nào có sự tham gia của cả Lan Phương và Maya (ca sĩ)?,D,D,D,True
+730,Phim nào có sự tham gia của cả Dustin Nguyễn và Bùi Văn Hải?,A,A,A,True
+731,Phim nào có sự tham gia của cả Hoài Linh và Khả Như?,B,B,B,True
+732,Phim nào có sự tham gia của cả Trấn Thành và Quân A.P?,A,D,D,False
+733,Phim nào có sự tham gia của cả Hoài Linh và Bé Vỹ?,D,D,D,True
+734,Phim nào có sự tham gia của cả Phương Thanh và Hồ Vĩnh Khoa?,C,C,C,True
+735,Đạo diễn của bộ phim 'Cu li không bao giờ khóc' có sự tham gia của Minh Châu (diễn viên) là ai?,B,B,B,True
+736,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Võ Thị Sáu?,D,D,D,True
+737,Phim nào có sự tham gia của cả Kathy Uyên và Trương Thế Vinh?,D,D,D,True
+738,Phim nào có sự tham gia của cả Hữu Lộc và Hồng Nga?,C,C,C,True
+739,Phim nào có sự tham gia của cả Hương Giang (diễn viên) và Vĩnh Thụy (diễn viên)?,A,C,C,False
+740,Phim nào có sự tham gia của cả Trương Thế Vinh và Lê Công Hoàng (diễn viên)?,D,B,B,False
+741,Phim nào có sự tham gia của cả Thanh Vy và Diễm Châu?,D,D,D,True
+742,Phim nào có sự tham gia của cả Thanh Trúc và Tiến Luật?,B,D,D,False
+743,Phim nào có sự tham gia của cả Trương Thế Vinh và Thanh Tâm (diễn viên)?,B,B,B,True
+744,Vợ/chồng của diễn viên đóng vai 'Vân' trong phim 'Lửa Phật' là ai?,D,A,A,False
+745,Phim nào có sự tham gia của cả Tùng Maru và Lâm Văn Quốc?,C,C,C,True
+746,Phim nào có sự tham gia của cả Thái Hòa (diễn viên) và Chi Bảo?,C,C,C,True
+747,Phim nào có sự tham gia của cả Mạc Can và Chi Bảo?,D,D,D,True
+748,Phim nào có sự tham gia của cả Thanh Thủy (diễn viên) và Lương Thế Thành?,B,D,D,False
+749,Đạo diễn của bộ phim 'Những cô gái chân dài' có sự tham gia của Văn Tùng là ai?,D,D,D,True
+750,Phim nào có sự tham gia của cả Nguyễn Hậu và Bình An (diễn viên)?,A,D,D,False
+751,Phim nào có sự tham gia của cả Harry Lu và Tăng Nhật Tuệ?,D,D,D,True
+752,Phim nào có sự tham gia của cả Khánh Phương và Bùi Tấn Trường?,C,C,C,True
+753,Phim nào có sự tham gia của cả Trường Giang (nghệ sĩ) và Tiết Cương?,C,C,C,True
+754,Phim nào có sự tham gia của cả Lê Giang và Uyển Ân?,A,C,C,False
+755,Đạo diễn của bộ phim 'Lật mặt: 48h' có sự tham gia của Ốc Thanh Vân là ai?,C,C,C,True
+756,Vợ/chồng của diễn viên đóng vai 'người đi đường' trong phim 'Đẹp từng centimet' là ai?,B,A,A,False
+757,Phim nào có sự tham gia của cả Phương Thanh và Thủy Tiên (ca sĩ)?,C,C,C,True
+758,Phim nào có sự tham gia của cả Minh Đức (diễn viên) và Lê Quốc Nam?,B,B,B,True
+759,Phim nào có sự tham gia của cả Ninh Dương Lan Ngọc và Hữu Châu?,A,A,A,True
+760,Phim nào có sự tham gia của cả Thanh Hằng và Lan Hương (diễn viên sinh 1961)?,D,D,D,True
+761,Phim nào có sự tham gia của cả Phương Trinh Jolie và Tấn Bo?,B,B,B,True
+762,Phim nào có sự tham gia của cả Phi Phụng và Kim Xuân?,A,B,B,False
+763,Phim nào có sự tham gia của cả Hồng Vân (diễn viên) và Lê Khanh?,B,B,B,True
+764,Phim nào có sự tham gia của cả Đế quốc thực dân Pháp và Nguyễn Chánh Tín?,A,A,A,True
+765,Phim nào có sự tham gia của cả Nguyễn Tuyết Ngân và Bùi Hoàng Huy?,B,D,D,False
+766,Vợ/chồng của diễn viên đóng vai 'Huỳnh Phương' trong phim 'Cô dâu đại chiến' là ai?,C,A,A,False
+767,Phim nào có sự tham gia của cả 365daband và Võ Ngọc Trai?,C,C,C,True
+768,Phim nào có sự tham gia của cả Yến Trang và Hoài Linh?,D,D,D,True
+769,Phim nào có sự tham gia của cả Hoài Linh và Lê Bình (diễn viên)?,B,B,B,True
+770,Phim nào có sự tham gia của cả Vũ Ngọc Đãng và Lê Hóa?,D,D,D,True
+771,Đạo diễn của bộ phim 'Lục Vân Tiên (phim truyền hình)' có sự tham gia của Hồng Ánh là ai?,C,C,C,True
+772,Phim nào có sự tham gia của cả Dustin Nguyễn và Quý Bình?,D,D,D,True
+773,Phim nào có sự tham gia của cả Tùng Linh và Công Huy?,D,D,D,True
+774,Đạo diễn của bộ phim 'Tiền chùa' có sự tham gia của Khương Ngọc là ai?,C,C,C,True
+775,Đạo diễn của bộ phim 'Khi đàn ông có bầu' có sự tham gia của Việt Anh (nghệ sĩ) là ai?,B,B,B,True
+776,Phim nào có sự tham gia của cả Quang Sự và Petey Majik Nguyễn?,A,A,A,True
+777,Phim nào có sự tham gia của cả Đơn Dương (diễn viên) và Madeleine Stowe?,A,A,A,True
+778,Phim nào có sự tham gia của cả Trinh Hoan và Chí Thiện (sinh năm 1988)?,A,A,A,True
+779,Phim nào có sự tham gia của cả Mỹ Uyên và quần vợt?,B,B,B,True
+780,Phim nào có sự tham gia của cả Lê Thiện (nghệ sĩ) và Lan Hương (diễn viên sinh 1961)?,B,B,B,True
+781,Phim nào có sự tham gia của cả Mai Thế Hiệp và Khánh Hiền?,B,B,B,True
+782,Phim nào có sự tham gia của cả Thái Hòa (diễn viên) và Kathy Uyên?,D,D,D,True
+783,Phim nào có sự tham gia của cả Hoài Linh và Lê Hóa?,C,C,C,True
+784,Vợ/chồng của diễn viên đóng vai 'mẹ của Trí' trong phim 'Thần tượng (phim)' là ai?,D,D,D,True
+785,Phim nào có sự tham gia của cả Mỹ Duyên và Vai diễn khách mời?,D,D,D,True
+786,Phim nào có sự tham gia của cả Thụy Mười và Tiết Cương?,D,B,B,False
+787,Phim nào có sự tham gia của cả Thiên Kim (diễn viên) và Nguyễn Vinh Sơn?,C,C,C,True
+788,Phim nào có sự tham gia của cả Phi Thanh Vân và Hương Giang (diễn viên)?,C,B,B,False
+789,Phim nào có sự tham gia của cả Việt Hương và gà?,C,B,B,False
+790,Phim nào có sự tham gia của cả Tấn Thi và Harry Lu?,D,D,D,True
+791,Phim nào có sự tham gia của cả Huy Khánh và Tăng Bảo Quyên?,C,C,C,True
+792,Phim nào có sự tham gia của cả Tăng Nhật Tuệ và Uyên Linh?,D,D,D,True
+793,Phim nào có sự tham gia của cả Johnny Trí Nguyễn và Kathy Uyên?,A,A,A,True
+794,Phim nào có sự tham gia của cả Đơn Dương (diễn viên) và Vũ Hà (ca sĩ)?,C,A,A,False
+795,Phim nào có sự tham gia của cả Như Quỳnh (diễn viên) và Đặng Minh Châu (diễn viên)?,A,A,A,True
+796,Phim nào có sự tham gia của cả Hoàng Thùy Linh và Chi Pu?,B,B,B,True
+797,Phim nào có sự tham gia của cả hủ tiếu và Phi Phụng?,B,B,B,True
+798,Phim nào có sự tham gia của cả Việt Hương và Thanh Bạch?,C,C,C,True
+799,Phim nào có sự tham gia của cả Ngọc Nga và Như Cầm?,D,D,D,True
+800,Phim nào có sự tham gia của cả Will và Chí Tâm?,A,A,A,True
+801,Phim nào có sự tham gia của cả Tấn Beo và Ngọc Giàu?,C,D,D,False
+802,Phim nào có sự tham gia của cả Khả Như và Ngân Quỳnh?,C,C,C,True
+803,Phim nào có sự tham gia của cả Ngọc Giàu và Công Ninh?,D,D,D,True
+804,Phim nào có sự tham gia của cả Thái Hòa (diễn viên) và Khương Ngọc?,C,C,C,True
+805,Phim nào có sự tham gia của cả Ninh Dương Lan Ngọc và Thụy Mười?,A,A,A,True
+806,Phim nào có sự tham gia của cả Phi Thanh Vân và Quốc Huy (diễn viên)?,A,A,A,True
+807,Phim nào có sự tham gia của cả Thanh Thảo (ca sĩ) và Khánh Nam (diễn viên)?,D,D,D,True
+808,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Khả Như?,C,C,C,True
+809,Phim nào có sự tham gia của cả Ngô Kiến Huy và Mai Thế Hiệp?,C,C,C,True
+810,Phim nào có sự tham gia của cả Phi Phụng và Hữu Châu?,C,C,C,True
+811,Phim nào có sự tham gia của cả Nguyễn Quang Dũng (đạo diễn) và Lương Mạnh Hải?,C,C,C,True
+812,Phim nào có sự tham gia của cả Quốc Cường và Bảo Trúc?,A,C,C,False
+813,Phim nào có sự tham gia của cả Ngân Chi và Văn Tùng?,A,A,A,True
+814,Phim nào có sự tham gia của cả Trần Nữ Yên Khê và Nguyễn Hữu Châu (quần chúng)?,D,D,D,True
+815,Phim nào có sự tham gia của cả Mai Thế Hiệp và Ngọc Hiệp (diễn viên)?,B,B,B,True
+816,Đạo diễn của bộ phim 'Vào Nam ra Bắc' có sự tham gia của Hoàng Lan (diễn viên) là ai?,B,B,B,True
+817,Phim nào có sự tham gia của cả Tuyết Thu và hủ tiếu?,D,B,B,False
+818,Phim nào có sự tham gia của cả Phương Thanh và Hương Giang (diễn viên)?,B,B,B,True
+819,Vợ/chồng của diễn viên đóng vai 'Công an' trong phim 'Nụ hôn thần chết' là ai?,A,A,A,True
+820,Phim nào có sự tham gia của cả Quang Thắng và Thanh Vy?,A,A,A,True
+821,Phim nào có sự tham gia của cả Michael Caine và Brendan Fraser?,C,C,C,True
+822,Phim nào có sự tham gia của cả Hoài Linh và Minh Luân?,B,B,B,True
+823,Phim nào có sự tham gia của cả Mai Thế Hiệp và Bình Minh (người mẫu)?,A,A,A,True
+824,Thể loại của bộ phim 'Đường lên Điện Biên' do Mạnh Trường đóng là gì?,D,D,D,True
+825,Phim nào có sự tham gia của cả Thanh Thức và Mạnh Dung?,A,D,D,False
+826,Phim nào có sự tham gia của cả Thu Trang và Kim Xuân?,C,B,B,False
+827,Phim nào có sự tham gia của cả Lê Tuấn Anh (diễn viên) và Trần Lộc?,B,B,B,True
+828,Đạo diễn của bộ phim 'Trại hoa đỏ (phim)' có sự tham gia của Cao Thái Hà là ai?,A,A,A,True
+829,Phim nào có sự tham gia của cả Hồng Ánh và Anh Thư?,B,A,A,False
+830,Phim nào có sự tham gia của cả Dustin Nguyễn và Kathy Uyên?,B,B,B,True
+831,Phim nào có sự tham gia của cả Đinh Tiến Đạt và Minh Thuận (ca sĩ)?,C,C,C,True
+832,Đạo diễn của bộ phim 'Đường lên Điện Biên' có sự tham gia của Mạnh Trường là ai?,C,C,C,True
+833,Phim nào có sự tham gia của cả Ngân Chi và Lê Dương Bảo Lâm?,C,C,C,True
+834,Phim nào có sự tham gia của cả Ngân Quỳnh và Lương Bích Hữu?,A,B,B,False
+835,Phim nào có sự tham gia của cả Dương Hoàng Anh và Nam Cường (ca sĩ)?,A,D,D,False
+836,Thể loại của bộ phim 'Sông dài (phim)' do Thanh Nam đóng là gì?,C,C,C,True
+837,Phim nào có sự tham gia của cả Khổng Tú Quỳnh và Thanh Hằng?,C,C,C,True
+838,Đạo diễn của bộ phim 'Hàng xóm (phim)' có sự tham gia của Chiều Xuân là ai?,A,D,D,False
+839,Phim nào có sự tham gia của cả Anh Thư và Như Quỳnh (diễn viên)?,A,A,A,True
+840,Phim nào có sự tham gia của cả Tiết Cương và Trung Dũng (diễn viên)?,A,B,B,False
+841,Thể loại của bộ phim 'Tiệm bánh Hoàng tử bé 2' do Xuân Lan đóng là gì?,A,A,A,True
+842,Phim nào có sự tham gia của cả Huang Kiem và Bá Phan Châu Toàn?,A,A,A,True
+843,Phim nào có sự tham gia của cả Vũ Thu Phương và Thanh Thảo (ca sĩ)?,A,A,A,True
+844,Vợ/chồng của diễn viên đóng vai 'Thắng' trong phim 'Võ lâm truyền kỳ (phim)' là ai?,A,A,A,True
+845,Phim nào có sự tham gia của cả Tấn Beo và Thanh Thủy (diễn viên)?,C,A,A,False
+846,Phim nào có sự tham gia của cả Hoàng Phúc (diễn viên) và Mạc Can?,C,C,C,True
+847,Phim nào có sự tham gia của cả Hiếu Hiền và Nguyễn Hậu?,B,B,B,True
+848,Phim nào có sự tham gia của cả Bảo Quốc và Nguyễn Phi Hùng (ca sĩ)?,C,C,C,True
+849,Phim nào có sự tham gia của cả Johnny Trí Nguyễn và Lâm Minh Thắng?,B,B,B,True
+850,Phim nào có sự tham gia của cả Như Quỳnh (diễn viên) và Đoàn Việt Hà?,C,C,C,True
+851,Vợ/chồng của diễn viên đóng vai 'Quân / Hổ' trong phim 'Bẫy rồng' là ai?,D,D,D,True
+852,Phim nào có sự tham gia của cả Khánh Như và Nguyễn Gia Linh?,A,A,A,True
+853,Đạo diễn của bộ phim 'Long Ruồi' có sự tham gia của Ninh Dương Lan Ngọc là ai?,B,B,B,True
+854,Vợ/chồng của diễn viên đóng vai 'chủ tiệm bò tót' trong phim 'Em là bà nội của anh' là ai?,A,D,D,False
+855,Đạo diễn của bộ phim 'Cua lại vợ bầu' có sự tham gia của Thuận Hoàng là ai?,D,D,D,True
+856,Đạo diễn của bộ phim 'Võ lâm truyền kỳ (phim)' có sự tham gia của Thanh Thảo (ca sĩ) là ai?,C,C,C,True
+857,Phim nào có sự tham gia của cả Trấn Thành và Việt Anh (nghệ sĩ)?,C,C,C,True
+858,Phim nào có sự tham gia của cả Khánh Huyền và Lê Thiện (nghệ sĩ)?,A,C,C,False
+859,Phim nào có sự tham gia của cả Minh Đức (diễn viên) và Thảo Trang?,C,C,C,True
+860,Phim nào có sự tham gia của cả Charlie Nguyễn và Nguyễn Hậu?,B,B,B,True
+861,Phim nào có sự tham gia của cả Ngọc Giàu và Chi Bảo?,C,C,C,True
+862,Đạo diễn của bộ phim 'Cái giá của hạnh phúc' có sự tham gia của Hữu Châu là ai?,C,C,C,True
+863,Phim nào có sự tham gia của cả Tấn Beo và Johnny Trí Nguyễn?,A,A,A,True
+864,Phim nào có sự tham gia của cả Quang Thắng và Phạm Quỳnh Anh?,D,D,D,True
+865,Phim nào có sự tham gia của cả Hoài Linh và Bá Nhân?,C,D,D,False
+866,Phim nào có sự tham gia của cả Quang Minh - Hồng Đào và Don Nguyễn?,B,B,B,True
+867,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Phương Thanh?,B,B,B,True
+868,Phim nào có sự tham gia của cả Chí Tài và Văn Tùng?,C,C,C,True
+869,Đạo diễn của bộ phim 'Long Ruồi' có sự tham gia của Quốc Huy (diễn viên) là ai?,B,B,B,True
+870,Đạo diễn của bộ phim 'Siêu lừa gặp siêu lầy' có sự tham gia của Anh Tú (sinh 1993) là ai?,D,D,D,True
+871,Thể loại của bộ phim 'Tình khúc bạch dương' do Chi Bảo đóng là gì?,C,C,C,True
+872,Phim nào có sự tham gia của cả Việt Thắng (diễn viên) và Lê Anh Sơn?,C,C,C,True
+873,Phim nào có sự tham gia của cả Lê Thiện (nghệ sĩ) và Huy Cường?,C,D,D,False
+874,Đạo diễn của bộ phim 'Tháng năm rực rỡ' có sự tham gia của Trúc Anh là ai?,C,C,C,True
+875,Phim nào có sự tham gia của cả Quốc Trường (diễn viên) và Quốc Thuận?,A,A,A,True
+876,Phim nào có sự tham gia của cả Yaya Trương Nhi và Kiều Mai Lý?,B,D,D,False
+877,Đạo diễn của bộ phim 'Thanh Sói – Cúc dại trong đêm' có sự tham gia của Gi A Nguyễn là ai?,A,A,A,True
+878,Đạo diễn của bộ phim 'Hồn papa da con gái' có sự tham gia của Lê Bình (diễn viên) là ai?,A,A,A,True
+879,Phim nào có sự tham gia của cả Kathy Uyên và Dominic Pereira?,B,B,B,True
+880,Phim nào có sự tham gia của cả Phương Anh Đào và Hồng Đào (diễn viên)?,B,B,B,True
+881,Phim nào có sự tham gia của cả Võ Ngọc Trai và Chí Thiện (sinh năm 1988)?,C,C,C,True
+882,Phim nào có sự tham gia của cả 365daband và Harry Lu?,B,B,B,True
+883,Phim nào có sự tham gia của cả Khương Ngọc và Quốc Huy (diễn viên)?,A,A,A,True
+884,Đạo diễn của bộ phim 'Cua lại vợ bầu' có sự tham gia của Trung Dân là ai?,D,D,D,True
+885,"Đạo diễn của bộ phim 'Hot boy nổi loạn và câu chuyện về thằng Cười, cô gái điếm và con vịt' có sự tham gia của Hồ Vĩnh Khoa là ai?",C,C,C,True
+886,Phim nào có sự tham gia của cả Thu Trang và Thụy Mười?,C,C,C,True
+887,Phim nào có sự tham gia của cả Bùi Hoàng Huy và Lê Tuấn Anh (diễn viên)?,A,A,A,True
+888,Đạo diễn của bộ phim 'Những thiên thần áo trắng' có sự tham gia của Mai Phương (diễn viên) là ai?,A,A,A,True
+889,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Thanh Mai (MC)?,D,D,D,True
+890,Phim nào có sự tham gia của cả Công Ninh và Thành Lộc?,D,D,D,True
+891,Đạo diễn của bộ phim 'Để Mai tính' có sự tham gia của Nguyễn Hậu là ai?,C,C,C,True
+892,Phim nào có sự tham gia của cả Wanbi Tuấn Anh và Trương Quỳnh Anh?,D,D,D,True
+893,Phim nào có sự tham gia của cả Lê Dương Bảo Lâm và Ngân Quỳnh?,C,C,C,True
+894,Đạo diễn của bộ phim 'Xích lô (phim)' có sự tham gia của Mạc Can là ai?,A,A,A,True
+895,Phim nào có sự tham gia của cả Nguyễn Gia Linh và Phạm Thị Ngọc Trinh?,A,A,A,True
+896,Phim nào có sự tham gia của cả Kim Ngọc (nghệ sĩ) và Mỹ Uyên?,C,D,D,False
+897,Phim nào có sự tham gia của cả Nguyễn Hậu và Thân Thúy Hà?,A,A,A,True
+898,Đạo diễn của bộ phim 'Tết ở làng địa ngục' có sự tham gia của Phú Đôn là ai?,D,D,D,True
+899,Phim nào có sự tham gia của cả Ngọc Oanh và Long Ho?,B,D,D,False
+900,Phim nào có sự tham gia của cả Võ Ngọc Trai và Minh Hằng?,A,A,A,True
+901,Phim nào có sự tham gia của cả Khánh Huyền và Petey Majik Nguyễn?,B,D,D,False
+902,Phim nào có sự tham gia của cả Thái Hòa (diễn viên) và Nguyễn Quang Dũng (đạo diễn)?,A,A,A,True
+903,Phim nào có sự tham gia của cả Huy Cường và Hồ Vĩnh Khoa?,D,D,D,True
+904,Phim nào có sự tham gia của cả Khương Ngọc và Thu Trang?,C,C,C,True
+905,Phim nào có sự tham gia của cả Hoàng Sơn (diễn viên) và Tấn Bo?,D,D,D,True
+906,Phim nào có sự tham gia của cả Phạm Duy Hương và Trần Nhật Vũ?,D,D,D,True
+907,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Hữu Châu?,B,A,A,False
+908,Phim nào có sự tham gia của cả Hari Won và Hồng Ánh?,B,B,B,True
+909,Phim nào có sự tham gia của cả Thanh Hằng và Nguyễn Vinh Sơn?,C,D,D,False
+910,Phim nào có sự tham gia của cả Khương Ngọc và Dương Khắc Linh?,C,C,C,True
+911,Thể loại của bộ phim 'Nhiệm vụ đặc biệt' do Hoàng Phúc (diễn viên) đóng là gì?,D,D,D,True
+912,Phim nào có sự tham gia của cả Phạm Ngọc Liễu và Thanh Lam?,D,D,D,True
+913,Phim nào có sự tham gia của cả Hoàng Phúc (diễn viên) và Lâm Minh Thắng?,A,A,A,True
+914,Phim nào có sự tham gia của cả Lê Đình Huy và Võ Thế Vỹ?,D,D,D,True
+915,Phim nào có sự tham gia của cả Ngô Kiến Huy và Hứa Vĩ Văn?,A,A,A,True
+916,Phim nào có sự tham gia của cả Trinh Hoan và Siu Black?,C,C,C,True
+917,Phim nào có sự tham gia của cả Nam Thư và Trường Giang (nghệ sĩ)?,A,A,A,True
+918,Vợ/chồng của diễn viên đóng vai 'Trịnh thái sư' trong phim 'Lục Vân Tiên (phim truyền hình)' là ai?,A,D,D,False
+919,Phim nào có sự tham gia của cả Diễm My và Thanh Thủy (diễn viên)?,B,B,B,True
+920,Phim nào có sự tham gia của cả Quyền Linh và Hồng Nga?,C,C,C,True
+921,Phim nào có sự tham gia của cả Kim Xuân và Minh Hằng?,A,A,A,True
+922,Phim nào có sự tham gia của cả Anh Thư và Thiên Kim (diễn viên)?,C,C,C,True
+923,Phim nào có sự tham gia của cả Lan Phương và Dương Hoàng Anh?,C,B,B,False
+924,Phim nào có sự tham gia của cả Don Nguyễn và Văn Hiệp?,D,D,D,True
+925,Phim nào có sự tham gia của cả Tuấn Trần và Hồng Đào (diễn viên)?,B,B,B,True
+926,Phim nào có sự tham gia của cả Xuân Lan và Tăng Nhật Tuệ?,D,A,A,False
+927,Phim nào có sự tham gia của cả Hải Băng và Bùi Tấn Trường?,C,C,C,True
+928,Phim nào có sự tham gia của cả Trần Lộc và Phạm Văn Nhân (diễn viên)?,B,B,B,True
+929,Phim nào có sự tham gia của cả Thu Trang và Diễm My 9x?,C,B,B,False
+930,Phim nào có sự tham gia của cả Ngô Kiến Huy và Văn Tùng?,A,A,A,True
+931,Phim nào có sự tham gia của cả Gia Khoan và Phạm Duy Hương?,B,B,B,True
+932,Phim nào có sự tham gia của cả Phi Phụng và Phạm Trưởng?,B,B,B,True
+933,Phim nào có sự tham gia của cả Chiến và Thanh Tâm (diễn viên)?,B,A,A,False
+934,Vợ/chồng của diễn viên đóng vai 'Antoine' trong phim 'Để mai tính' là ai?,B,B,B,True
+935,Phim nào có sự tham gia của cả Mạc Văn Khoa và Tiết Cương?,B,B,B,True
+936,Phim nào có sự tham gia của cả Hoài Linh và Thành Tài?,C,D,D,False
+937,Vợ/chồng của diễn viên đóng vai 'MC Trấn Thành' trong phim 'Công chúa teen và ngũ hổ tướng' là ai?,C,C,C,True
+938,Phim nào có sự tham gia của cả Johnny Trí Nguyễn và Nguyễn Quang Dũng (đạo diễn)?,D,D,D,True
+939,Phim nào có sự tham gia của cả Tuấn Trần và Lâm Vỹ Dạ?,C,C,C,True
+940,Phim nào có sự tham gia của cả Trường Giang (nghệ sĩ) và Võ Thành Tâm?,B,B,B,True
+941,Phim nào có sự tham gia của cả Huang Kiem và Phạm Hải Trường?,D,D,D,True
+942,Phim nào có sự tham gia của cả Tấn Beo và Bảo Anh (ca sĩ)?,B,B,B,True
+943,Vợ/chồng của diễn viên đóng vai 'bà Nhã' trong phim 'Tía tui là cao thủ' là ai?,A,A,A,True
+944,Phim nào có sự tham gia của cả Phi Phụng và Tiểu Bảo Quốc?,D,D,D,True
+945,Phim nào có sự tham gia của cả Hồng Ánh và Trọng Hiếu?,C,C,C,True
+946,Đạo diễn của bộ phim 'Năm sau con lại về' có sự tham gia của Lê Khánh là ai?,B,B,B,True
+947,Đạo diễn của bộ phim 'Tiệc trăng máu' có sự tham gia của Hồng Ánh là ai?,C,C,C,True
+948,Phim nào có sự tham gia của cả Thành Lộc và Tấn Thi?,D,B,B,False
+949,Phim nào có sự tham gia của cả Hữu Châu và Trinh Hoan?,D,D,D,True
+950,Phim nào có sự tham gia của cả Thành Lộc và Hương Giang (diễn viên)?,C,C,C,True
+951,Phim nào có sự tham gia của cả Minh Châu (diễn viên) và Quốc Tuấn (diễn viên)?,C,B,B,False
+952,Đạo diễn của bộ phim 'Bóng ma học đường' có sự tham gia của Tim (ca sĩ) là ai?,A,A,A,True
+953,Phim nào có sự tham gia của cả Johnny Trí Nguyễn và Nguyễn Thắng?,D,D,D,True
+954,Phim nào có sự tham gia của cả Chu Hùng và Trần Minh Tuấn (diễn viên)?,D,D,D,True
+955,Phim nào có sự tham gia của cả Thanh Lam và Đặng Minh Châu (diễn viên)?,C,C,C,True
+956,Phim nào có sự tham gia của cả Mai Thế Hiệp và 365daband?,D,D,D,True
+957,Phim nào có sự tham gia của cả Trấn Thành và Chí Tài?,B,B,B,True
+958,Phim nào có sự tham gia của cả Quốc Khánh (nghệ sĩ) và Hà Kiều Anh?,A,B,B,False
+959,Phim nào có sự tham gia của cả Hoài Linh và Hoài Lâm?,D,D,D,True
+960,Phim nào có sự tham gia của cả Harold G. Moore và Greg Kinnear?,A,A,A,True
+961,Phim nào có sự tham gia của cả Vũ Ngọc Đãng và Bà Tân Vlog?,B,B,B,True
+962,Phim nào có sự tham gia của cả Trấn Thành và Xuân Nghị?,D,D,D,True
+963,Phim nào có sự tham gia của cả Hoài Linh và Thanh Hằng?,A,A,A,True
+964,Đạo diễn của bộ phim 'Giải cứu thần chết' có sự tham gia của Đông Nhi là ai?,A,A,A,True
+965,Phim nào có sự tham gia của cả Bình Minh (người mẫu) và Dominic Pereira?,A,A,A,True
+966,Phim nào có sự tham gia của cả Ngô Vũ Quang Hải và Mạnh Cường?,D,D,D,True
+967,Vợ/chồng của diễn viên đóng vai 'Ba của An An' trong phim 'Giải cứu thần chết' là ai?,B,A,A,False
+968,Đạo diễn của bộ phim 'Những thiên thần áo trắng' có sự tham gia của Nam Cường (ca sĩ) là ai?,D,D,D,True
+969,Phim nào có sự tham gia của cả Trấn Thành và Anh Tú (sinh 1993)?,A,A,A,True
+970,Phim nào có sự tham gia của cả Phi Phụng và Đỗ Đức Thịnh?,C,C,C,True
+971,Đạo diễn của bộ phim 'Song song (phim)' có sự tham gia của Trương Thế Vinh là ai?,A,A,A,True
+972,Phim nào có sự tham gia của cả Tấn Thi và Hồ Bích Trâm?,C,A,A,False
+973,Phim nào có sự tham gia của cả Phạm Ngọc Liễu và Bá Phan Châu Toàn?,A,A,A,True
+974,Phim nào có sự tham gia của cả Thành Lộc và Thanh Hằng?,D,D,D,True
+975,Đạo diễn của bộ phim 'Năm sau con lại về' có sự tham gia của Thanh Trúc là ai?,A,A,A,True
+976,Phim nào có sự tham gia của cả Mai Thành và Đinh Ngọc Diệp?,A,A,A,True
+977,Đạo diễn của bộ phim 'Sống chung với mẹ chồng' có sự tham gia của Lan Hương (diễn viên sinh 1961) là ai?,B,B,B,True
+978,Phim nào có sự tham gia của cả Mạc Văn Khoa và Huỳnh Đông?,D,D,D,True
+979,Phim nào có sự tham gia của cả Quang Thắng và Don Nguyễn?,D,D,D,True
+980,Phim nào có sự tham gia của cả Hoàng Hải (diễn viên) và Đinh Đức Thiện?,A,D,D,False
+981,Phim nào có sự tham gia của cả Lê Dương Bảo Lâm và Huy Cường?,A,C,C,False
+982,Phim nào có sự tham gia của cả Việt Thắng (diễn viên) và Trần Quốc Hùng?,C,C,C,True
+983,Đạo diễn của bộ phim 'Quả tim máu' có sự tham gia của Văn Tùng là ai?,A,A,A,True
+984,Phim nào có sự tham gia của cả Quốc Huy (diễn viên) và Lê Phương?,A,C,C,False
+985,Phim nào có sự tham gia của cả Kim Xuân và Miu Lê?,C,C,C,True
+986,Phim nào có sự tham gia của cả Hoài Linh và Tấn Bo?,D,D,D,True
+987,Phim nào có sự tham gia của cả Hồng Vân (diễn viên) và Thuận Nguyễn?,A,A,A,True
+988,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Mai Thành?,A,D,D,False
+989,Phim nào có sự tham gia của cả Phi Phụng và Jun Phạm?,D,D,D,True
+990,Phim nào có sự tham gia của cả Tommy Ngô và Lynda Trang Đài?,C,C,C,True
+991,Phim nào có sự tham gia của cả Thu Trang và Lê Thiện (nghệ sĩ)?,A,A,A,True
+992,Phim nào có sự tham gia của cả Bạch Long (nghệ sĩ cải lương và Dung Nhon?,C,B,B,False
+993,Phim nào có sự tham gia của cả Mạc Can và Hữu Lộc?,D,B,B,False
+994,Phim nào có sự tham gia của cả Quách Ngọc Tuyên và Phạm Trưởng?,D,D,D,True
+995,Đạo diễn của bộ phim 'Chuyện tình xa xứ' có sự tham gia của Nguyễn Hậu là ai?,C,C,C,True
+996,Phim nào có sự tham gia của cả Nguyễn Văn Đây và Nguyễn Đình Thơ?,D,D,D,True
+997,Phim nào có sự tham gia của cả Trần Nữ Yên Khê và Bùi Thị Minh Đức?,B,B,B,True
+998,Phim nào có sự tham gia của cả Xuân Lan và Tống Bạch Thủy?,D,D,D,True
+999,Phim nào có sự tham gia của cả S.T Sơn Thạch và Jun Phạm?,A,A,A,True
+1000,Phim nào có sự tham gia của cả Trúc Anh và Khánh Huyền?,D,D,D,True
+1001,Đạo diễn của bộ phim 'Tía tui là cao thủ' có sự tham gia của Ái Phương là ai?,C,C,C,True
+1002,Phim nào có sự tham gia của cả Hồng Vân (diễn viên) và Bảo Chung?,B,B,B,True
+1003,Vợ/chồng của diễn viên đóng vai 'ông chủ tiệm may Như Ý' trong phim 'Chị chị em em 2' là ai?,D,A,A,False
+1004,Phim nào có sự tham gia của cả Kaity Nguyễn và Đức Thịnh (đạo diễn)?,D,D,D,True
+1005,Phim nào có sự tham gia của cả Nguyễn Tuyết Ngân và Trương Thanh Nghi?,C,C,C,True
+1006,Thể loại của bộ phim 'Giấc mơ của mẹ' do Diễm My (diễn viên) đóng là gì?,A,A,A,True
+1007,Phim nào có sự tham gia của cả Hoài Linh và Thanh Tâm (diễn viên)?,D,A,A,False
+1008,Đạo diễn của bộ phim 'Giải cứu thần chết' có sự tham gia của Hồng Nhung là ai?,D,D,D,True
+1009,Phim nào có sự tham gia của cả Ngọc Giàu và Việt Hương?,A,A,A,True
+1010,Phim nào có sự tham gia của cả Victor Vũ và Khánh Hiền?,C,C,C,True
+1011,Đạo diễn của bộ phim 'Công chúa teen và ngũ hổ tướng' có sự tham gia của Bảo Thy là ai?,D,D,D,True
+1012,Phim nào có sự tham gia của cả Quyền Linh và Hữu Nghĩa?,D,D,D,True
+1013,Phim nào có sự tham gia của cả Võ Thế Vỹ và Đặng Văn Đức?,D,D,D,True
+1014,Phim nào có sự tham gia của cả Minh Béo và đỏ?,A,A,A,True
+1015,Đạo diễn của bộ phim 'Công chúa teen và ngũ hổ tướng' có sự tham gia của Mạnh Tràng là ai?,D,D,D,True
+1016,Phim nào có sự tham gia của cả Hoàng Sơn (diễn viên) và Quyền Linh?,A,A,A,True
+1017,Phim nào có sự tham gia của cả Hoàng Phúc (diễn viên) và Trần Nữ Yên Khê?,C,C,C,True
+1018,Phim nào có sự tham gia của cả Uyển Ân và Trần Tiểu Vy?,A,A,A,True
+1019,Đạo diễn của bộ phim 'Lửa Phật' có sự tham gia của Nguyễn Hậu là ai?,B,B,B,True
+1020,Vợ/chồng của diễn viên đóng vai 'ông Tư Nho' trong phim 'Tía tui là cao thủ' là ai?,D,A,A,False
+1021,Phim nào có sự tham gia của cả Ngô Kiến Huy và Hoài Lâm?,C,C,C,True
+1022,Phim nào có sự tham gia của cả Johnny Trí Nguyễn và Nguyễn Chánh Tín?,D,D,D,True
+1023,Phim nào có sự tham gia của cả Phạm Quỳnh Anh và Huy Cường?,A,A,A,True
+1024,Phim nào có sự tham gia của cả Tân Trực và Quang Khang?,C,D,D,False
+1025,Phim nào có sự tham gia của cả Ngọc Giàu và Michael Jackson?,C,C,C,True
+1026,Phim nào có sự tham gia của cả Hoài Linh và Trương Quỳnh Anh?,D,D,D,True
+1027,Phim nào có sự tham gia của cả Minh Thuận (ca sĩ) và Trương Ngọc Ánh?,A,A,A,True
+1028,Phim nào có sự tham gia của cả Lan Phương và Đại Nghĩa (diễn viên)?,B,B,B,True
+1029,Phim nào có sự tham gia của cả Trần Bảo Sơn và Phan Thị Mơ?,A,C,C,False
+1030,Phim nào có sự tham gia của cả Bùi Hoàng Huy và Gia Khoan?,A,A,A,True
+1031,Phim nào có sự tham gia của cả Phi Phụng và Thanh Thức?,B,B,B,True
+1032,Phim nào có sự tham gia của cả Hiếu Hiền và Lê Huỳnh?,D,D,D,True
+1033,Phim nào có sự tham gia của cả Lê Hóa và Lê Quốc Nam?,A,B,B,False
+1034,Phim nào có sự tham gia của cả Thanh Lam và Võ Thế Vỹ?,B,B,B,True
+1035,Phim nào có sự tham gia của cả Thái Hòa (diễn viên) và đỏ?,D,D,D,True
+1036,Phim nào có sự tham gia của cả Tiết Cương và Kiến An (diễn viên)?,D,D,D,True
+1037,Phim nào có sự tham gia của cả Kathy Uyên và Huy Khánh?,C,C,C,True
+1038,Phim nào có sự tham gia của cả Kiều Mai Lý và Bảo Anh (ca sĩ)?,C,C,C,True
+1039,Phim nào có sự tham gia của cả Phương Trinh Jolie và Huy Khánh?,B,B,B,True
+1040,Phim nào có sự tham gia của cả Quý Bình và Văn Tùng?,B,B,B,True
+1041,Phim nào có sự tham gia của cả Khả Như và Hữu Châu?,A,A,A,True
+1042,Phim nào có sự tham gia của cả Lương Mạnh Hải và Thiên Kim (diễn viên)?,D,D,D,True
+1043,Phim nào có sự tham gia của cả Huy Khánh và Ốc Thanh Vân?,A,B,B,False
+1044,Đạo diễn của bộ phim 'Bay vào cõi mộng' có sự tham gia của Lynda Trang Đài là ai?,B,B,B,True
+1045,Phim nào có sự tham gia của cả Mỹ Uyên và Nguyễn Phi Hùng (ca sĩ)?,C,C,C,True
+1046,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Lương Thế Thành?,C,C,C,True
+1047,Vợ/chồng của diễn viên đóng vai 'Hương hào Ngọ' trong phim 'Hai Cũ' là ai?,B,D,D,False
+1048,Phim nào có sự tham gia của cả Phạm Duy Hương và Đặng Minh Châu (diễn viên)?,B,B,B,True
+1049,Phim nào có sự tham gia của cả Phước Sang và Anh Vũ (nghệ sĩ)?,A,A,A,True
+1050,Đạo diễn của bộ phim 'Ma da (phim)' có sự tham gia của Cẩm Ly là ai?,A,D,D,False
+1051,Phim nào có sự tham gia của cả Thanh Thúy (ca sĩ sinh 1943) và Bùi Lan Hương?,A,A,A,True
+1052,Phim nào có sự tham gia của cả Ngô Vũ Quang Hải và Lê Anh Sơn?,A,C,C,False
+1053,Phim nào có sự tham gia của cả Thanh Khang và Thành Tài?,B,A,A,False
+1054,Đạo diễn của bộ phim 'Thần tượng (phim)' có sự tham gia của Hứa Vĩ Văn là ai?,C,C,C,True
+1055,Phim nào có sự tham gia của cả Ngọc Diệp và Bùi Văn Hải?,B,B,B,True
+1056,Phim nào có sự tham gia của cả Minh Béo và Da cam?,A,A,A,True
+1057,Vợ/chồng của diễn viên đóng vai 'Dũng (xuất hiện trong cảnh hồi tưởng)' trong phim 'Để Mai tính 2' là ai?,A,B,B,False
+1058,Phim nào có sự tham gia của cả Oanh Kiều và Chí Tâm?,A,B,B,False
+1059,Phim nào có sự tham gia của cả Bảo Quốc và Charlie Chaplin?,C,C,C,True
+1060,Phim nào có sự tham gia của cả Hoài Linh và Cát Phượng?,D,D,D,True
+1061,Phim nào có sự tham gia của cả Kim Ngọc (nghệ sĩ) và Hồng Vân (diễn viên)?,D,D,D,True
+1062,Phim nào có sự tham gia của cả Gia Khoan và Chu Hùng?,B,B,B,True
+1063,Phim nào có sự tham gia của cả Song Luân và Đồng Ánh Quỳnh?,C,C,C,True
+1064,Phim nào có sự tham gia của cả Lương Thế Thành và Thu Tuyết?,B,B,B,True
+1065,Đạo diễn của bộ phim 'Về quê ăn Tết' có sự tham gia của Jun Phạm là ai?,C,C,C,True
+1066,Phim nào có sự tham gia của cả Lan Phương và Lê Dương Bảo Lâm?,C,A,A,False
+1067,Phim nào có sự tham gia của cả Trương Thanh Nghi và Phạm Duy Hương?,A,A,A,True
+1068,Phim nào có sự tham gia của cả Hồng Ánh và Bình Minh (người mẫu)?,D,C,C,False
+1069,Phim nào có sự tham gia của cả Mai Thế Hiệp và Minh Đức (diễn viên)?,A,B,B,False
+1070,Phim nào có sự tham gia của cả Minh Thuận (ca sĩ) và Chi Bảo?,C,C,C,True
+1071,Phim nào có sự tham gia của cả Vĩnh Thuyên Kim và Nikki Dương Nhật Vi?,C,C,C,True
+1072,Phim nào có sự tham gia của cả Võ Vĩnh Phúc và Đặng Minh Châu (diễn viên)?,A,A,A,True
+1073,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Uyển Ân?,A,A,A,True
+1074,Phim nào có sự tham gia của cả Bảo Quốc và Thái Hòa (diễn viên)?,A,A,A,True
+1075,Phim nào có sự tham gia của cả Lê Công Tuấn Anh và Bùi Thị Minh Đức?,C,C,C,True
+1076,Đạo diễn của bộ phim 'Xích lô (phim)' có sự tham gia của Lê Anh Sơn là ai?,D,D,D,True
+1077,Phim nào có sự tham gia của cả Huỳnh Anh Tuấn và Quang Sự?,D,A,A,False
+1078,Phim nào có sự tham gia của cả Minh Anh (diễn viên) và Như Cầm?,B,B,B,True
+1079,Phim nào có sự tham gia của cả Đồng Ánh Quỳnh và Phan Thanh Hiền?,A,A,A,True
+1080,Phim nào có sự tham gia của cả Trần Nữ Yên Khê và Thanh Lam?,B,B,B,True
+1081,Phim nào có sự tham gia của cả Hoài Linh và Tim (ca sĩ)?,B,A,A,False
+1082,Phim nào có sự tham gia của cả Bùi Thị Minh Đức và Ánh Hoa?,C,C,C,True
+1083,Đạo diễn của bộ phim 'Người lắng nghe: Lời thì thầm' có sự tham gia của Huy Cường là ai?,C,C,C,True
+1084,Phim nào có sự tham gia của cả Ngân Quỳnh và Thu Tuyết?,B,B,B,True
+1085,Phim nào có sự tham gia của cả Nguyễn Hậu và Leon Lê?,B,D,D,False
+1086,Vợ/chồng của đạo diễn bộ phim 'Để mai tính' (Charlie Nguyễn) là ai?,B,B,B,True
+1087,Phim nào có sự tham gia của cả Vân Trang và Nguyễn Thị Anh?,B,B,B,True
+1088,Phim nào có sự tham gia của cả Lê Tuấn Anh (diễn viên) và Trần Nhật Vũ?,D,D,D,True
+1089,Phim nào có sự tham gia của cả Tấn Beo và Phước Sang?,C,C,C,True
+1090,Phim nào có sự tham gia của cả Mạc Can và Lê Anh Sơn?,C,C,C,True
+1091,Phim nào có sự tham gia của cả Tùng Maru và Phương Quỳnh?,B,B,B,True
+1092,Phim nào có sự tham gia của cả Hiếu Hiền và Huy Cường?,C,D,D,False
+1093,Phim nào có sự tham gia của cả hủ tiếu và Phương Trinh Jolie?,A,A,A,True
+1094,Phim nào có sự tham gia của cả Băng Di và Huỳnh Đông?,C,B,B,False
+1095,Đạo diễn của bộ phim 'Công chúa teen và ngũ hổ tướng' có sự tham gia của hủ tiếu là ai?,D,D,D,True
+1096,Phim nào có sự tham gia của cả Xuân Nghị và Bà Tân Vlog?,A,A,A,True
+1097,Phim nào có sự tham gia của cả Lê Tuấn Anh (diễn viên) và Nguyễn Hữu Châu (quần chúng)?,B,B,B,True
+1098,Phim nào có sự tham gia của cả Kiều Minh Tuấn và Kiều Mai Lý?,D,D,D,True
+1099,Phim nào có sự tham gia của cả Tấn Beo và Lynda Trang Đài?,D,D,D,True
+1100,Đạo diễn của bộ phim 'Hồn papa da con gái' có sự tham gia của Huy Khánh là ai?,A,A,A,True
+1101,Phim nào có sự tham gia của cả Trung Dân và Phi Thanh Vân?,B,B,B,True
+1102,Phim nào có sự tham gia của cả Mai Trần và Ngân Quỳnh?,A,B,B,False
+1103,Phim nào có sự tham gia của cả Lâm Vỹ Dạ và Trương Thế Vinh?,B,A,A,False
+1104,Phim nào có sự tham gia của cả Chu Hùng và Trần Văn Lợi?,A,A,A,True
+1105,Phim nào có sự tham gia của cả Mạnh Tràng và Thanh Thủy (diễn viên)?,D,D,D,True
+1106,Phim nào có sự tham gia của cả Xuân Nghị và Lê Dương Bảo Lâm?,A,A,A,True
+1107,Phim nào có sự tham gia của cả Quyền Linh và gà?,B,D,D,False
+1108,Phim nào có sự tham gia của cả Khánh Hiền và Thanh Thúy (sinh 1982)?,D,B,B,False
+1109,Phim nào có sự tham gia của cả Nam Thư và Đỗ Đức Thịnh?,C,B,B,False
+1110,Phim nào có sự tham gia của cả Đức Khuê và Duy Khánh (diễn viên)?,D,B,B,False
+1111,Phim nào có sự tham gia của cả Đại Nghĩa (diễn viên) và Công Dương?,C,C,C,True
+1112,Đạo diễn của bộ phim 'Bố già (phim 2021)' có sự tham gia của Ngân Chi là ai?,B,B,B,True
+1113,Phim nào có sự tham gia của cả Phi Phụng và Huỳnh Anh Tuấn?,A,B,B,False
+1114,Phim nào có sự tham gia của cả Mỹ Duyên và danh đề?,D,C,C,False
+1115,Phim nào có sự tham gia của cả Thái Hòa (diễn viên) và Bùi Văn Hải?,A,A,A,True
+1116,Thể loại của bộ phim 'Tết ở làng địa ngục' do Chiều Xuân đóng là gì?,C,C,C,True
+1117,Phim nào có sự tham gia của cả Lê Văn Lộc (diễn viên) và Nguyễn Tuyết Ngân?,C,C,C,True
+1118,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Lê Dương Bảo Lâm?,A,D,D,False
+1119,Phim nào có sự tham gia của cả Yaya Trương Nhi và Quang Sự?,D,D,D,True
+1120,Phim nào có sự tham gia của cả Phi Thanh Vân và Mai Thành?,C,C,C,True
+1121,Phim nào có sự tham gia của cả Phương Thanh và Lê Quốc Nam?,C,C,C,True
+1122,Phim nào có sự tham gia của cả Isaac (ca sĩ) và Ngọc Giàu?,B,B,B,True
+1123,Phim nào có sự tham gia của cả Hồng Ánh và Hoàng Nhân?,C,C,C,True
+1124,Phim nào có sự tham gia của cả gái mại dâm và Nguyễn Văn Đây?,D,C,C,False
+1125,Phim nào có sự tham gia của cả Trung Dân và Quang Thắng?,D,B,B,False
+1126,Phim nào có sự tham gia của cả Hiếu Hiền và Thái Hòa (diễn viên)?,D,D,D,True
+1127,Phim nào có sự tham gia của cả Charlie Nguyễn và Dominic Pereira?,C,C,C,True
+1128,Đạo diễn của bộ phim 'Người Mỹ trầm lặng (phim 2002)' có sự tham gia của Mai Hoa (diễn viên) là ai?,D,D,D,True
+1129,Phim nào có sự tham gia của cả Tấn Beo và Hữu Nghĩa?,D,D,D,True
+1130,Đạo diễn của bộ phim 'Tiệc trăng máu' có sự tham gia của Kiều Minh Tuấn là ai?,A,A,A,True
+1131,Phim nào có sự tham gia của cả Nguyễn Tuyết Ngân và Võ Vĩnh Phúc?,A,A,A,True
+1132,Phim nào có sự tham gia của cả Phi Phụng và Kim Ngọc (nghệ sĩ)?,D,D,D,True
+1133,Đạo diễn của bộ phim 'Lời nguyền huyết ngải' có sự tham gia của Thành Lộc là ai?,D,D,D,True
+1134,Phim nào có sự tham gia của cả Trần Lực và Bùi Lan Hương?,A,A,A,True
+1135,Đạo diễn của bộ phim 'Gia sư nữ quái' có sự tham gia của Trấn Thành là ai?,A,A,A,True
+1136,Phim nào có sự tham gia của cả Đại Nghĩa (diễn viên) và Maya (ca sĩ)?,A,C,C,False
+1137,Phim nào có sự tham gia của cả Mai Hoa (diễn viên) và Minh Anh (diễn viên)?,B,A,A,False
+1138,Phim nào có sự tham gia của cả Tăng Bảo Quyên và Mai Sơn Lâm?,A,A,A,True
+1139,Phim nào có sự tham gia của cả Phi Phụng và Đại Nghĩa (diễn viên)?,A,D,D,False
+1140,Vợ/chồng của diễn viên đóng vai 'Hội' trong phim 'Để mai tính' là ai?,C,C,C,True
+1141,Phim nào có sự tham gia của cả Nguyễn Chánh Tín và Minh Đức (diễn viên)?,B,B,B,True
+1142,Phim nào có sự tham gia của cả Thái Hòa (diễn viên) và Vũ Thu Phương?,D,D,D,True
+1143,Phim nào có sự tham gia của cả Vũ Ngọc Đãng và Huy Cường?,B,B,B,True
+1144,Phim nào có sự tham gia của cả Bảo Liêm và Văn Chung (kịch sĩ)?,C,C,C,True
+1145,Đạo diễn của bộ phim 'Như một huyền thoại' có sự tham gia của Lê Minh Thu là ai?,C,D,D,False
+1146,Phim nào có sự tham gia của cả Phi Thanh Vân và Dustin Nguyễn?,B,B,B,True
+1147,Phim nào có sự tham gia của cả Ngô Kiến Huy và Miu Lê?,A,A,A,True
+1148,Phim nào có sự tham gia của cả Thanh Thủy (diễn viên) và Phạm Văn Mách?,B,B,B,True
+1149,Đạo diễn của bộ phim 'Nụ hôn thần chết (phim)' có sự tham gia của Thanh Hằng là ai?,B,B,B,True
+1150,Phim nào có sự tham gia của cả Lê Thiện (nghệ sĩ) và Hoàng Yến Chibi?,A,A,A,True
+1151,Phim nào có sự tham gia của cả Ngọc Diệp và Đinh Tiến Đạt?,B,B,B,True
+1152,Phim nào có sự tham gia của cả Mai Thế Hiệp và Thu Trang?,A,D,D,False
+1153,Phim nào có sự tham gia của cả Ngọc Giàu và Thanh Nam?,D,D,D,True
+1154,Đạo diễn của bộ phim 'Chị chị em em' có sự tham gia của Lãnh Thanh là ai?,B,B,B,True
+1155,Phim nào có sự tham gia của cả Trương Thế Vinh và Thành Nam (diễn viên)?,D,B,B,False
+1156,Phim nào có sự tham gia của cả Đế quốc thực dân Pháp và Stephane Gauger?,C,C,C,True
+1157,Phim nào có sự tham gia của cả Tấn Beo và Lê Huỳnh?,D,B,B,False
+1158,Phim nào có sự tham gia của cả Bảo Quốc và Khương Mễ?,A,C,C,False
+1159,Phim nào có sự tham gia của cả Thủy Tiên (ca sĩ) và Nguyễn Quang Dũng (đạo diễn)?,A,A,A,True
+1160,Phim nào có sự tham gia của cả Thành Lộc và Mai Thu Huyền?,C,C,C,True
+1161,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Robert Hải?,C,C,C,True
+1162,Phim nào có sự tham gia của cả Mỹ Duyên và Đức Khuê?,D,D,D,True
+1163,Phim nào có sự tham gia của cả Thanh Hằng và Như Cầm?,C,C,C,True
+1164,Phim nào có sự tham gia của cả Đan Trường và đỏ?,B,B,B,True
+1165,Phim nào có sự tham gia của cả Lê Công Tuấn Anh và Lê Tuấn Anh (diễn viên)?,C,A,A,False
+1166,Phim nào có sự tham gia của cả Kim Xuân và Lý Hải?,A,A,A,True
+1167,Đạo diễn của bộ phim 'Đèn âm hồn' có sự tham gia của Thu Hương là ai?,D,D,D,True
+1168,Phim nào có sự tham gia của cả Phi Phụng và Hari Won?,B,B,B,True
+1169,Phim nào có sự tham gia của cả Nhật Cường và Quốc Thuận?,D,D,D,True
+1170,Phim nào có sự tham gia của cả Đặng Văn Đức và Trần Nhật Vũ?,B,B,B,True
+1171,Đạo diễn của bộ phim 'Giao lộ định mệnh' có sự tham gia của Trần Bảo Sơn là ai?,A,A,A,True
+1172,Phim nào có sự tham gia của cả Phương Trinh Jolie và Petey Majik Nguyễn?,A,D,D,False
+1173,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Quốc Khánh (nghệ sĩ)?,B,B,B,True
+1174,Phim nào có sự tham gia của cả Lương Triều Vĩ và Ánh Hoa?,B,B,B,True
+1175,Vợ/chồng của diễn viên đóng vai 'Tú' trong phim 'Siêu lừa gặp siêu lầy' là ai?,B,B,B,True
+1176,Phim nào có sự tham gia của cả Chí Tài và Noo Phước Thịnh?,D,D,D,True
+1177,Phim nào có sự tham gia của cả Nguyễn Hậu và Đơn Dương (diễn viên)?,B,A,A,False
+1178,Vợ/chồng của diễn viên đóng vai 'Hạnh' trong phim 'Trăng nơi đáy giếng' là ai?,D,D,D,True
+1179,Đạo diễn của bộ phim 'Scandal: Bí mật thảm đỏ' có sự tham gia của Minh Thuận (ca sĩ) là ai?,D,D,D,True
+1180,Phim nào có sự tham gia của cả Minh Hằng và Hồng Nhung?,C,C,C,True
+1181,Vợ/chồng của diễn viên đóng vai 'đạo diễn quảng cáo' trong phim 'Những cô gái chân dài' là ai?,D,D,D,True
+1182,Phim nào có sự tham gia của cả Quốc Cường và Diệp Bảo Ngọc?,B,A,A,False
+1183,Phim nào có sự tham gia của cả Phi Phụng và Duy Khánh (diễn viên)?,B,B,B,True
+1184,Phim nào có sự tham gia của cả Bạch Tuyết (nghệ sĩ cải lương) và Phạm Thị Ngọc Trinh?,B,D,D,False
+1185,Phim nào có sự tham gia của cả Phương Trinh Jolie và Lương Thế Thành?,B,C,C,False
+1186,Phim nào có sự tham gia của cả Lê Tuấn Anh (diễn viên) và Trần Minh Tuấn (diễn viên)?,A,A,A,True
+1187,Phim nào có sự tham gia của cả Bảo Quốc và Bảo Chung?,C,C,C,True
+1188,Đạo diễn của bộ phim 'Cua lại vợ bầu' có sự tham gia của Hữu Châu là ai?,B,B,B,True
+1189,Phim nào có sự tham gia của cả Trung Dân và Thuận Hoàng?,C,C,C,True
+1190,Phim nào có sự tham gia của cả Tiết Cương và Đinh Y Nhung?,A,A,A,True
+1191,Phim nào có sự tham gia của cả Phương Trinh Jolie và Johnny Trí Nguyễn?,C,C,C,True
+1192,Vợ/chồng của diễn viên đóng vai 'Ca sĩ phòng trà' trong phim 'Người Mỹ trầm lặng (phim 2002)' là ai?,A,A,A,True
+1193,Vợ/chồng của đạo diễn bộ phim 'Chuyện tình xa xứ' (Victor Vũ) là ai?,D,D,D,True
+1194,Phim nào có sự tham gia của cả Lê Văn Lộc (diễn viên) và Bùi Hoàng Huy?,C,C,C,True
+1195,Đạo diễn của bộ phim 'Người lắng nghe: Lời thì thầm' có sự tham gia của Huy Khang là ai?,C,C,C,True
+1196,Phim nào có sự tham gia của cả Hữu Châu và Lê Giang (nghệ sĩ)?,C,C,C,True
+1197,Phim nào có sự tham gia của cả Phương Thanh và Quốc Thuận?,A,A,A,True
+1198,Phim nào có sự tham gia của cả Thanh Hiền và Tiết Cương?,C,C,C,True
+1199,Phim nào có sự tham gia của cả Khương Ngọc và Minh Thuận (ca sĩ)?,A,A,A,True
+1200,Đạo diễn của bộ phim 'Hồn papa da con gái' có sự tham gia của Jun Phạm là ai?,C,C,C,True
+1201,Phim nào có sự tham gia của cả Công Ninh và Trinh Hoan?,B,B,B,True
+1202,Phim nào có sự tham gia của cả Võ Thế Vỹ và Trương Thanh Nghi?,B,A,A,False
+1203,Đạo diễn của bộ phim 'Cu li không bao giờ khóc' có sự tham gia của Thương Tín (diễn viên) là ai?,D,D,D,True
+1204,Phim nào có sự tham gia của cả Đức Khuê và Đàm Phương Linh?,C,B,B,False
+1205,Phim nào có sự tham gia của cả Lê Thiện (nghệ sĩ) và Thanh Hằng?,A,D,D,False
+1206,Phim nào có sự tham gia của cả Hoài Linh và Thái Hòa (diễn viên)?,A,A,A,True
+1207,Phim nào có sự tham gia của cả Đông Nhi và Oanh Kiều?,D,D,D,True
+1208,Đạo diễn của bộ phim 'Mắt biếc (phim)' có sự tham gia của Thanh Hiền là ai?,C,C,C,True
+1209,Phim nào có sự tham gia của cả Lê Bình (diễn viên) và Huy Khánh?,D,C,C,False
+1210,Phim nào có sự tham gia của cả Trấn Thành và Kim Ngọc (nghệ sĩ)?,D,B,B,False
+1211,Vợ/chồng của diễn viên đóng vai 'bà Hồng' trong phim 'Trại hoa đỏ (phim)' là ai?,D,D,D,True
+1212,Phim nào có sự tham gia của cả Như Quỳnh (diễn viên) và Thanh Lam?,A,A,A,True
+1213,Đạo diễn của bộ phim 'Nụ hôn thần chết (phim)' có sự tham gia của Minh Đức (diễn viên) là ai?,A,A,A,True
+1214,Đạo diễn của bộ phim 'Xích lô (phim)' có sự tham gia của Trịnh Thịnh là ai?,A,A,A,True
+1215,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Lê Giang?,C,A,A,False
+1216,Phim nào có sự tham gia của cả Kathy Uyên và Diễn viên Chí Tâm?,C,B,B,False
+1217,Phim nào có sự tham gia của cả Bùi Thị Minh Đức và Mạnh Cường?,D,D,D,True
+1218,Phim nào có sự tham gia của cả Hoài Linh và Việt Anh (nghệ sĩ)?,D,B,B,False
+1219,Phim nào có sự tham gia của cả Phi Phụng và Xuân Lan?,B,B,B,True
+1220,Đạo diễn của bộ phim 'Tấm Cám: Chuyện chưa kể' có sự tham gia của Võ Ngọc Trai là ai?,D,D,D,True
+1221,Phim nào có sự tham gia của cả Nhật Cường và Tiến Luật?,A,A,A,True
+1222,Phim nào có sự tham gia của cả Phương Thanh và Đức Phúc?,D,B,B,False
+1223,Vợ/chồng của diễn viên đóng vai 'Lưu Huỳnh (Gã thầy bùa)' trong phim 'Thất sơn tâm linh' là ai?,C,C,C,True
+1224,Phim nào có sự tham gia của cả Hồng Nhung và Công Lý (diễn viên)?,B,B,B,True
+1225,Phim nào có sự tham gia của cả Johnny Trí Nguyễn và Trần Trung Lĩnh?,C,B,B,False
+1226,Phim nào có sự tham gia của cả Trung Dân và Ngọc Giàu?,A,A,A,True
+1227,Phim nào có sự tham gia của cả Kim Ngọc (nghệ sĩ) và Quyền Linh?,A,A,A,True
+1228,Phim nào có sự tham gia của cả Khương Lê và Hạnh Thúy?,D,C,C,False
+1229,Phim nào có sự tham gia của cả Tiết Cương và Phạm Trưởng?,A,B,B,False
+1230,Phim nào có sự tham gia của cả Nguyễn Văn Đây và Chu Hùng?,C,C,C,True
+1231,Phim nào có sự tham gia của cả Trịnh Thịnh và Chu Hùng?,B,B,B,True
+1232,Phim nào có sự tham gia của cả Chí Thiện (ca sĩ) và Lương Mạnh Hải?,B,B,B,True
+1233,Đạo diễn của bộ phim 'Xích lô (phim)' có sự tham gia của Trần Quốc Hùng là ai?,D,D,D,True
+1234,Đạo diễn của bộ phim 'Em chưa 18' có sự tham gia của Don Nguyễn là ai?,A,A,A,True
+1235,Đạo diễn của bộ phim 'Em là bà nội của anh' có sự tham gia của Kim Xuân là ai?,D,D,D,True
+1236,Phim nào có sự tham gia của cả Ngọc Giàu và Phương Thanh?,B,B,B,True
+1237,Phim nào có sự tham gia của cả Mạnh Cường và Phạm Văn Nhân (diễn viên)?,B,B,B,True
+1238,Đạo diễn của bộ phim 'Gái già lắm chiêu 3' có sự tham gia của Bình An (diễn viên) là ai?,D,D,D,True
+1239,Đạo diễn của bộ phim 'Cô thủ môn tội nghiệp' có sự tham gia của Lê Công Tuấn Anh là ai?,B,B,B,True
+1240,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Kiều Mai Lý?,C,C,C,True
+1241,Vợ/chồng của diễn viên đóng vai 'Nguyên Vũ' trong phim 'Thiên mệnh anh hùng' là ai?,A,A,A,True
+1242,Phim nào có sự tham gia của cả Thảo Trang và Nguyễn Hải Phong?,C,A,A,False
+1243,Phim nào có sự tham gia của cả Tân Trực và Công Huy?,C,B,B,False
+1244,Phim nào có sự tham gia của cả Ngô Vũ Quang Hải và Chu Hùng?,B,B,B,True
+1245,Phim nào có sự tham gia của cả Hiếu Hiền và Tommy Ngô?,D,B,B,False
+1246,Phim nào có sự tham gia của cả Hữu Châu và Thân Thúy Hà?,B,B,B,True
+1247,Phim nào có sự tham gia của cả Đông Nhi và Vũ Hà Anh?,B,B,B,True
+1248,Phim nào có sự tham gia của cả Vân Trang và Minh Thuận (ca sĩ)?,A,A,A,True
+1249,Phim nào có sự tham gia của cả Bá Phan Châu Toàn và Đặng Văn Đức?,A,A,A,True
+1250,Phim nào có sự tham gia của cả Phương Thanh và quần vợt?,B,B,B,True
+1251,Phim nào có sự tham gia của cả Tăng Bảo Quyên và Đại Nghĩa (diễn viên)?,C,C,C,True
+1252,Phim nào có sự tham gia của cả Quang Thắng và Petey Majik Nguyễn?,B,D,D,False
+1253,Đạo diễn của bộ phim 'Nụ hôn thần chết (phim)' có sự tham gia của Lê Bình (diễn viên) là ai?,D,D,D,True
+1254,Phim nào có sự tham gia của cả Hữu Châu và Đại Nghĩa (diễn viên)?,B,A,A,False
+1255,Đạo diễn của bộ phim 'Thất sơn tâm linh' có sự tham gia của Hoàng Yến Chibi là ai?,D,D,D,True
+1256,Thể loại của bộ phim 'Chỉ có thể là yêu (phim Việt Nam)' do Việt Anh (diễn viên) đóng là gì?,C,C,C,True
+1257,Phim nào có sự tham gia của cả Don Nguyễn và Phạm Quỳnh Anh?,D,A,A,False
+1258,Phim nào có sự tham gia của cả Tấn Beo và Thái Hòa (diễn viên)?,D,D,D,True
+1259,Phim nào có sự tham gia của cả Kim Xuân và Lê Thiện (nghệ sĩ)?,C,A,A,False
+1260,Phim nào có sự tham gia của cả Lý Hải và Đinh Y Nhung?,A,A,A,True
+1261,Phim nào có sự tham gia của cả Ngọc Diệp và Vân Trang?,D,D,D,True
+1262,Phim nào có sự tham gia của cả Vũ Ngọc Đãng và Thanh Hằng?,B,B,B,True
+1263,Phim nào có sự tham gia của cả Chu Hùng và Đặng Văn Đức?,B,B,B,True
+1264,Phim nào có sự tham gia của cả Taekwondo và Trung Anh?,B,C,C,False
+1265,Phim nào có sự tham gia của cả Đông Nhi và Diễm My?,C,B,B,False
+1266,Phim nào có sự tham gia của cả Thái Hòa (diễn viên) và Maryline Tâm Võ?,A,A,A,True
+1267,Phim nào có sự tham gia của cả Tuấn Trần và Lê Dương Bảo Lâm?,D,D,D,True
+1268,Phim nào có sự tham gia của cả Huang Kiem và Trần Văn Lợi?,B,B,B,True
+1269,Phim nào có sự tham gia của cả Võ Ngọc Trai và Hương Giang (diễn viên)?,A,D,D,False
+1270,Phim nào có sự tham gia của cả Đoàn Việt Hà và Bùi Thị Minh Đức?,A,A,A,True
+1271,Phim nào có sự tham gia của cả Khánh Huyền và Phạm Quỳnh Anh?,B,B,B,True
+1272,Đạo diễn của bộ phim 'Lật mặt 6: Tấm vé định mệnh' có sự tham gia của Thụy Mười là ai?,B,B,B,True
+1273,Phim nào có sự tham gia của cả Hồng Ánh và Đỗ Nguyễn Lan Hà?,C,C,C,True
+1274,Phim nào có sự tham gia của cả Mai Ngô và Kang Phạm?,D,D,D,True
+1275,Phim nào có sự tham gia của cả Hạnh Thúy và Lương Mạnh Hải?,A,A,A,True
+1276,Phim nào có sự tham gia của cả Nguyễn Hậu và Maryline Tâm Võ?,B,B,B,True
+1277,Phim nào có sự tham gia của cả Lâm Văn Quốc và Kang Phạm?,B,B,B,True
+1278,Vợ/chồng của diễn viên đóng vai 'Bà bán ốc' trong phim 'Hello cô Ba' là ai?,A,A,A,True
+1279,Phim nào có sự tham gia của cả Võ Thế Vỹ và Nguyễn Hữu Châu (quần chúng)?,C,C,C,True
+1280,Phim nào có sự tham gia của cả Lương Thế Thành và Tommy Ngô?,B,A,A,False
+1281,Phim nào có sự tham gia của cả Minh Thuận (ca sĩ) và gà?,D,C,C,False
+1282,Phim nào có sự tham gia của cả Ngọc Giàu và Võ Ngọc Trai?,D,B,B,False
+1283,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Việt Hương?,B,A,A,False
+1284,Phim nào có sự tham gia của cả Khánh Nam (diễn viên) và đỏ?,C,C,C,True
+1285,Phim nào có sự tham gia của cả Miu Lê và Harry Lu?,D,D,D,True
+1286,Đạo diễn của bộ phim 'Hot boy nổi loạn' có sự tham gia của Lương Mạnh Hải là ai?,A,A,A,True
+1287,Đạo diễn của bộ phim 'Mang mẹ đi bỏ' có sự tham gia của Lâm Vỹ Dạ là ai?,D,A,A,False
+1288,Phim nào có sự tham gia của cả Đinh Y Nhung và Quang Tuấn?,C,B,B,False
+1289,Phim nào có sự tham gia của cả Noo Phước Thịnh và Tấn Bo?,B,B,B,True
+1290,Phim nào có sự tham gia của cả Mai Thế Hiệp và Nguyễn Minh Trang?,C,B,B,False
+1291,Phim nào có sự tham gia của cả Hoàng Phúc (diễn viên) và Văn Tùng?,D,A,A,False
+1292,Phim nào có sự tham gia của cả Minh Luân và Cát Tường (diễn viên)?,B,B,B,True
+1293,Phim nào có sự tham gia của cả Hoàng Dũng và Huỳnh Kiến An?,A,B,B,False
+1294,Phim nào có sự tham gia của cả Mạc Can và Bá Phan Châu Toàn?,C,C,C,True
+1295,Đạo diễn của bộ phim 'Thần tượng (phim)' có sự tham gia của Quang Thắng là ai?,D,D,D,True
+1296,Phim nào có sự tham gia của cả Ngô Thanh Vân và Hữu Châu?,B,B,B,True
+1297,Phim nào có sự tham gia của cả Quốc Thuận và Hứa Minh Đạt?,B,B,B,True
+1298,Đạo diễn của bộ phim 'Nhà bà Nữ' có sự tham gia của Công Ninh là ai?,A,A,A,True
+1299,Phim nào có sự tham gia của cả Đỗ Thị Hải Yến và Công Lý (diễn viên)?,B,B,B,True
+1300,Phim nào có sự tham gia của cả Phi Nhung và Phạm Văn Mách?,D,A,A,False
+1301,Phim nào có sự tham gia của cả Nguyễn Văn Đây và Bá Phan Châu Toàn?,C,C,C,True
+1302,Phim nào có sự tham gia của cả Trung Dân và Thanh Vy?,D,C,C,False
+1303,Phim nào có sự tham gia của cả Tấn Beo và Minh Luân?,D,B,B,False
+1304,Đạo diễn của bộ phim 'Lật mặt' có sự tham gia của Kim Xuân là ai?,C,C,C,True
+1305,Phim nào có sự tham gia của cả Trấn Thành và Nguyễn Cao Kỳ Duyên (người mẫu)?,A,B,B,False
+1306,Đạo diễn của bộ phim 'Lạc giới' có sự tham gia của Bình An (diễn viên) là ai?,C,C,C,True
+1307,Phim nào có sự tham gia của cả Phi Phụng và Quốc Cường?,B,B,B,True
+1308,Phim nào có sự tham gia của cả Gia Khoan và Mạnh Cường?,D,D,D,True
+1309,Phim nào có sự tham gia của cả Phương Trinh Jolie và David Phạm?,D,D,D,True
+1310,Phim nào có sự tham gia của cả Ninh Dương Lan Ngọc và Khả Như?,C,C,C,True
+1311,Phim nào có sự tham gia của cả Johnny Trí Nguyễn và Thanh Hằng?,A,A,A,True
+1312,Phim nào có sự tham gia của cả Jun Phạm và Xuân Lan?,C,C,C,True
+1313,Phim nào có sự tham gia của cả Hiếu Hiền và Kiều Mai Lý?,D,D,D,True
+1314,Phim nào có sự tham gia của cả Lê Khanh và Anh Dũng (diễn viên)?,A,A,A,True
+1315,Phim nào có sự tham gia của cả Khả Như và Thuận Hoàng?,C,C,C,True
+1316,Phim nào có sự tham gia của cả Công Ninh và Chí Thiện (sinh năm 1988)?,C,C,C,True
+1317,Đạo diễn của bộ phim 'Mỹ nhân kế (phim)' có sự tham gia của Tăng Thanh Hà là ai?,A,A,A,True
+1318,Phim nào có sự tham gia của cả Mai Thế Hiệp và Nhung Kate (diễn viên)?,A,C,C,False
+1319,Phim nào có sự tham gia của cả Hồng Vân (diễn viên) và Nguyễn Chánh Tín?,B,B,B,True
+1320,Phim nào có sự tham gia của cả Jun Vũ và Khổng Tú Quỳnh?,C,C,C,True
+1321,Phim nào có sự tham gia của cả Vĩnh Thụy (diễn viên) và DJ?,A,D,D,False
+1322,Phim nào có sự tham gia của cả Chí Tài và Ba Luân?,C,D,D,False
+1323,Phim nào có sự tham gia của cả Don Nguyễn và Khánh Huyền?,A,C,C,False
+1324,Phim nào có sự tham gia của cả Trịnh Thịnh và Ánh Hoa?,B,B,B,True
+1325,Đạo diễn của bộ phim 'Người trở về' có sự tham gia của Tiến Lộc (diễn viên) là ai?,B,B,B,True
+1326,Vợ/chồng của diễn viên đóng vai 'mẹ của Thiên Kim' trong phim 'Bóng ma học đường' là ai?,C,A,A,False
+1327,Phim nào có sự tham gia của cả Phi Phụng và Yaya Trương Nhi?,B,A,A,False
+1328,Phim nào có sự tham gia của cả Công Huy và Long Ho?,A,D,D,False
+1329,Phim nào có sự tham gia của cả Võ Vĩnh Phúc và Bùi Thị Minh Đức?,D,D,D,True
+1330,Vợ/chồng của diễn viên đóng vai 'Đạo' trong phim 'Lửa Phật' là ai?,B,B,B,True
+1331,Phim nào có sự tham gia của cả Hoàng Phúc (diễn viên) và Việt Thắng (diễn viên)?,B,B,B,True
+1332,Vợ/chồng của diễn viên đóng vai 'Hường' trong phim 'Trúng số (phim 2015)' là ai?,A,A,A,True
+1333,Đạo diễn của bộ phim 'Chuyện của Pao' có sự tham gia của Hoa Thúy là ai?,D,D,D,True
+1334,Phim nào có sự tham gia của cả Nguyễn Chánh Tín và Huỳnh Anh Tuấn?,C,C,C,True
+1335,Đạo diễn của bộ phim 'Bộ tứ báo thủ' có sự tham gia của Nguyễn Cao Kỳ Duyên (người mẫu) là ai?,B,D,D,False
+1336,Phim nào có sự tham gia của cả Ái Phương và Hoài Lâm?,A,A,A,True
+1337,Phim nào có sự tham gia của cả Phương Trinh Jolie và Mai Thế Hiệp?,A,C,C,False
+1338,Phim nào có sự tham gia của cả Công Ninh và Ngân Quỳnh?,C,C,C,True
+1339,Phim nào có sự tham gia của cả Trấn Thành và Lê Giang (nghệ sĩ)?,D,D,D,True
+1340,Phim nào có sự tham gia của cả Ba Luân và Tân Trực?,B,B,B,True
+1341,Phim nào có sự tham gia của cả Tấn Beo và Mỹ Uyên?,B,C,C,False
+1342,Đạo diễn của bộ phim 'Lật mặt: 48h' có sự tham gia của Huỳnh Đông là ai?,C,C,C,True
+1343,Phim nào có sự tham gia của cả Hoài Linh và Hải Triều (diễn viên)?,A,A,A,True
+1344,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Khánh Nam (diễn viên)?,B,B,B,True
+1345,Phim nào có sự tham gia của cả Linh Trung (diễn viên) và Hải Triều (diễn viên)?,D,D,D,True
+1346,Phim nào có sự tham gia của cả Tấn Beo và Ngân Quỳnh?,A,D,D,False
+1347,Phim nào có sự tham gia của cả Ngô Kiến Huy và Thảo Trang?,C,C,C,True
+1348,Phim nào có sự tham gia của cả Ngân Khánh và Nam Thư?,B,D,D,False
+1349,Phim nào có sự tham gia của cả Hồng Ánh và Hoàng Phúc (diễn viên)?,D,D,D,True
+1350,Phim nào có sự tham gia của cả Ngọc Diệp và Kiều Mai Lý?,B,B,B,True
+1351,Phim nào có sự tham gia của cả Nguyễn Phi Hùng (ca sĩ) và Hồng Nga?,D,D,D,True
+1352,Phim nào có sự tham gia của cả Huy Khánh và Võ Thành Tâm?,D,D,D,True
+1353,Phim nào có sự tham gia của cả Thái Hòa (diễn viên) và Trương Thế Vinh?,D,D,D,True
+1354,Phim nào có sự tham gia của cả Elly Trần và Hiền Mai?,C,C,C,True
+1355,Phim nào có sự tham gia của cả Ngô Vũ Quang Hải và Bá Phan Châu Toàn?,A,A,A,True
+1356,Phim nào có sự tham gia của cả Thân Thúy Hà và Tiết Cương?,D,B,B,False
+1357,Phim nào có sự tham gia của cả David Phạm và Quang Sự?,A,C,C,False
+1358,Phim nào có sự tham gia của cả Bạch Long (nghệ sĩ cải lương và Tân Trực?,B,B,B,True
+1359,Phim nào có sự tham gia của cả Trần Lộc và Nguyễn Hữu Châu (quần chúng)?,C,C,C,True
+1360,Đạo diễn của bộ phim 'Hoán đổi thân xác' có sự tham gia của Long Đẹp Trai là ai?,B,D,D,False
+1361,Phim nào có sự tham gia của cả Quách Ngọc Tuyên và Thanh Thức?,D,D,D,True
+1362,Phim nào có sự tham gia của cả Thanh Lam và Lê Thái Ngọc Hoan?,D,D,D,True
+1363,Phim nào có sự tham gia của cả Hiếu Hiền và Văn Tùng?,B,A,A,False
+1364,"Vợ/chồng của diễn viên đóng vai 'Khôi' trong phim 'Hot boy nổi loạn và câu chuyện về thằng Cười, cô gái điếm và con vịt' là ai?",C,C,C,True
+1365,Phim nào có sự tham gia của cả Nguyễn Hải Phong và Uyên Linh?,B,B,B,True
+1366,Phim nào có sự tham gia của cả Lý Huỳnh và Thương Tín (diễn viên)?,B,C,C,False
+1367,Đạo diễn của bộ phim 'Cô dâu đại chiến 2' có sự tham gia của Khương Ngọc là ai?,C,C,C,True
+1368,Phim nào có sự tham gia của cả Hải Triều (diễn viên) và Chiến?,B,B,B,True
+1369,Phim nào có sự tham gia của cả Khổng Tú Quỳnh và Hồng Ánh?,B,B,B,True
+1370,Phim nào có sự tham gia của cả Trần Trung Lĩnh và Dominic Pereira?,A,A,A,True
+1371,Phim nào có sự tham gia của cả Trương Thế Vinh và Thiên Thủy (diễn viên)?,D,B,B,False
+1372,Phim nào có sự tham gia của cả Phi Phụng và Petey Majik Nguyễn?,C,C,C,True
+1373,Vợ/chồng của diễn viên đóng vai 'mẹ kế của Tuyết Anh' trong phim 'Tháng năm rực rỡ' là ai?,D,D,D,True
+1374,Phim nào có sự tham gia của cả Chiến và Cát Trắng?,D,D,D,True
+1375,Phim nào có sự tham gia của cả Hiếu Hiền và Hải Băng?,D,D,D,True
+1376,Phim nào có sự tham gia của cả Hoàng Hà (diễn viên) và Khánh Ly?,D,D,D,True
+1377,Phim nào có sự tham gia của cả Nguyễn Đình Thơ và Thanh Lam?,D,D,D,True
+1378,Phim nào có sự tham gia của cả Lê Thiện (nghệ sĩ) và Anh Thư?,C,D,D,False
+1379,Đạo diễn của bộ phim 'Những cô gái chân dài' có sự tham gia của Trương Thanh Long là ai?,D,D,D,True
+1380,Phim nào có sự tham gia của cả Đơn Dương (diễn viên) và Phương Thanh (diễn viên)?,A,D,D,False
+1381,Phim nào có sự tham gia của cả Tinna Tình và Quốc Huy (diễn viên)?,C,B,B,False
+1382,Phim nào có sự tham gia của cả Jun Phạm và Thành Lộc?,C,C,C,True
+1383,Phim nào có sự tham gia của cả Trung Dân và Thanh Nam?,A,C,C,False
+1384,Phim nào có sự tham gia của cả Kiều Oanh và Thu Tuyết?,C,C,C,True
+1385,Phim nào có sự tham gia của cả Lâm Vỹ Dạ và Minh Thảo?,B,B,B,True
+1386,Phim nào có sự tham gia của cả Phạm Ngọc Liễu và Trịnh Thịnh?,C,C,C,True
+1387,Phim nào có sự tham gia của cả Lê Thái Ngọc Hoan và Nguyễn Hữu Châu (quần chúng)?,A,A,A,True
+1388,Đạo diễn của bộ phim 'Để Mai tính 2' có sự tham gia của Thu Trang là ai?,C,C,C,True
+1389,Đạo diễn của bộ phim 'Xích lô (phim)' có sự tham gia của Lê Công Tuấn Anh là ai?,A,A,A,True
+1390,Phim nào có sự tham gia của cả Minh Thuận (ca sĩ) và Maya (ca sĩ)?,A,A,A,True
+1391,Đạo diễn của bộ phim 'Bóng ma học đường' có sự tham gia của Wanbi Tuấn Anh là ai?,C,C,C,True
+1392,Phim nào có sự tham gia của cả Lê Đình Huy và Thanh Lam?,D,D,D,True
+1393,Phim nào có sự tham gia của cả Hiếu Hiền và Khổng Tú Quỳnh?,D,D,D,True
+1394,Vợ/chồng của diễn viên đóng vai 'Bích' trong phim 'Long Ruồi' là ai?,D,D,D,True
+1395,Phim nào có sự tham gia của cả Trương Thế Vinh và Tân Trực?,A,A,A,True
+1396,Phim nào có sự tham gia của cả Mạnh Tràng và Tấn Bo?,D,D,D,True
+1397,Phim nào có sự tham gia của cả Nhan Phúc Vinh và Ngọc Hiệp (diễn viên)?,A,A,A,True
+1398,Phim nào có sự tham gia của cả Thu Trang và Nhật Cường?,D,D,D,True
+1399,Phim nào có sự tham gia của cả Ánh Hoa và Nguyễn Văn Tùng (diễn viên)?,A,A,A,True
+1400,Phim nào có sự tham gia của cả Lý Hùng và Thùy Lâm?,A,A,A,True
+1401,Phim nào có sự tham gia của cả Nam Thư và Thanh Thúy (sinh 1982)?,D,D,D,True
+1402,Phim nào có sự tham gia của cả Kathy Uyên và Bình Minh (người mẫu)?,B,B,B,True
+1403,Phim nào có sự tham gia của cả ếch và thác?,C,C,C,True
+1404,Vợ/chồng của diễn viên đóng vai 'Ý Linh' trong phim 'Scandal: Bí mật thảm đỏ' là ai?,A,A,A,True
+1405,Vợ/chồng của diễn viên đóng vai 'Giáo sư Thủy Linh' trong phim 'Bay vào cõi mộng' là ai?,A,C,C,False
+1406,Phim nào có sự tham gia của cả Thu Trang và Duy Khánh (diễn viên)?,A,B,B,False
+1407,Phim nào có sự tham gia của cả Vân Trang và Mai Ngô?,D,A,A,False
+1408,Đạo diễn của bộ phim 'Gái già lắm chiêu V: Những cuộc đời vương giả' có sự tham gia của Jun Vũ là ai?,A,A,A,True
+1409,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Diệu Nhi?,C,C,C,True
+1410,Phim nào có sự tham gia của cả Phạm Ngọc Liễu và Việt Thắng (diễn viên)?,D,D,D,True
+1411,Phim nào có sự tham gia của cả Thúy Nga (nghệ sĩ) và Kim Khánh (diễn viên)?,A,A,A,True
+1412,Phim nào có sự tham gia của cả Lê Văn Lộc (diễn viên) và Phạm Ngọc Liễu?,B,B,B,True
+1413,Phim nào có sự tham gia của cả Nguyễn Chánh Tín và Minh Thuận (ca sĩ)?,C,C,C,True
+1414,Phim nào có sự tham gia của cả Hồng Nhung và Michael Caine?,D,D,D,True
+1415,Phim nào có sự tham gia của cả Khả Như và Hoài Lâm?,B,B,B,True
+1416,Phim nào có sự tham gia của cả Dustin Nguyễn và Huỳnh Anh Tuấn?,D,D,D,True
+1417,Đạo diễn của bộ phim 'Hoán đổi thân xác' có sự tham gia của Linh Trung (diễn viên) là ai?,C,B,B,False
+1418,Phim nào có sự tham gia của cả Phi Thanh Vân và Minh Thuận (ca sĩ)?,D,D,D,True
+1419,Phim nào có sự tham gia của cả Kim Xuân và Nguyễn Quang Dũng?,C,A,A,False
+1420,Phim nào có sự tham gia của cả Hoài Linh và Lê Quốc Nam?,C,C,C,True
+1421,Vợ/chồng của đạo diễn bộ phim 'Mệnh lệnh hoa hồng' (Võ Thanh Hòa) là ai?,C,C,C,True
+1422,Phim nào có sự tham gia của cả Thành Nam (diễn viên) và Thành Tài?,D,D,D,True
+1423,Phim nào có sự tham gia của cả Hứa Vĩ Văn và Nguyễn Quang Dũng?,A,D,D,False
+1424,Phim nào có sự tham gia của cả Tấn Beo và Mạnh Tràng?,C,C,C,True
+1425,Phim nào có sự tham gia của cả Nhật Cường và Dung Nhon?,C,C,C,True
+1426,Phim nào có sự tham gia của cả Hoài Linh và Tuyết Thu?,A,A,A,True
+1427,Thể loại của bộ phim 'Về nhà đi con' do Trung Anh đóng là gì?,B,B,B,True
+1428,Phim nào có sự tham gia của cả Mai Trần và Long Đẹp Trai?,C,C,C,True
+1429,Phim nào có sự tham gia của cả Tấn Beo và Michael Jackson?,D,C,C,False
+1430,Phim nào có sự tham gia của cả Phạm Ngọc Liễu và Gia Khoan?,B,B,B,True
+1431,Đạo diễn của bộ phim 'Năm sau con lại về' có sự tham gia của Kiều Minh Tuấn là ai?,B,B,B,True
+1432,Phim nào có sự tham gia của cả Johnny Trí Nguyễn và Yaya Trương Nhi?,B,B,B,True
+1433,Phim nào có sự tham gia của cả Hoài Linh và Chí Thiện (ca sĩ)?,B,B,B,True
+1434,Phim nào có sự tham gia của cả Hoài Linh và Thành Lộc?,C,C,C,True
+1435,Phim nào có sự tham gia của cả Ngô Thanh Vân và Jun Phạm?,B,A,A,False
+1436,Phim nào có sự tham gia của cả Lương Triều Vĩ và Nguyễn Văn Tùng (diễn viên)?,B,B,B,True
+1437,Phim nào có sự tham gia của cả Yaya Trương Nhi và Trương Thế Vinh?,A,A,A,True
+1438,Phim nào có sự tham gia của cả Hữu Lộc và Hồng Tơ?,B,B,B,True
+1439,Phim nào có sự tham gia của cả Công Ninh và Minh Thuận (ca sĩ)?,C,D,D,False
+1440,Phim nào có sự tham gia của cả Tân Trực và Thanh Tâm (diễn viên)?,C,C,C,True
+1441,Phim nào có sự tham gia của cả Long Đẹp Trai và Công Huy?,D,D,D,True
+1442,Đạo diễn của bộ phim 'Đoạt hồn' có sự tham gia của Nguyễn Minh Trang là ai?,B,B,B,True
+1443,Phim nào có sự tham gia của cả Văn Tùng và Chi Pu?,D,D,D,True
+1444,Đạo diễn của bộ phim 'Hot boy nổi loạn' có sự tham gia của Hồ Vĩnh Khoa là ai?,D,D,D,True
+1445,Đạo diễn của bộ phim 'Chuyện tình xa xứ' có sự tham gia của Đinh Ngọc Diệp là ai?,B,B,B,True
+1446,Phim nào có sự tham gia của cả Phước Sang và Trương Ngọc Ánh?,A,A,A,True
+1447,Phim nào có sự tham gia của cả Hoài Linh và Minh Đức (diễn viên)?,B,B,B,True
+1448,Vợ/chồng của diễn viên đóng vai 'Hà My' trong phim 'Giải cứu thần chết' là ai?,D,C,C,False
+1449,Phim nào có sự tham gia của cả David Phạm và Văn Hiệp?,D,A,A,False
+1450,Phim nào có sự tham gia của cả Thụy Mười và Thanh Thức?,A,D,D,False
+1451,Phim nào có sự tham gia của cả Tấn Beo và Ngọc Diệp?,A,A,A,True
+1452,Phim nào có sự tham gia của cả Bích Ngọc và Phạm Thị Ngọc Trinh?,D,C,C,False
+1453,Đạo diễn của bộ phim 'Cô thủ môn tội nghiệp' có sự tham gia của Thanh Mai (MC) là ai?,D,D,D,True
+1454,Phim nào có sự tham gia của cả Ngọc Oanh và Thiên Thủy (diễn viên)?,D,D,D,True
+1455,Đạo diễn của bộ phim 'Đất rừng phương Nam (phim)' có sự tham gia của Trấn Thành là ai?,D,D,D,True
+1456,Phim nào có sự tham gia của cả Tuấn Trần và Băng Di?,D,D,D,True
+1457,Phim nào có sự tham gia của cả Mạc Can và Nguyễn Đình Thơ?,A,A,A,True
+1458,Phim nào có sự tham gia của cả Trần Minh Tuấn (diễn viên) và Bá Phan Châu Toàn?,A,A,A,True
+1459,Phim nào có sự tham gia của cả Trung Dân và Jun Phạm?,D,B,B,False
+1460,Phim nào có sự tham gia của cả Hải Triều (diễn viên) và Phi Điểu?,B,D,D,False
+1461,Phim nào có sự tham gia của cả Tấn Beo và Minh Đức (diễn viên)?,A,A,A,True
+1462,Đạo diễn của bộ phim 'Tình yêu dối lừa' có sự tham gia của Bích Ngọc là ai?,D,D,D,True
+1463,Phim nào có sự tham gia của cả Khánh Nam (diễn viên) và Da cam?,C,C,C,True
+1464,Phim nào có sự tham gia của cả Quốc Trường (diễn viên) và Thanh Bạch?,B,A,A,False
+1465,Thể loại của bộ phim 'Tiệm bánh Hoàng tử bé 2' do Hạnh Thúy đóng là gì?,D,D,D,True
+1466,Phim nào có sự tham gia của cả Huỳnh Anh Tuấn và Huy Khánh?,B,B,B,True
+1467,Phim nào có sự tham gia của cả Johnny Trí Nguyễn và Petey Majik Nguyễn?,B,B,B,True
+1468,Phim nào có sự tham gia của cả Bùi Văn Hải và Trần Trung Lĩnh?,D,A,A,False
+1469,Phim nào có sự tham gia của cả Ngọc Hiệp (diễn viên) và Nguyễn Minh Trang?,C,C,C,True
+1470,Phim nào có sự tham gia của cả Hiếu Hiền và 365daband?,C,C,C,True
+1471,Phim nào có sự tham gia của cả Phương Trinh Jolie và Yaya Trương Nhi?,B,B,B,True
+1472,Phim nào có sự tham gia của cả Thanh Lam và Nguyễn Hữu Châu (quần chúng)?,D,D,D,True
+1473,Vợ/chồng của diễn viên đóng vai 'Ba của Phương' trong phim 'Vật đổi sao dời' là ai?,C,C,C,True
+1474,Phim nào có sự tham gia của cả Linh Trung (diễn viên) và Tân Trực?,C,C,C,True
+1475,Phim nào có sự tham gia của cả Thanh Tâm (diễn viên) và Công Huy?,C,C,C,True
+1476,Phim nào có sự tham gia của cả Gia Khoan và Võ Thế Vỹ?,D,D,D,True
+1477,Phim nào có sự tham gia của cả Nguyễn Vĩnh Xương và Quốc Tuấn (diễn viên)?,A,D,D,False
+1478,Vợ/chồng của diễn viên đóng vai 'Bà Chủ' trong phim 'Xích lô (phim)' là ai?,C,B,B,False
+1479,Phim nào có sự tham gia của cả Lê Giang (nghệ sĩ) và Maya (ca sĩ)?,A,A,A,True
+1480,Phim nào có sự tham gia của cả Chi Bảo và Hữu Nghĩa?,D,D,D,True
+1481,Phim nào có sự tham gia của cả Hoàng Phúc (diễn viên) và Ngô Vũ Quang Hải?,B,B,B,True
+1482,Đạo diễn của bộ phim 'Lật mặt 7: Một điều ước' có sự tham gia của Văn Tùng là ai?,C,C,C,True
+1483,Phim nào có sự tham gia của cả Hồng Vân (diễn viên) và Khương Lê?,C,C,C,True
+1484,Đạo diễn của bộ phim 'Áo lụa Hà Đông (phim)' có sự tham gia của Tất Bình là ai?,A,A,A,True
+1485,Phim nào có sự tham gia của cả Ninh Dương Lan Ngọc và Lê Khanh?,D,D,D,True
+1486,Phim nào có sự tham gia của cả Võ Vĩnh Phúc và Trịnh Thịnh?,A,A,A,True
+1487,Phim nào có sự tham gia của cả Quý Bình và Hứa Minh Đạt?,C,C,C,True
+1488,Phim nào có sự tham gia của cả Trung Dân và Đoan Trang?,D,C,C,False
+1489,Phim nào có sự tham gia của cả Hiếu Hiền và Lynda Trang Đài?,C,C,C,True
+1490,Phim nào có sự tham gia của cả Đồng Ánh Quỳnh và Rima Thanh Vy?,D,B,B,False
+1491,Vợ/chồng của diễn viên đóng vai 'Công an' trong phim 'Giải cứu thần chết' là ai?,D,C,C,False
+1492,Phim nào có sự tham gia của cả Hồng Ánh và Rima Thanh Vy?,D,D,D,True
+1493,Phim nào có sự tham gia của cả Phương Trinh Jolie và Huỳnh Anh Tuấn?,B,B,B,True
+1494,Phim nào có sự tham gia của cả Trần Nghĩa (diễn viên) và Trúc Anh?,D,D,D,True
+1495,Phim nào có sự tham gia của cả Võ Thanh Hòa và Ngọc Phước?,D,D,D,True
+1496,Phim nào có sự tham gia của cả Tấn Beo và Việt Anh (nghệ sĩ)?,C,C,C,True
+1497,Phim nào có sự tham gia của cả Mai Thế Hiệp và Khánh Như?,C,A,A,False
+1498,Phim nào có sự tham gia của cả Văn Tùng và Anh Thư?,D,D,D,True
+1499,Phim nào có sự tham gia của cả Thanh Hiền và Lý Hải?,C,C,C,True
+1500,Phim nào có sự tham gia của cả Bạch Long (nghệ sĩ cải lương và Thành Nam (diễn viên)?,A,A,A,True
+1501,Phim nào có sự tham gia của cả Long Đẹp Trai và Bá Nhân?,D,D,D,True
+1502,Phim nào có sự tham gia của cả Tuấn Trần và Huỳnh Đông?,C,C,C,True
+1503,Phim nào có sự tham gia của cả Ngô Thanh Vân và Thành Lộc?,C,C,C,True
+1504,Phim nào có sự tham gia của cả Ngân Quỳnh và Phi Điểu?,C,A,A,False
+1505,Phim nào có sự tham gia của cả Hồng Ánh và Nguyễn Hải Phong?,D,D,D,True
+1506,Phim nào có sự tham gia của cả Anh Thư và Thanh Hằng?,B,B,B,True
+1507,Phim nào có sự tham gia của cả Như Quỳnh (diễn viên) và Bùi Hoàng Huy?,D,B,B,False
+1508,Phim nào có sự tham gia của cả Chí Thiện (ca sĩ) và Ngô Kiến Huy?,B,B,B,True
+1509,Phim nào có sự tham gia của cả Quang Tèo và Thu Hương?,A,A,A,True
+1510,Đạo diễn của bộ phim 'Hello cô Ba' có sự tham gia của Tấn Beo là ai?,B,B,B,True
+1511,Phim nào có sự tham gia của cả Ưng Hoàng Phúc và Việt Anh (nghệ sĩ)?,C,C,C,True
+1512,Phim nào có sự tham gia của cả Lê Đình Huy và Phạm Hải Trường?,B,B,B,True
+1513,Phim nào có sự tham gia của cả Minh Thuận (ca sĩ) và Nguyễn Thị Anh?,A,C,C,False
+1514,Vợ/chồng của diễn viên đóng vai 'Thanh Thủy' trong phim 'Gia sư nữ quái' là ai?,B,D,D,False
+1515,Phim nào có sự tham gia của cả Lê Hóa và Nguyễn Quang Dũng (đạo diễn)?,D,D,D,True
+1516,Phim nào có sự tham gia của cả Minh Đức (diễn viên) và Huỳnh Lập?,D,D,D,True
+1517,Phim nào có sự tham gia của cả Ngô Thanh Vân và Diễm My?,D,C,C,False
+1518,Phim nào có sự tham gia của cả Hari Won và Minh Đức (diễn viên)?,C,C,C,True
+1519,Phim nào có sự tham gia của cả Yaya Trương Nhi và Minh Luân?,D,D,D,True
+1520,Phim nào có sự tham gia của cả Bảo Quốc và Thương Tín (diễn viên)?,A,D,D,False
+1521,Đạo diễn của bộ phim 'Hai Cũ' có sự tham gia của Lý Huỳnh là ai?,D,C,C,False
+1522,Phim nào có sự tham gia của cả Phi Phụng và Chí Tâm?,B,B,B,True
+1523,Đạo diễn của bộ phim 'Cô Ba Sài Gòn' có sự tham gia của Diễm My 9x là ai?,D,D,D,True
+1524,Phim nào có sự tham gia của cả Thanh Thức và Phạm Trưởng?,D,D,D,True
+1525,Phim nào có sự tham gia của cả Lê Văn Lộc (diễn viên) và Phạm Hải Trường?,B,B,B,True
+1526,Phim nào có sự tham gia của cả Trần Lộc và Lê Thái Ngọc Hoan?,D,D,D,True
+1527,Phim nào có sự tham gia của cả Công Ninh và Vân Trang?,C,C,C,True
+1528,Vợ/chồng của diễn viên đóng vai 'Thắm' trong phim 'Tuyết nhiệt đới' là ai?,A,D,D,False
+1529,Phim nào có sự tham gia của cả Chí Tài và Tùng Linh?,C,C,C,True
+1530,Phim nào có sự tham gia của cả Hữu Lộc và Phương Thanh?,B,B,B,True
+1531,Phim nào có sự tham gia của cả Nhã Phương (diễn viên) và Văn Tùng?,B,B,B,True
+1532,Phim nào có sự tham gia của cả Hồng Vân (diễn viên) và Lê Bình (diễn viên)?,C,D,D,False
+1533,Vợ/chồng của diễn viên đóng vai 'ông Bá' trong phim 'Tía tui là cao thủ' là ai?,D,B,B,False
+1534,Phim nào có sự tham gia của cả Nguyễn Hậu và Bùi Văn Hải?,D,B,B,False
+1535,Phim nào có sự tham gia của cả Victor Vũ và Công Ninh?,A,D,D,False
+1536,Phim nào có sự tham gia của cả Thanh Hằng và Dương Yến Ngọc?,C,C,C,True
+1537,Phim nào có sự tham gia của cả Hữu Châu và Diễm My (diễn viên)?,A,C,C,False
+1538,Phim nào có sự tham gia của cả Trương Minh Quốc Thái và Phạm Thị Ngọc Trinh?,A,C,C,False
+1539,Đạo diễn của bộ phim 'Cột mốc 23' có sự tham gia của Thanh Vy là ai?,D,D,D,True
+1540,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Quân A.P?,B,B,B,True
+1541,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Mỹ Uyên?,C,C,C,True
+1542,Phim nào có sự tham gia của cả Khổng Tú Quỳnh và Kim Ngọc (nghệ sĩ)?,B,B,B,True
+1543,Phim nào có sự tham gia của cả Hiếu Hiền và Vân Trang?,D,D,D,True
+1544,Phim nào có sự tham gia của cả Diễm My và Võ Thành Tâm?,A,B,B,False
+1545,Phim nào có sự tham gia của cả Như Quỳnh (diễn viên) và Tống Bạch Thủy?,D,C,C,False
+1546,Phim nào có sự tham gia của cả Bình Minh (người mẫu) và Tú Trinh?,C,C,C,True
+1547,Phim nào có sự tham gia của cả Hương Giang (diễn viên) và Lê Hóa?,B,B,B,True
+1548,Vợ/chồng của diễn viên đóng vai 'Phương Vy' trong phim 'Người lắng nghe: Lời thì thầm' là ai?,C,C,C,True
+1549,Phim nào có sự tham gia của cả Hiếu Hiền và Ngọc Diệp?,D,D,D,True
+1550,Phim nào có sự tham gia của cả Lê Dương Bảo Lâm và Hồ Vĩnh Khoa?,B,B,B,True
+1551,Phim nào có sự tham gia của cả Mạc Can và Việt Hương?,B,B,B,True
+1552,Phim nào có sự tham gia của cả Mai Thế Hiệp và Nguyễn Quang Dũng?,C,D,D,False
+1553,Phim nào có sự tham gia của cả Khánh Như và Lê Khắc Minh?,A,A,A,True
+1554,Phim nào có sự tham gia của cả Nguyễn Chánh Tín và Hữu Nghĩa?,B,B,B,True
+1555,Phim nào có sự tham gia của cả Harry Lu và Chi Pu?,C,C,C,True
+1556,Phim nào có sự tham gia của cả Lều Phương Anh và Đàm Phương Linh?,B,C,C,False
+1557,Phim nào có sự tham gia của cả Khương Ngọc và Trương Thế Vinh?,D,C,C,False
+1558,Phim nào có sự tham gia của cả Nhã Phương (diễn viên) và Midu?,B,B,B,True
+1559,Đạo diễn của bộ phim 'Người Mỹ trầm lặng (phim 2002)' có sự tham gia của Ngô Quang Hải là ai?,A,A,A,True
+1560,Phim nào có sự tham gia của cả Vai diễn khách mời và Lan Hương (diễn viên sinh 1961)?,D,C,C,False
+1561,Phim nào có sự tham gia của cả Thụy Mười và Ốc Thanh Vân?,C,B,B,False
+1562,Phim nào có sự tham gia của cả Vũ Ngọc Đãng và Hiếu Hiền?,D,A,A,False
+1563,Đạo diễn của bộ phim 'Scandal: Bí mật thảm đỏ' có sự tham gia của Khương Ngọc là ai?,B,B,B,True
+1564,Phim nào có sự tham gia của cả Marilyn Monroe và Da cam?,B,C,C,False
+1565,Phim nào có sự tham gia của cả Hiếu Hiền và Tinna Tình?,B,B,B,True
+1566,Phim nào có sự tham gia của cả Phước Sang và Phi Phụng?,B,B,B,True
+1567,Phim nào có sự tham gia của cả Lê Khánh và Võ Thanh Hòa?,B,B,B,True
+1568,Đạo diễn của bộ phim 'Xích lô (phim)' có sự tham gia của Trần Văn Lợi là ai?,B,B,B,True
+1569,Phim nào có sự tham gia của cả Ngọc Oanh và Bé Vỹ?,A,D,D,False
+1570,Phim nào có sự tham gia của cả Jun Vũ và Mỹ Uyên?,C,C,C,True
+1571,Phim nào có sự tham gia của cả Chí Tài và Nam Thư?,D,D,D,True
+1572,Phim nào có sự tham gia của cả Thanh Nam và Thảo Trang?,C,C,C,True
+1573,Phim nào có sự tham gia của cả Mạnh Cường và Ánh Hoa?,D,D,D,True
+1574,Phim nào có sự tham gia của cả Công Ninh và Hứa Vĩ Văn?,C,A,A,False
+1575,Phim nào có sự tham gia của cả Leon Lê và Trương Thế Vinh?,B,B,B,True
+1576,Phim nào có sự tham gia của cả Anh Thư và Việt Hương?,B,B,B,True
+1577,Đạo diễn của bộ phim 'Lưới trời (phim 2020)' có sự tham gia của Trung Dũng (diễn viên) là ai?,D,D,D,True
+1578,Phim nào có sự tham gia của cả Yaya Trương Nhi và Mai Thế Hiệp?,A,C,C,False
+1579,Đạo diễn của bộ phim 'Võ lâm truyền kỳ (phim)' có sự tham gia của Tấn Beo là ai?,B,B,B,True
+1580,Phim nào có sự tham gia của cả Quách Ngọc Tuyên và Trung Dũng (diễn viên)?,A,D,D,False
+1581,Phim nào có sự tham gia của cả Đế quốc thực dân Pháp và Quốc Cường?,B,B,B,True
+1582,Phim nào có sự tham gia của cả Chiều Xuân và Ngọc Thư?,D,D,D,True
+1583,Phim nào có sự tham gia của cả Thanh Hằng và Thủy Tiên (ca sĩ)?,A,A,A,True
+1584,Phim nào có sự tham gia của cả Thành Lộc và Phương Thanh?,B,B,B,True
+1585,Phim nào có sự tham gia của cả Lê Văn Lộc (diễn viên) và Lương Triều Vĩ?,B,B,B,True
+1586,Phim nào có sự tham gia của cả Nguyễn Văn Tùng (diễn viên) và Phạm Văn Nhân (diễn viên)?,B,B,B,True
+1587,Phim nào có sự tham gia của cả Ngân Khánh và Quốc Thuận?,C,D,D,False
+1588,Phim nào có sự tham gia của cả Hồng Nga và Kim Khánh (diễn viên)?,C,C,C,True
+1589,Thể loại của bộ phim 'Những thiên thần áo trắng' do Miu Lê đóng là gì?,C,C,C,True
+1590,Phim nào có sự tham gia của cả Ngọc Giàu và Nhật Cường?,C,C,C,True
+1591,Phim nào có sự tham gia của cả Hoàng Hà (diễn viên) và Trần Lực?,D,D,D,True
+1592,Phim nào có sự tham gia của cả Hồng Vân (diễn viên) và Huỳnh Kiến An?,C,C,C,True
+1593,Phim nào có sự tham gia của cả Hồng Vân (diễn viên) và Tóc Tiên (ca sĩ)?,D,D,D,True
+1594,Phim nào có sự tham gia của cả Ngân Quỳnh và Mai Thế Hiệp?,A,A,A,True
+1595,Phim nào có sự tham gia của cả Bảo Quốc và Chi Bảo?,C,C,C,True
+1596,Phim nào có sự tham gia của cả Nguyễn Đình Thơ và Đặng Minh Châu (diễn viên)?,B,B,B,True
+1597,Phim nào có sự tham gia của cả Quý Bình và Thanh Nam?,D,D,D,True
+1598,Đạo diễn của bộ phim 'Công chúa teen và ngũ hổ tướng' có sự tham gia của Hoàng Sơn (diễn viên) là ai?,D,C,C,False
+1599,Phim nào có sự tham gia của cả Trung Dân và Ngân Quỳnh?,D,D,D,True
+1600,Phim nào có sự tham gia của cả Phương Anh Đào và Trần Tiểu Vy?,B,B,B,True
+1601,Phim nào có sự tham gia của cả Trấn Thành và Lan Phương?,D,C,C,False
+1602,Phim nào có sự tham gia của cả Miu Lê và Nam Thư?,B,B,B,True
+1603,Đạo diễn của bộ phim 'Mai (phim)' có sự tham gia của Ngọc Giàu là ai?,D,D,D,True
+1604,Phim nào có sự tham gia của cả Ngọc Quyên và Anh Thư?,D,D,D,True
+1605,Phim nào có sự tham gia của cả Hữu Châu và Trung Dân?,A,A,A,True
+1606,Phim nào có sự tham gia của cả Nhung Kate (diễn viên) và Suboi?,A,A,A,True
+1607,Phim nào có sự tham gia của cả Lê Tuấn Anh (diễn viên) và Chu Hùng?,C,A,A,False
+1608,Phim nào có sự tham gia của cả Phương Thanh và Trương Ngọc Ánh?,A,A,A,True
+1609,Phim nào có sự tham gia của cả gái mại dâm và David Minetti?,D,B,B,False
+1610,Đạo diễn của bộ phim 'Những cô gái chân dài' có sự tham gia của Minh Anh (diễn viên) là ai?,A,A,A,True
+1611,Phim nào có sự tham gia của cả Thanh Thảo (ca sĩ) và Da cam?,B,B,B,True
+1612,Phim nào có sự tham gia của cả Gia Khoan và Ánh Hoa?,C,C,C,True
+1613,Phim nào có sự tham gia của cả Marilyn Monroe và đỏ?,B,A,A,False
+1614,Phim nào có sự tham gia của cả Vân Sơn (nghệ sĩ hài) và Văn Chung (kịch sĩ)?,A,A,A,True
+1615,Phim nào có sự tham gia của cả Hoài Linh và đỏ?,C,C,C,True
+1616,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Hồng Tơ?,C,C,C,True
+1617,Phim nào có sự tham gia của cả Ngô Vũ Quang Hải và Nguyễn Hữu Châu (quần chúng)?,C,C,C,True
+1618,Phim nào có sự tham gia của cả Kim Ngọc (nghệ sĩ) và Nguyễn Chánh Tín?,D,D,D,True
+1619,Phim nào có sự tham gia của cả Chí Tài và Thành Nam (diễn viên)?,D,B,B,False
+1620,Vợ/chồng của diễn viên đóng vai 'Chín Cúc' trong phim 'Trúng số (phim 2015)' là ai?,C,A,A,False
+1621,Đạo diễn của bộ phim 'Tiệm bánh Hoàng tử bé 2' có sự tham gia của Đại Nghĩa (diễn viên) là ai?,A,A,A,True
+1622,Phim nào có sự tham gia của cả Trần Nữ Yên Khê và Trương Thanh Nghi?,A,A,A,True
+1623,Phim nào có sự tham gia của cả Chí Thiện (ca sĩ) và Việt Anh (nghệ sĩ)?,D,D,D,True
+1624,Phim nào có sự tham gia của cả Trương Ngọc Ánh và Tú Trinh?,C,C,C,True
+1625,Đạo diễn của bộ phim 'Nhà có 5 nàng tiên' có sự tham gia của Việt Hương là ai?,A,A,A,True
+1626,Thể loại của bộ phim 'Tuyết nhiệt đới' do Ngọc Quyên đóng là gì?,D,D,D,True
+1627,Đạo diễn của bộ phim 'Chàng trai năm ấy' có sự tham gia của Harry Lu là ai?,D,D,D,True
+1628,Phim nào có sự tham gia của cả Lâm Vỹ Dạ và Quốc Trường (diễn viên)?,D,A,A,False
+1629,Phim nào có sự tham gia của cả Như Quỳnh (diễn viên) và Phạm Văn Nhân (diễn viên)?,D,D,D,True
+1630,Đạo diễn của bộ phim 'Hoán đổi thân xác' có sự tham gia của Thanh Khang là ai?,A,A,A,True
+1631,Phim nào có sự tham gia của cả Nguyễn Văn Đây và Quốc Cường?,C,C,C,True
+1632,Phim nào có sự tham gia của cả Quang Khang và Thành Tài?,A,B,B,False
+1633,Phim nào có sự tham gia của cả Thanh Thủy (diễn viên) và Phi Nhung?,C,C,C,True
+1634,Phim nào có sự tham gia của cả Nguyễn Đình Thơ và Ánh Hoa?,B,B,B,True
+1635,Phim nào có sự tham gia của cả Lê Khánh và Trường Giang (nghệ sĩ)?,C,C,C,True
+1636,Phim nào có sự tham gia của cả Phạm Quỳnh Anh và Bùi Lan Hương?,C,C,C,True
+1637,Vợ/chồng của diễn viên đóng vai 'Tôn Nữ Thục Lan' trong phim 'Gái già lắm chiêu V' là ai?,B,D,D,False
+1638,Phim nào có sự tham gia của cả Phương Quỳnh và Phạm Thị Ngọc Trinh?,A,B,B,False
+1639,Phim nào có sự tham gia của cả Tuấn Trần và Bà Tân Vlog?,C,C,C,True
+1640,Phim nào có sự tham gia của cả Quốc Thuận và Quách Ngọc Tuyên?,B,D,D,False
+1641,Phim nào có sự tham gia của cả 365daband và Jun Phạm?,D,D,D,True
+1642,Đạo diễn của bộ phim 'Long thành cầm giả ca (phim)' có sự tham gia của Nhật Kim Anh là ai?,A,A,A,True
+1643,Đạo diễn của bộ phim 'Tuyết nhiệt đới' có sự tham gia của Anh Thư là ai?,B,B,B,True
+1644,Phim nào có sự tham gia của cả bác Ba Phi và Nguyễn Quang Dũng (đạo diễn)?,B,B,B,True
+1645,Phim nào có sự tham gia của cả Lê Bình (diễn viên) và Minh Đức (diễn viên)?,D,D,D,True
+1646,Phim nào có sự tham gia của cả Lê Công Tuấn Anh và Thanh Lam?,A,A,A,True
+1647,Phim nào có sự tham gia của cả Ngô Kiến Huy và Tuyết Thu?,B,B,B,True
+1648,Phim nào có sự tham gia của cả Mai Thế Hiệp và Kiều Trinh?,B,D,D,False
+1649,Phim nào có sự tham gia của cả Lương Triều Vĩ và Lê Thái Ngọc Hoan?,C,C,C,True
+1650,Phim nào có sự tham gia của cả Việt Hương và Nguyễn Phi Hùng (ca sĩ)?,C,C,C,True
+1651,Phim nào có sự tham gia của cả Tấn Bo và Mai Trần?,B,B,B,True
+1652,Phim nào có sự tham gia của cả Anh Tú (sinh 1993) và Võ Thanh Hòa?,B,B,B,True
+1653,Phim nào có sự tham gia của cả Trung Dân và Lê Khánh?,C,C,C,True
+1654,Phim nào có sự tham gia của cả Bảo Thy và Ngô Kiến Huy?,D,D,D,True
+1655,Phim nào có sự tham gia của cả Don Nguyễn và Huy Cường?,C,D,D,False
+1656,Đạo diễn của bộ phim 'Cưới ngay kẻo lỡ' có sự tham gia của Hồ Kiểng là ai?,D,D,D,True
+1657,Phim nào có sự tham gia của cả Lê Công Tuấn Anh và Trần Quốc Hùng?,D,A,A,False
+1658,Phim nào có sự tham gia của cả Go Kyung-pyo và Lâm Vỹ Dạ?,D,A,A,False
+1659,Vợ/chồng của diễn viên đóng vai 'Thái Tuyết Mai' trong phim 'Gái già lắm chiêu 3' là ai?,B,A,A,False
+1660,Đạo diễn của bộ phim 'Bay vào cõi mộng' có sự tham gia của Vĩnh Thuyên Kim là ai?,A,A,A,True
+1661,Đạo diễn của bộ phim 'Lạc giới' có sự tham gia của Thành Lộc là ai?,A,D,D,False
+1662,Vợ/chồng của diễn viên đóng vai 'mẹ của Ngọc' trong phim 'Những cô gái chân dài' là ai?,B,A,A,False
+1663,Phim nào có sự tham gia của cả Võ Ngọc Trai và Trinh Hoan?,D,D,D,True
+1664,Phim nào có sự tham gia của cả Phước Sang và Phương Trinh Jolie?,B,B,B,True
+1665,Phim nào có sự tham gia của cả Huy Khánh và Trung Dũng (diễn viên)?,D,D,D,True
+1666,Phim nào có sự tham gia của cả Lê Văn Lộc (diễn viên) và Nguyễn Đình Thơ?,C,C,C,True
+1667,Phim nào có sự tham gia của cả Khánh Huyền và Đức Khuê?,B,D,D,False
+1668,Đạo diễn của bộ phim 'Để mai tính' có sự tham gia của Thái Hòa (diễn viên) là ai?,C,C,C,True
+1669,Phim nào có sự tham gia của cả Mỹ Duyên và Thanh Quý?,A,D,D,False
+1670,Phim nào có sự tham gia của cả Lý Hải và Diệp Bảo Ngọc?,D,D,D,True
+1671,Phim nào có sự tham gia của cả Ngô Vũ Quang Hải và Trần Quốc Hùng?,C,C,C,True
+1672,Phim nào có sự tham gia của cả Ngọc Hiệp (diễn viên) và Lê Công Hoàng (diễn viên)?,C,D,D,False
+1673,Phim nào có sự tham gia của cả Nguyễn Chánh Tín và Hữu Lộc?,A,A,A,True
+1674,Phim nào có sự tham gia của cả Ngô Thanh Vân và Hồng Vân (diễn viên)?,A,A,A,True
+1675,Phim nào có sự tham gia của cả Ánh Hoa và Trần Minh Tuấn (diễn viên)?,D,D,D,True
+1676,Phim nào có sự tham gia của cả Midu và Mai Phương (diễn viên)?,C,C,C,True
+1677,Phim nào có sự tham gia của cả Ngô Kiến Huy và Mỹ Tâm?,D,D,D,True
+1678,Phim nào có sự tham gia của cả Tiết Cương và Lê Hạ Anh?,A,A,A,True
+1679,Phim nào có sự tham gia của cả Kaity Nguyễn và Phương Anh Đào?,D,D,D,True
+1680,Phim nào có sự tham gia của cả Phước Sang và Huỳnh Anh Tuấn?,D,D,D,True
+1681,Phim nào có sự tham gia của cả Mel Gibson và Chris Klein?,C,C,C,True
+1682,Phim nào có sự tham gia của cả Tăng Bảo Quyên và Trương Minh Quốc Thái?,D,B,B,False
+1683,Phim nào có sự tham gia của cả Tăng Nhật Tuệ và Nguyễn Thùy Dương?,B,B,B,True
+1684,Phim nào có sự tham gia của cả Phi Thanh Vân và Vân Trang?,D,D,D,True
+1685,Phim nào có sự tham gia của cả Nguyễn Chánh Tín và Kim Khánh (diễn viên)?,D,D,D,True
+1686,Đạo diễn của bộ phim 'Nhà có 5 nàng tiên' có sự tham gia của Cát Tường (diễn viên) là ai?,D,D,D,True
+1687,Phim nào có sự tham gia của cả Võ Ngọc Trai và Minh Đức (diễn viên)?,B,B,B,True
+1688,Phim nào có sự tham gia của cả Phạm Ngọc Liễu và Lê Tuấn Anh (diễn viên)?,C,A,A,False
+1689,Phim nào có sự tham gia của cả Vân Trang và Kim Hiền (diễn viên)?,D,D,D,True
+1690,Phim nào có sự tham gia của cả Kim Xuân và Trường Giang (nghệ sĩ)?,D,D,D,True
+1691,Phim nào có sự tham gia của cả Phi Phụng và Phi Nhung?,A,A,A,True
+1692,Phim nào có sự tham gia của cả Việt Thắng (diễn viên) và Trần Minh Tuấn (diễn viên)?,A,A,A,True
+1693,Phim nào có sự tham gia của cả Dustin Nguyễn và Trần Trung Lĩnh?,C,C,C,True
+1694,Phim nào có sự tham gia của cả Lê Quốc Nam và DJ?,B,D,D,False
+1695,Phim nào có sự tham gia của cả Hữu Châu và Tường Vi (diễn viên)?,D,D,D,True
+1696,Thể loại của bộ phim 'Ngũ quái Sài Gòn' do Quốc Huy (diễn viên) đóng là gì?,B,B,B,True
+1697,Phim nào có sự tham gia của cả Thụy Mười và Phạm Trưởng?,B,A,A,False
+1698,Phim nào có sự tham gia của cả Hồng Ánh và Văn Tùng?,D,A,A,False
+1699,Phim nào có sự tham gia của cả Võ Tấn Phát và Ngọc Thư?,A,D,D,False
+1700,Đạo diễn của bộ phim 'Nhà bà Nữ' có sự tham gia của Song Luân là ai?,D,D,D,True
+1701,Đạo diễn của bộ phim 'Gặp lại chị bầu' có sự tham gia của Anh Tú (sinh 1993) là ai?,D,D,D,True
+1702,Phim nào có sự tham gia của cả Nguyễn Văn Tùng (diễn viên) và Lê Anh Sơn?,C,C,C,True
+1703,Phim nào có sự tham gia của cả Tuấn Trần và Lan Phương?,B,B,B,True
+1704,Phim nào có sự tham gia của cả Hoàng Sơn (diễn viên) và Nguyễn Chánh Tín?,A,A,A,True
+1705,Phim nào có sự tham gia của cả Mạc Văn Khoa và Lý Hải?,A,A,A,True
+1706,Phim nào có sự tham gia của cả Angela Phương Trinh và Thanh Thúy (sinh 1982)?,A,A,A,True
+1707,Phim nào có sự tham gia của cả Mai Hoa (diễn viên) và Đỗ Thị Hải Yến?,A,A,A,True
+1708,Phim nào có sự tham gia của cả Mạc Can và ảo thuật?,B,C,C,False
+1709,Phim nào có sự tham gia của cả Trung Dân và Ngân Khánh?,A,A,A,True
+1710,Thể loại của bộ phim 'Lẵng hoa tình yêu' do Ngọc Giàu đóng là gì?,C,C,C,True
+1711,Phim nào có sự tham gia của cả Chiều Xuân và Hoàng Hà (diễn viên)?,A,A,A,True
+1712,Đạo diễn của bộ phim 'Lửa Phật' có sự tham gia của Xuân Phát là ai?,C,C,C,True
+1713,Đạo diễn của bộ phim 'Người lắng nghe: Lời thì thầm' có sự tham gia của Công Ninh là ai?,D,D,D,True
+1714,Phim nào có sự tham gia của cả Thái Hòa (diễn viên) và Huỳnh Anh Tuấn?,A,A,A,True
+1715,Phim nào có sự tham gia của cả Như Quỳnh (diễn viên) và Tiến Lộc (diễn viên)?,A,A,A,True
+1716,Phim nào có sự tham gia của cả Lê Văn Lộc (diễn viên) và Trịnh Thịnh?,D,D,D,True
+1717,Phim nào có sự tham gia của cả 365daband và Phạm Quỳnh Anh?,D,D,D,True
+1718,Phim nào có sự tham gia của cả Phạm Quỳnh Anh và Hoàng Hà (diễn viên)?,C,C,C,True
+1719,Đạo diễn của bộ phim 'Năm sau con lại về' có sự tham gia của Hứa Minh Đạt là ai?,A,A,A,True
+1720,Phim nào có sự tham gia của cả Lê Huỳnh và Tommy Ngô?,D,B,B,False
+1721,Phim nào có sự tham gia của cả Khả Như và Việt Hương?,D,D,D,True
+1722,Phim nào có sự tham gia của cả Thanh Nam và Trọng Hiếu?,A,A,A,True
+1723,Phim nào có sự tham gia của cả Phi Phụng và Thanh Nam?,A,A,A,True
+1724,Phim nào có sự tham gia của cả Huỳnh Anh Tuấn và Thanh Thủy (diễn viên)?,C,C,C,True
+1725,Phim nào có sự tham gia của cả Nguyễn Văn Đây và Ngô Vũ Quang Hải?,B,B,B,True
+1726,Phim nào có sự tham gia của cả Lê Bình (diễn viên) và Phương Thanh?,B,B,B,True
+1727,Đạo diễn của bộ phim 'Em là bà nội của anh' có sự tham gia của Duy Khánh (diễn viên) là ai?,C,C,C,True
+1728,Đạo diễn của bộ phim 'Hello cô Ba' có sự tham gia của Phạm Văn Mách là ai?,C,C,C,True
+1729,Phim nào có sự tham gia của cả Diệu Nhi và Lê Giang?,B,B,B,True
+1730,Phim nào có sự tham gia của cả Lê Hồng Quang (diễn viên) và Hoàng Lan (diễn viên)?,A,A,A,True
+1731,Phim nào có sự tham gia của cả Nguyễn Quang Dũng (đạo diễn) và DJ?,C,A,A,False
+1732,Phim nào có sự tham gia của cả Mạc Văn Khoa và Trung Dân?,C,C,C,True
+1733,Phim nào có sự tham gia của cả Bảo Quốc và đỏ?,D,B,B,False
+1734,Phim nào có sự tham gia của cả Lê Khánh và Hứa Minh Đạt?,C,C,C,True
+1735,Phim nào có sự tham gia của cả Nhã Phương (diễn viên) và Hoàng Bách?,B,B,B,True
+1736,Phim nào có sự tham gia của cả Tấn Beo và Cát Tường (diễn viên)?,D,D,D,True
+1737,Phim nào có sự tham gia của cả Maya (ca sĩ) và Dương Khắc Linh?,D,D,D,True
+1738,Phim nào có sự tham gia của cả Hoàng Sơn (diễn viên) và hủ tiếu?,D,D,D,True
+1739,Phim nào có sự tham gia của cả Isaac (ca sĩ) và Leon Lê?,B,B,B,True
+1740,Phim nào có sự tham gia của cả Xuân Lan và Minh Anh (diễn viên)?,D,D,D,True
+1741,Phim nào có sự tham gia của cả Mạnh Dung và Ốc Thanh Vân?,A,C,C,False
+1742,Phim nào có sự tham gia của cả Chris Klein và Ryan Hurst?,A,A,A,True
+1743,Đạo diễn của bộ phim 'Thiên mệnh anh hùng' có sự tham gia của Midu là ai?,D,D,D,True
+1744,Phim nào có sự tham gia của cả Văn Tùng và Hoàng Thùy Linh?,C,C,C,True
+1745,Phim nào có sự tham gia của cả Chí Tài và Hứa Minh Đạt?,B,B,B,True
+1746,Phim nào có sự tham gia của cả Hoàng Phúc (diễn viên) và Lê Đình Huy?,A,B,B,False
+1747,Vợ/chồng của diễn viên đóng vai 'bà Sim' trong phim 'Chuyện của Pao' là ai?,D,D,D,True
+1748,Phim nào có sự tham gia của cả Lý Hùng và Khương Mễ?,D,A,A,False
+1749,Phim nào có sự tham gia của cả Ngọc Giàu và Jun Phạm?,D,D,D,True
+1750,Phim nào có sự tham gia của cả Trung Dân và Minh Hằng?,D,D,D,True
+1751,Phim nào có sự tham gia của cả Hồng Vân (diễn viên) và Quốc Khánh (nghệ sĩ)?,D,D,D,True
+1752,Phim nào có sự tham gia của cả Thành Nam (diễn viên) và Cát Trắng?,B,A,A,False
+1753,Phim nào có sự tham gia của cả Greg Kinnear và Clark Gregg?,B,B,B,True
+1754,Đạo diễn của bộ phim 'Xích lô (phim)' có sự tham gia của Nguyễn Văn Tùng (diễn viên) là ai?,B,B,B,True
+1755,Phim nào có sự tham gia của cả Thanh Hằng và Nguyễn Quang Dũng (đạo diễn)?,A,A,A,True
+1756,Phim nào có sự tham gia của cả Anh Thư và Đức Khuê?,A,D,D,False
+1757,Phim nào có sự tham gia của cả Như Quỳnh (diễn viên) và Bùi Thị Minh Đức?,C,C,C,True
+1758,Thể loại của bộ phim 'Giấc mơ của mẹ' do Phi Thanh Vân đóng là gì?,B,B,B,True
+1759,Phim nào có sự tham gia của cả Hoàng Yến Chibi và Đinh Y Nhung?,A,A,A,True
+1760,Phim nào có sự tham gia của cả Đơn Dương (diễn viên) và Sam Elliott?,D,D,D,True
+1761,Phim nào có sự tham gia của cả Phạm Hải Trường và Lê Thái Ngọc Hoan?,D,D,D,True
+1762,Phim nào có sự tham gia của cả Linh Trung (diễn viên) và Ba Luân?,A,C,C,False
+1763,Phim nào có sự tham gia của cả Huy Khánh và Quốc Thuận?,A,C,C,False
+1764,Phim nào có sự tham gia của cả Nguyễn Văn Đây và Lê Anh Sơn?,A,A,A,True
+1765,Phim nào có sự tham gia của cả Lê Khánh và Vân Trang?,A,A,A,True
+1766,Phim nào có sự tham gia của cả Thương Tín (diễn viên) và Nguyễn Minh Trang?,D,A,A,False
+1767,Phim nào có sự tham gia của cả Thanh Lam và Phạm Hải Trường?,B,B,B,True
+1768,Phim nào có sự tham gia của cả Tiết Cương và Đỗ Thị Hải Yến?,D,D,D,True
+1769,Phim nào có sự tham gia của cả Hoàng Phúc (diễn viên) và Huang Kiem?,A,A,A,True
+1770,Phim nào có sự tham gia của cả Phi Phụng và Thanh Thủy (diễn viên)?,B,B,B,True
+1771,Phim nào có sự tham gia của cả Jsu Garcia và Clark Gregg?,C,C,C,True
+1772,Phim nào có sự tham gia của cả Lê Bình (diễn viên) và Thủy Tiên (ca sĩ)?,C,C,C,True
+1773,Phim nào có sự tham gia của cả Kathy Uyên và Mai Sơn Lâm?,B,B,B,True
+1774,Phim nào có sự tham gia của cả Hoài Linh và Cát Tường (diễn viên)?,A,A,A,True
+1775,"Đạo diễn của bộ phim 'Hot boy nổi loạn và câu chuyện về thằng Cười, cô gái điếm và con vịt' có sự tham gia của Don Nguyễn là ai?",A,A,A,True
+1776,Phim nào có sự tham gia của cả Chí Tài và Quốc Trường (diễn viên)?,B,B,B,True
+1777,Đạo diễn của bộ phim 'Cưới ngay kẻo lỡ' có sự tham gia của Johnny Trí Nguyễn là ai?,D,D,D,True
+1778,Phim nào có sự tham gia của cả Chí Tài và Thiên Thủy (diễn viên)?,D,D,D,True
+1779,Đạo diễn của bộ phim 'Vào Nam ra Bắc' có sự tham gia của Lê Hồng Quang (diễn viên) là ai?,D,D,D,True
+1780,Phim nào có sự tham gia của cả Hoàng Yến (diễn viên) và Tuấn Dương?,D,D,D,True
+1781,Phim nào có sự tham gia của cả Ngân Khánh và Võ Thanh Hòa?,C,C,C,True
+1782,Phim nào có sự tham gia của cả Chí Tài và Ngọc Oanh?,C,D,D,False
+1783,Phim nào có sự tham gia của cả Chí Tài và Hà Trí Quang?,B,B,B,True
+1784,Phim nào có sự tham gia của cả hủ tiếu và Kim Ngọc (nghệ sĩ)?,B,B,B,True
+1785,Phim nào có sự tham gia của cả Madeleine Stowe và Nguyễn Hữu An?,D,D,D,True
+1786,Phim nào có sự tham gia của cả Mạnh Cường và Trần Quốc Hùng?,A,A,A,True
+1787,Phim nào có sự tham gia của cả Chí Tài và Phi Điểu?,B,D,D,False
+1788,Phim nào có sự tham gia của cả Tăng Bảo Quyên và Đinh Đức Thiện?,D,D,D,True
+1789,Phim nào có sự tham gia của cả Yến Trang và Đông Nhi?,D,D,D,True
+1790,Phim nào có sự tham gia của cả Văn Tùng và Thanh Hiền?,A,B,B,False
+1791,Phim nào có sự tham gia của cả Ngô Vũ Quang Hải và Phạm Hải Trường?,C,C,C,True
+1792,Đạo diễn của bộ phim 'Ngôi nhà trong hẻm' có sự tham gia của Ngô Thanh Vân là ai?,C,C,C,True
+1793,Phim nào có sự tham gia của cả Yaya Trương Nhi và Khả Ngân?,B,C,C,False
+1794,Phim nào có sự tham gia của cả Hoàng Sơn (diễn viên) và Nam Thư?,B,A,A,False
+1795,Phim nào có sự tham gia của cả Khương Ngọc và Thanh Bùi?,D,D,D,True
+1796,Phim nào có sự tham gia của cả Linh Trung (diễn viên) và Thanh Khang?,C,D,D,False
+1797,Phim nào có sự tham gia của cả Bình An (diễn viên) và Mai Thu Huyền?,D,D,D,True
+1798,Thể loại của bộ phim 'Tiệm bánh Hoàng tử bé 2' do Nguyễn Thùy Dương đóng là gì?,D,D,D,True
+1799,Phim nào có sự tham gia của cả Trần Văn Lợi và Đặng Văn Đức?,B,B,B,True
+1800,Vợ/chồng của diễn viên đóng vai 'Sinh (mẹ Hà)' trong phim 'Chuyện tình trong ngõ hẹp' là ai?,C,A,A,False
+1801,Phim nào có sự tham gia của cả Trung Dân và Trần Ngọc Trà?,A,C,C,False
+1802,Phim nào có sự tham gia của cả Dustin Nguyễn và Nguyễn Văn Đây?,C,C,C,True
+1803,Vợ/chồng của diễn viên đóng vai 'Xiếm Hoa' trong phim 'Đảo của dân ngụ cư' là ai?,C,A,A,False
+1804,Phim nào có sự tham gia của cả Minh Đức (diễn viên) và Trinh Hoan?,D,B,B,False
+1805,Phim nào có sự tham gia của cả Bạch Long (nghệ sĩ cải lương và Công Huy?,C,D,D,False
+1806,Vợ/chồng của diễn viên đóng vai 'Tam' trong phim 'Tro tàn rực rỡ' là ai?,A,A,A,True
+1807,Phim nào có sự tham gia của cả Bảo Quốc và Kim Ngọc (nghệ sĩ)?,C,C,C,True
+1808,Phim nào có sự tham gia của cả Diệu Nhi và Bà Tân Vlog?,C,C,C,True
+1809,Vợ/chồng của diễn viên đóng vai 'Antoine' trong phim 'Để Mai tính' là ai?,B,C,C,False
+1810,Phim nào có sự tham gia của cả Quốc Huy (diễn viên) và File:LÊ PHƯƠNG 2023.jpg?,B,B,B,True
+1811,Vợ/chồng của đạo diễn bộ phim 'Quả tim máu' (Victor Vũ) là ai?,A,A,A,True
+1812,Phim nào có sự tham gia của cả Mai Hoa (diễn viên) và Như Quỳnh (diễn viên)?,D,C,C,False
+1813,Phim nào có sự tham gia của cả Taekwondo và Quang Thắng?,A,D,D,False
+1814,Đạo diễn của bộ phim 'Bố già (phim 2021)' có sự tham gia của Ngọc Giàu là ai?,B,B,B,True
+1815,Phim nào có sự tham gia của cả Hữu Châu và Hồng Nhung?,A,C,C,False
+1816,Phim nào có sự tham gia của cả Nguyễn Văn Đây và David Minetti?,B,B,B,True
+1817,Phim nào có sự tham gia của cả Đoàn Việt Hà và Đặng Minh Châu (diễn viên)?,D,D,D,True
+1818,Đạo diễn của bộ phim 'Long Ruồi' có sự tham gia của Hiếu Hiền là ai?,A,A,A,True
+1819,Phim nào có sự tham gia của cả Hoài Linh và Dung Nhon?,C,C,C,True
+1820,Phim nào có sự tham gia của cả Ngọc Diệp và Huy Khánh?,D,D,D,True
+1821,Phim nào có sự tham gia của cả Tùng Maru và Lê Khắc Minh?,A,A,A,True
+1822,Phim nào có sự tham gia của cả Trịnh Thịnh và Nguyễn Hữu Châu (quần chúng)?,A,A,A,True
+1823,Phim nào có sự tham gia của cả Khương Ngọc và Elly Trần?,D,D,D,True
+1824,Vợ/chồng của diễn viên đóng vai 'Hằng' trong phim 'Hàng xóm (phim)' là ai?,C,C,C,True
+1825,Vợ/chồng của diễn viên đóng vai 'Trung tá' trong phim 'Chúng tôi từng là lính' là ai?,C,A,A,False
+1826,Đạo diễn của bộ phim 'Hàng xóm (phim)' có sự tham gia của Nguyệt Hằng là ai?,B,A,A,False
+1827,Phim nào có sự tham gia của cả Phạm Ngọc Liễu và Trần Lộc?,C,C,C,True
+1828,Phim nào có sự tham gia của cả Thái Hòa (diễn viên) và Cát Phượng?,B,D,D,False
+1829,Phim nào có sự tham gia của cả Ngọc Giàu và Duy Khánh (diễn viên)?,B,C,C,False
+1830,Phim nào có sự tham gia của cả Tấn Bo và Chi Bảo?,D,D,D,True
+1831,Phim nào có sự tham gia của cả Kaity Nguyễn và Lê Khanh?,D,D,D,True
+1832,Phim nào có sự tham gia của cả Chu Hùng và Phạm Văn Nhân (diễn viên)?,C,C,C,True
+1833,Phim nào có sự tham gia của cả Ngô Kiến Huy và Việt Hương?,A,A,A,True
+1834,Phim nào có sự tham gia của cả Hoài Linh và Minh Béo?,D,D,D,True
+1835,Phim nào có sự tham gia của cả Khả Như và Uyển Ân?,A,A,A,True
+1836,Phim nào có sự tham gia của cả Trung Dân và Hari Won?,C,C,C,True
+1837,Phim nào có sự tham gia của cả Phi Phụng và Chiến?,B,D,D,False
+1838,Phim nào có sự tham gia của cả Mai Thế Hiệp và Phương Quỳnh?,D,D,D,True
+1839,Phim nào có sự tham gia của cả Dung Nhon và Chiến?,B,B,B,True
+1840,Phim nào có sự tham gia của cả Hiếu Hiền và Dustin Nguyễn?,C,C,C,True
+1841,Phim nào có sự tham gia của cả Don Nguyễn và Phương Thanh?,A,A,A,True
+1842,Phim nào có sự tham gia của cả Lê Hạ Anh và Công Dương?,A,A,A,True
+1843,Phim nào có sự tham gia của cả Tuấn Trần và Ngân Chi?,D,D,D,True
+1844,Phim nào có sự tham gia của cả Huy Khánh và Tiết Cương?,A,B,B,False
+1845,Phim nào có sự tham gia của cả Trung Dân và Vân Trang?,D,D,D,True
+1846,Phim nào có sự tham gia của cả Ninh Dương Lan Ngọc và Ngọc Giàu?,B,C,C,False
+1847,Đạo diễn của bộ phim 'Long Ruồi' có sự tham gia của Khương Ngọc là ai?,D,D,D,True
+1848,Phim nào có sự tham gia của cả Lý Hải và Thanh Thức?,B,B,B,True
+1849,Phim nào có sự tham gia của cả Hứa Vĩ Văn và 365daband?,A,A,A,True
+1850,Phim nào có sự tham gia của cả Nguyễn Phi Hùng (ca sĩ) và gà?,B,B,B,True
+1851,Phim nào có sự tham gia của cả Mai Thế Hiệp và Lê Bình (diễn viên)?,D,D,D,True
+1852,Phim nào có sự tham gia của cả Ngân Quỳnh và Vĩnh Thuyên Kim?,D,D,D,True
+1853,Đạo diễn của bộ phim 'Cô dâu đại chiến 2' có sự tham gia của Bình Minh (người mẫu) là ai?,B,B,B,True
+1854,"Vợ/chồng của diễn viên đóng vai 'ông Tài' trong phim 'Taxi, em tên gì?' là ai?",A,A,A,True
+1855,Phim nào có sự tham gia của cả Ngân Quỳnh và Hứa Vĩ Văn?,B,A,A,False
+1856,Phim nào có sự tham gia của cả Ba Luân và Thành Tài?,A,A,A,True
+1857,Phim nào có sự tham gia của cả Dustin Nguyễn và Petey Majik Nguyễn?,C,C,C,True
+1858,Phim nào có sự tham gia của cả Jun Vũ và Bình An (diễn viên)?,D,D,D,True
+1859,Phim nào có sự tham gia của cả Mạc Văn Khoa và Khánh Hiền?,C,B,B,False
+1860,Đạo diễn của bộ phim 'Lật mặt 7: Một điều ước' có sự tham gia của Thanh Thức là ai?,C,C,C,True
+1861,Đạo diễn của bộ phim 'Lật mặt 6: Tấm vé định mệnh' có sự tham gia của Thanh Thức là ai?,C,C,C,True
+1862,Phim nào có sự tham gia của cả Hứa Vĩ Văn và Huỳnh Lập?,B,B,B,True
+1863,Phim nào có sự tham gia của cả Phi Thanh Vân và Hồng Vân (diễn viên)?,C,C,C,True
+1864,Phim nào có sự tham gia của cả Hồng Ánh và Mỹ Uyên?,D,D,D,True
+1865,Đạo diễn của bộ phim 'Xích lô (phim)' có sự tham gia của Đặng Minh Châu (diễn viên) là ai?,D,D,D,True
+1866,Phim nào có sự tham gia của cả Công Ninh và Lý Hồng Ân?,A,C,C,False
+1867,Phim nào có sự tham gia của cả Kiều Oanh và Hải Băng?,B,B,B,True
+1868,Đạo diễn của bộ phim 'Gái già lắm chiêu V: Những cuộc đời vương giả' có sự tham gia của Lê Khanh là ai?,A,A,A,True
+1869,Phim nào có sự tham gia của cả Phi Phụng và Ngân Quỳnh?,A,A,A,True
+1870,Phim nào có sự tham gia của cả Kathy Uyên và Vân Trang?,A,A,A,True
+1871,Phim nào có sự tham gia của cả Tấn Beo và Kiều Oanh?,A,A,A,True
+1872,Phim nào có sự tham gia của cả Bình Minh (người mẫu) và Trương Thế Vinh?,D,B,B,False
+1873,Phim nào có sự tham gia của cả Ninh Dương Lan Ngọc và Ngọc Diệp?,B,C,C,False
+1874,Phim nào có sự tham gia của cả Thành Lộc và Trinh Hoan?,C,C,C,True
+1875,Vợ/chồng của diễn viên đóng vai 'Tuyết' trong phim 'Những thiên thần áo trắng' là ai?,C,B,B,False
+1876,Đạo diễn của bộ phim 'Gái già lắm chiêu V' có sự tham gia của Huỳnh Kiến An là ai?,A,A,A,True
+1877,Phim nào có sự tham gia của cả Chí Thiện (ca sĩ) và Đông Nhi?,B,B,B,True
+1878,Phim nào có sự tham gia của cả Hồng Ánh và Thanh Nam?,A,A,A,True
+1879,Phim nào có sự tham gia của cả Đoàn Việt Hà và Bùi Hoàng Huy?,C,C,C,True
+1880,Đạo diễn của bộ phim 'Tiệm bánh Hoàng tử bé 2' có sự tham gia của Nguyễn Thùy Dương là ai?,D,D,D,True
+1881,Phim nào có sự tham gia của cả Nhật Cường và Thành Nam (diễn viên)?,D,D,D,True
+1882,Đạo diễn của bộ phim 'Em là bà nội của anh' có sự tham gia của Thanh Nam là ai?,C,C,C,True
+1883,Phim nào có sự tham gia của cả Long Đẹp Trai và Linh Trung (diễn viên)?,C,D,D,False
+1884,Phim nào có sự tham gia của cả Trương Thanh Nghi và Trần Văn Lợi?,A,A,A,True
+1885,Phim nào có sự tham gia của cả Trương Ngọc Ánh và Hữu Nghĩa?,B,B,B,True
+1886,Phim nào có sự tham gia của cả Chí Tài và Ngô Kiến Huy?,B,B,B,True
+1887,Phim nào có sự tham gia của cả Ngọc Giàu và 365daband?,A,A,A,True
+1888,Phim nào có sự tham gia của cả Công Ninh và Quang Sự?,A,A,A,True
+1889,Phim nào có sự tham gia của cả Dustin Nguyễn và Kim Xuân?,D,D,D,True
+1890,Phim nào có sự tham gia của cả Hiếu Hiền và Don Nguyễn?,D,D,D,True
+1891,Phim nào có sự tham gia của cả Phan Thanh Nhiên và Lê Bình (diễn viên)?,D,D,D,True
+1892,Phim nào có sự tham gia của cả Lý Hải và Kiến An (diễn viên)?,C,C,C,True
+1893,Phim nào có sự tham gia của cả Bình An (diễn viên) và Trung Dũng (diễn viên)?,C,C,C,True
+1894,Phim nào có sự tham gia của cả Nguyễn Hậu và Quốc Cường?,C,C,C,True
+1895,Phim nào có sự tham gia của cả Hoàng Sơn (diễn viên) và Tuyết Thu?,D,C,C,False
+1896,Đạo diễn của bộ phim 'Sài Gòn Yo!' có sự tham gia của Kim Xuân là ai?,A,A,A,True
+1897,Phim nào có sự tham gia của cả Tiết Cương và Thanh Thức?,A,A,A,True
+1898,Phim nào có sự tham gia của cả Yến Trang và Phước Sang?,B,B,B,True
+1899,Vợ/chồng của diễn viên đóng vai 'Hoa' trong phim 'Sài Gòn Yo!' là ai?,A,C,C,False
+1900,Phim nào có sự tham gia của cả Việt Thắng (diễn viên) và Trần Văn Lợi?,A,A,A,True
+1901,Phim nào có sự tham gia của cả Hiếu Hiền và Trịnh Kim Chi?,D,B,B,False
+1902,Phim nào có sự tham gia của cả Mạc Văn Khoa và Hari Won?,D,D,D,True
+1903,Phim nào có sự tham gia của cả Anh Tú (sinh 1993) và Mạc Văn Khoa?,A,A,A,True
+1904,Phim nào có sự tham gia của cả Ngô Thanh Vân và Việt Anh (nghệ sĩ)?,A,A,A,True
+1905,Phim nào có sự tham gia của cả Lê Giang (nghệ sĩ) và Nguyễn Minh Tú?,B,A,A,False
+1906,Đạo diễn của bộ phim 'Em là bà nội của anh' có sự tham gia của Hồng Ánh là ai?,A,A,A,True
+1907,Phim nào có sự tham gia của cả Khương Lê và TyhD Thùy Dương?,A,A,A,True
+1908,Phim nào có sự tham gia của cả Việt Hương và Cát Tường (diễn viên)?,B,B,B,True
+1909,Đạo diễn của bộ phim 'Oan hồn (phim 2004)' có sự tham gia của Kathy Uyên là ai?,C,C,C,True
+1910,Đạo diễn của bộ phim 'Cu li không bao giờ khóc' có sự tham gia của Quốc Tuấn (diễn viên) là ai?,D,D,D,True
+1911,Phim nào có sự tham gia của cả Ngọc Giàu và Phương Anh Đào?,A,A,A,True
+1912,Phim nào có sự tham gia của cả Ngô Kiến Huy và Ngân Quỳnh?,A,A,A,True
+1913,Vợ/chồng của diễn viên đóng vai 'Ngô Đồng' trong phim 'Đẹp từng centimet' là ai?,A,A,A,True
+1914,Phim nào có sự tham gia của cả Phi Thanh Vân và Jayvee Mai Thế Hiệp?,C,B,B,False
+1915,Đạo diễn của bộ phim 'Nụ hôn thần chết' có sự tham gia của Trinh Hoan là ai?,C,C,C,True
+1916,Phim nào có sự tham gia của cả Võ Ngọc Trai và Trọng Hiếu?,D,D,D,True
+1917,Phim nào có sự tham gia của cả Trung Dân và Trường Giang (nghệ sĩ)?,B,B,B,True
+1918,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Phi Thanh Vân?,B,A,A,False
+1919,Phim nào có sự tham gia của cả Huỳnh Anh Tuấn và Hữu Lộc?,C,C,C,True
+1920,Phim nào có sự tham gia của cả Nguyễn Chánh Tín và Phương Thanh?,D,D,D,True
+1921,Phim nào có sự tham gia của cả Huy Khánh và Vân Trang?,B,B,B,True
+1922,Phim nào có sự tham gia của cả Yến Trang và Ưng Hoàng Phúc?,D,C,C,False
+1923,Phim nào có sự tham gia của cả Phạm Hải Trường và Bá Phan Châu Toàn?,C,C,C,True
+1924,Đạo diễn của bộ phim 'Chuyện ma gần nhà' có sự tham gia của Vân Trang là ai?,C,C,C,True
+1925,Phim nào có sự tham gia của cả Kiều Mai Lý và Phương Thanh?,D,C,C,False
+1926,Phim nào có sự tham gia của cả Trương Minh Quốc Thái và Nguyễn Gia Linh?,C,A,A,False
+1927,Phim nào có sự tham gia của cả Ngọc Giàu và Cát Phượng?,B,A,A,False
+1928,Phim nào có sự tham gia của cả Kim Xuân và Trọng Hiếu?,D,D,D,True
+1929,Phim nào có sự tham gia của cả Huy Cường và Lương Mạnh Hải?,B,B,B,True
+1930,Phim nào có sự tham gia của cả Huỳnh Đông và Nguyễn Quang Dũng (đạo diễn)?,C,D,D,False
+1931,Phim nào có sự tham gia của cả Võ Thành Tâm và Tiết Cương?,B,B,B,True
+1932,Phim nào có sự tham gia của cả Trương Thanh Nghi và Lê Anh Sơn?,D,A,A,False
+1933,Đạo diễn của bộ phim 'Chàng trai năm ấy' có sự tham gia của Quang Thắng là ai?,B,B,B,True
+1934,Phim nào có sự tham gia của cả Thái Hòa (diễn viên) và Thân Thúy Hà?,D,D,D,True
+1935,Phim nào có sự tham gia của cả Tóc Tiên (ca sĩ) và Rima Thanh Vy?,D,B,B,False
+1936,Phim nào có sự tham gia của cả Victor Vũ và Trúc Anh?,B,B,B,True
+1937,Phim nào có sự tham gia của cả Phạm Ngọc Liễu và Trần Nhật Vũ?,A,A,A,True
+1938,Phim nào có sự tham gia của cả Mạnh Cường và Bá Phan Châu Toàn?,B,B,B,True
+1939,Phim nào có sự tham gia của cả Stephane Gauger và Quốc Cường?,D,D,D,True
+1940,"Vợ/chồng của diễn viên đóng vai 'chú xe ôm' trong phim 'Sài Gòn, anh yêu em' là ai?",B,B,B,True
+1941,Phim nào có sự tham gia của cả Minh Đức (diễn viên) và Đàm Phương Linh?,B,B,B,True
+1942,Phim nào có sự tham gia của cả Khương Lê và Anh Dũng (diễn viên)?,A,A,A,True
+1943,Phim nào có sự tham gia của cả Tấn Beo và Anh Vũ (nghệ sĩ)?,C,C,C,True
+1944,Phim nào có sự tham gia của cả Dương Yến Ngọc và Ngọc Nga?,C,C,C,True
+1945,Phim nào có sự tham gia của cả Trung Dân và Nguyễn Quang Dũng?,C,C,C,True
+1946,Phim nào có sự tham gia của cả Phương Thanh và Minh Luân?,B,B,B,True
+1947,Phim nào có sự tham gia của cả Elly Trần và Tim (ca sĩ)?,B,B,B,True
+1948,Phim nào có sự tham gia của cả Tuấn Trần và Nguyễn Minh Tú?,C,C,C,True
+1949,Vợ/chồng của diễn viên đóng vai 'Bình' trong phim 'Hồn papa da con gái' là ai?,B,D,D,False
+1950,Phim nào có sự tham gia của cả Vũ Ngọc Đãng và Thủy Tiên (ca sĩ)?,C,D,D,False
+1951,Phim nào có sự tham gia của cả Lê Công Tuấn Anh và Mạnh Cường?,D,D,D,True
+1952,Phim nào có sự tham gia của cả Ninh Dương Lan Ngọc và Isaac (ca sĩ)?,C,C,C,True
+1953,Đạo diễn của bộ phim 'Năm sau con lại về' có sự tham gia của Quý Bình là ai?,D,D,D,True
+1954,Phim nào có sự tham gia của cả Bùi Hoàng Huy và Thanh Lam?,A,A,A,True
+1955,Phim nào có sự tham gia của cả Hữu Châu và Hồng Vân (diễn viên)?,C,B,B,False
+1956,Phim nào có sự tham gia của cả Don Nguyễn và Châu Bùi?,C,C,C,True
+1957,Phim nào có sự tham gia của cả Ngô Kiến Huy và Đức Phúc?,D,D,D,True
+1958,Phim nào có sự tham gia của cả Lương Triều Vĩ và Võ Vĩnh Phúc?,A,A,A,True
+1959,Phim nào có sự tham gia của cả Tinna Tình và Phi Thanh Vân?,C,B,B,False
+1960,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Minh Béo?,A,B,B,False
+1961,Phim nào có sự tham gia của cả Quang Minh - Hồng Đào và Huy Khánh?,B,C,C,False
+1962,Phim nào có sự tham gia của cả Phú Đôn và Chiều Xuân?,C,C,C,True
+1963,Đạo diễn của bộ phim 'Đảo của dân ngụ cư' có sự tham gia của Nhan Phúc Vinh là ai?,A,A,A,True
+1964,Vợ/chồng của đạo diễn bộ phim 'Mai (phim)' (Trấn Thành) là ai?,C,C,C,True
+1965,Phim nào có sự tham gia của cả Hữu Châu và Ngọc Diệp?,D,B,B,False
+1966,Đạo diễn của bộ phim 'Tiệm bánh Hoàng tử bé' có sự tham gia của Hạnh Thúy là ai?,B,B,B,True
+1967,Vợ/chồng của diễn viên đóng vai 'Mẹ Dương' trong phim 'Tro tàn rực rỡ' là ai?,D,A,A,False
+1968,Phim nào có sự tham gia của cả Tấn Bo và Việt Hương?,A,A,A,True
+1969,Phim nào có sự tham gia của cả Ngọc Nga và Thanh Thúy (diễn viên sinh 1982)?,A,A,A,True
+1970,Phim nào có sự tham gia của cả Jun Vũ và Lê Khanh?,D,D,D,True
+1971,Vợ/chồng của diễn viên đóng vai 'Long' trong phim 'Vật đổi sao dời' là ai?,A,A,A,True
+1972,Phim nào có sự tham gia của cả Tấn Beo và Tấn Bo?,B,B,B,True
+1973,Phim nào có sự tham gia của cả Midu và Thanh Hoàng (nghệ sĩ)?,C,A,A,False
+1974,Phim nào có sự tham gia của cả Thu Trang và Thảo Trang?,C,A,A,False
+1975,Đạo diễn của bộ phim 'Gái già lắm chiêu V: Những cuộc đời vương giả' có sự tham gia của Hoàng Dũng là ai?,A,A,A,True
+1976,Đạo diễn của bộ phim 'Tử chiến trên không' có sự tham gia của Thái Hòa (diễn viên) là ai?,D,D,D,True
+1977,Phim nào có sự tham gia của cả Johnny Trí Nguyễn và DJ?,C,C,C,True
+1978,Phim nào có sự tham gia của cả Huỳnh Đông và Quách Ngọc Tuyên?,C,C,C,True
+1979,Phim nào có sự tham gia của cả Trịnh Thịnh và Nguyễn Văn Tùng (diễn viên)?,C,C,C,True
+1980,Vợ/chồng của đạo diễn bộ phim 'Bố già (phim 2021)' (Trấn Thành) là ai?,D,D,D,True
+1981,Đạo diễn của bộ phim 'Để Mai tính 2' có sự tham gia của Phương Trinh Jolie là ai?,C,C,C,True
+1982,Phim nào có sự tham gia của cả Dustin Nguyễn và Dominic Pereira?,C,C,C,True
+1983,Phim nào có sự tham gia của cả Tấn Beo và Hồng Tơ?,A,A,A,True
+1984,Phim nào có sự tham gia của cả Quốc Huy (diễn viên) và Nhật Kim Anh?,D,C,C,False
+1985,Đạo diễn của bộ phim 'Em là bà nội của anh' có sự tham gia của Trọng Hiếu là ai?,D,D,D,True
+1986,Phim nào có sự tham gia của cả Võ Vĩnh Phúc và Võ Thế Vỹ?,A,A,A,True
+1987,Đạo diễn của bộ phim 'Chuyện tình xa xứ' có sự tham gia của Huy Khánh là ai?,D,D,D,True
+1988,Phim nào có sự tham gia của cả Hoài Linh và Trinh Hoan?,B,B,B,True
+1989,Đạo diễn của bộ phim 'Khi đàn ông có bầu' có sự tham gia của Bảo Chung là ai?,A,D,D,False
+1990,Phim nào có sự tham gia của cả Huỳnh Đông và Thu Trang?,A,C,C,False
+1991,Phim nào có sự tham gia của cả Xuân Lan và Tiểu Bảo Quốc?,A,C,C,False
+1992,Đạo diễn của bộ phim 'Thất sơn tâm linh' có sự tham gia của Tấn Thi là ai?,A,C,C,False
+1993,Phim nào có sự tham gia của cả Chi Pu và Lãnh Thanh?,D,D,D,True
+1994,Phim nào có sự tham gia của cả Tiết Cương và Diệp Bảo Ngọc?,B,B,B,True
+1995,Phim nào có sự tham gia của cả Đơn Dương (diễn viên) và Nguyễn Hữu An?,B,B,B,True
+1996,Phim nào có sự tham gia của cả Việt Anh (nghệ sĩ) và Trọng Hải?,A,C,C,False
+1997,Phim nào có sự tham gia của cả Lê Văn Lộc (diễn viên) và Bá Phan Châu Toàn?,D,D,D,True
+1998,Đạo diễn của bộ phim 'Để Mai tính 2' có sự tham gia của Huy Khánh là ai?,C,C,C,True
+1999,Phim nào có sự tham gia của cả Thái Hòa (diễn viên) và Thanh Bùi?,A,A,A,True
+2000,Phim nào có sự tham gia của cả Đơn Dương (diễn viên) và Khương Mễ?,C,D,D,False

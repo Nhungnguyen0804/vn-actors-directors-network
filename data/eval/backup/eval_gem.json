@@ -1,0 +1,7 @@
+{
+  "model": "gemini",
+  "accuracy": 0.746,
+  "avg_latency_per_batch": 103.72627477645874,
+  "total_questions": 2000,
+  "total_batches": 20
+}
