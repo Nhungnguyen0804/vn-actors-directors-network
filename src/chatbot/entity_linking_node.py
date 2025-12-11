@@ -3,7 +3,7 @@ import unicodedata
 import re
 from underthesea import pos_tag, word_tokenize
 
-from chatbot.extract_entities_from_question import extract_entities, normalize_text
+from src.chatbot.extract_entities_from_question import extract_entities, normalize_text
 
 # ==================== CONSTANTS ====================
 
@@ -257,7 +257,7 @@ def fuzzy_match_entity(entity_name, graph, question="", threshold=70, debug=Fals
     if not graph or not entity_name:
         return []
     
-    # ✅ BƯỚC 1: DETECT EXPECTED TYPE FROM CONTEXT
+    #  BƯỚC 1: DETECT EXPECTED TYPE FROM CONTEXT
     if question:
         expected_types = detect_entity_type_from_context(entity_name, question)
     else:

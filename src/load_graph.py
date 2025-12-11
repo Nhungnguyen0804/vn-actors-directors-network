@@ -1,51 +1,101 @@
-import json
-from networkx.readwrite import json_graph
+from neo4j import GraphDatabase
 import networkx as nx
-def _load_graph_from_file(path):
+
+# Cấu hình kết nối Neo4j
+URI = "neo4j+s://0538a688.databases.neo4j.io"
+AUTH = ("neo4j", "askC5IvfBm2QXlzpKKn6gb9CEGxdouOCdTTKMhI6Si4")  # Thay password của bạn vào đây
+
+def load_graph_from_neo4j():
     """
-    Thử load theo vài định dạng JSON khác nhau để tránh KeyError: 'links'
-    - ưu tiên node-link format (nodes + links)
-    - nếu thất bại thử adjacency format
-    - nếu vẫn thất bại, thử chuyển 'edges' -> 'links' rồi dùng node-link
-    - (fallback) nếu là danh sách cạnh, xây dựng đồ thị từ danh sách cạnh (yêu cầu nx đã được import ở các cell khác)
+    Kết nối tới Neo4j, lấy toàn bộ Nodes và Relationships
+    để dựng thành một NetworkX Graph.
     """
-    with open(path, 'r', encoding='utf-8') as f:
-        data = json.load(f)
+    driver = GraphDatabase.driver(URI, auth=AUTH)
+    G = nx.MultiGraph() # Hoặc nx.DiGraph() nếu cần đồ thị có hướng
 
-    # Try node-link format (expects 'nodes' and 'links')
-    try:
-        return json_graph.node_link_graph(data)
-    except KeyError:
-        # Try adjacency format
-        try:
-            return json_graph.adjacency_graph(data)
-        except Exception:
-            # If the file used 'edges' key instead of 'links', convert it
-            if isinstance(data, dict) and 'edges' in data:
-                data2 = dict(data)
-                data2['links'] = data2.pop('edges')
-                return json_graph.node_link_graph(data2)
-            # If the JSON is a plain list, assume it's an edge list
-            if isinstance(data, list):
-                try:
-                    # Use nx from other cells (do not import networkx here to avoid duplicate imports)
-                    G = nx.Graph()
-                    G.add_edges_from(data)
-                    return G
-                except NameError:
-                    # nx not defined; re-raise a clear error
-                    raise RuntimeError("networkx (nx) is not available in the notebook namespace for fallback edge-list loading.")
-            # If none matched, re-raise the original issue
-            raise
+    print(" Đang load dữ liệu từ Neo4j...")
 
+    with driver.session() as session:
+        # ==================== 1. LOAD NODES ====================
+        # Lấy ID, Labels và Properties của tất cả các node
+        query_nodes = """
+        MATCH (n)
+        RETURN elementId(n) AS id, labels(n) AS labels, properties(n) AS props
+        """
+        result_nodes = session.run(query_nodes)
+        
+        count_nodes = 0
+        for record in result_nodes:
+            node_id = record["id"]
+            labels = record["labels"]
+            props = record["props"]
+            
+            # --- BẮT ĐẦU SỬA ĐỔI ---
+            
+            node_type = 'unknown'
+            
+            # Ưu tiên 1: Kiểm tra LABEL (Chuẩn Neo4j)
+            # Chuyển hết về chữ thường để so sánh cho dễ
+            labels_lower = [l.lower() for l in labels]
+            
+            if 'film' in labels_lower or 'movie' in labels_lower:
+                node_type = 'film'
+            elif 'person' in labels_lower or 'actor' in labels_lower or 'director' in labels_lower:
+                node_type = 'person'
+            
+            # Ưu tiên 2: Nếu Label không có, kiểm tra PROPERTY (Dữ liệu import từ CSV hay bị dính cái này)
+            if node_type == 'unknown':
+                # Lấy thuộc tính 'type' hoặc 'Type' trong properties
+                raw_type_prop = props.get('type', '').lower()
+                
+                if raw_type_prop in ['film', 'movie']:
+                    node_type = 'film'
+                elif raw_type_prop in ['person', 'actor', 'director']:
+                    node_type = 'person'
 
-def load_graphs():
-    """Hàm tiện ích để đọc lại đồ thị từ file JSON"""
-    # Đọc collaboration graph (về thứ tự để trả về G_actor_collab trước)
-    G_collab_loaded = _load_graph_from_file('data/vn_film_collaboration_graph.json')
+            # --- KẾT THÚC SỬA ĐỔI ---
+
+            # 2. Chuẩn bị thuộc tính cho Node
+            node_attrs = props.copy()
+            node_attrs['type'] = node_type # Ghi đè type chuẩn hóa vào
+            
+            # Xử lý tên hiển thị (như code cũ của bạn)
+            display_name = props.get('info_name') or props.get('title') or props.get('full_name') or str(node_id)
+            node_attrs['name'] = display_name
+
+            G.add_node(node_id, **node_attrs)
+            count_nodes += 1
+        # ==================== 2. LOAD RELATIONSHIPS (Optional) ====================
+        # Nếu việc Linking chỉ cần tên Node thì bước này không bắt buộc, 
+        # nhưng nếu chatbot cần suy luận (Graph Traversal) thì CẦN.
+        query_rels = """
+        MATCH (a)-[r]->(b)
+// Thêm 'HAS_SAME_SCHOOL' vào danh sách
+WHERE type(r) IN ['ACTED_IN', 'DIRECTED', 'COLLABORATED', 'HAS_SAME_SCHOOL', 'HAS_SAME_LOCATION'] 
+RETURN elementId(a) AS source, elementId(b) AS target, type(r) AS rel_type, properties(r) AS props
     
-    # Đọc bipartite graph
-    G_bipartite_loaded = _load_graph_from_file('data/vn_bipartite_graph.json')
-    
-    print("Đã load lại đồ thị từ JSON thành công!")
-    return G_collab_loaded, G_bipartite_loaded
+        """
+        result_rels = session.run(query_rels)
+        
+        count_rels = 0
+        for record in result_rels:
+            source = record["source"]
+            target = record["target"]
+            rel_type = record["rel_type"]
+            props = record["props"]
+            
+            if G.has_node(source) and G.has_node(target):
+                G.add_edge(source, target, type=rel_type, **props)
+                count_rels += 1
+
+    driver.close()
+    print(f" Đã load xong: {count_nodes} nodes, {count_rels} edges.")
+    return G
+
+if __name__ == "__main__":
+    G = load_graph_from_neo4j()
+    # Ví dụ: In thông tin một số node
+   
+    # in ra cac kieu canh quan he trong do thi
+    edge_types = set(data['type'] for u, v, data in G.edges(data=True))
+    print("Edge types in the graph:", edge_types)

@@ -4,7 +4,7 @@ import networkx as nx
 print(nx.__version__)
 from networkx.readwrite import json_graph
 
-from src.constant import G_COLLAB_JSON, BIPARTITE_JSON
+from constant import G_COLLAB_JSON, BIPARTITE_JSON
 '''
 load đồ thị 2 phía để lấy list film list actor
 
