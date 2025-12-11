@@ -4,11 +4,28 @@ import json
 import csv
 import math
 import logging
-from typing import List, Dict, Tuple
-from collections import Counter, defaultdict
-import random
 
-# Configure logging
+from networkx.readwrite import json_graph
+import networkx as nx
+from pathlib import Path
+import sys
+from typing import List, Dict, Tuple
+from collections import defaultdict
+from src.chatbot.extract_entities_from_question import extract_entities
+from src.chatbot.graph_query import route_multihop_query 
+
+
+try:
+    from load_graph import load_graphs
+except ImportError:
+    try:
+        from ..load_graph import load_graphs
+    except ImportError:
+        def load_graphs():
+            return nx.Graph(), nx.Graph()
+# Load graphs
+G_actor_collab, G_bipartite = load_graphs()
+    
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -18,36 +35,85 @@ logging.basicConfig(
     ]
 )
 
-# ================================
-# 1) MODEL WRAPPERS
-# ================================
-def call_graphrag(prompt: str) -> str:
-    """
-    TODO: Implement actual GraphRAG call
-    Hiện tại đang mock / placeholder, cần thay thế bằng API thực
-    Example:
-      response = requests.post("http://your-graphrag-api/query", json={"prompt": prompt})
-      return response.json()["answer"]
-    """
-    raise NotImplementedError("GraphRAG implementation needed!")
+# Helper: Determine intent from question (rule-based; expand as needed)
+def determine_intent(question: str) -> str:
+    question_lower = question.lower()
+    if 'other actors in' in question_lower or 'diễn viên khác trong' in question_lower:
+        return 'actor_via_movie'
+    elif 'other movies of' in question_lower or 'phim khác của' in question_lower:
+        return 'movie_via_actor'
+    elif 'collaborators of' in question_lower or 'hợp tác với' in question_lower:
+        return 'actor_via_collaboration'
+    elif 'bridge actors between' in question_lower or 'cầu nối giữa' in question_lower:
+        return 'indirect_collaboration'
+    elif 'movies with actors from' in question_lower or 'phim chung với' in question_lower:
+        return 'movie_chain'
+    elif 'spouse' in question_lower or 'vợ/chồng' in question_lower:
+        return 'spouse'
+    elif 'common movies' in question_lower or 'phim chung' in question_lower:
+        return 'common_movies'
+    # Add more for basic queries (e.g., 'movies by actor' -> 'movies_by_actor')
+    return 'unknown'
 
-# ================================
-# 2) ANSWER NORMALIZATION
-# ================================
+
+def call_graphrag(prompt: str) -> str:
+    # Parse prompt into questions (assume format from format_batch_prompt)
+    question_parts = re.split(r'Question \d+:', prompt)[1:]  # Split by "Question X:"
+    answers = []
+    
+    for part in question_parts:
+        lines = part.strip().split('\n')
+        question = lines[0].strip()  # E.g., "Did Trấn Thành act in Bố Già?"
+        
+        is_mcq = 'Options:' in part
+        options = []
+        if is_mcq:
+            opts_start = part.index('Options:') + len('Options:\n')
+            opts_end = part.index('Answer: (A/B/C/D only)')
+            options = [line.strip() for line in part[opts_start:opts_end].split('\n') if line.strip()]
+        
+        # Extract entities and intent
+        entities_dict = extract_entities(question)
+        intent = determine_intent(question)
+        
+        # Query graph
+        if intent == 'unknown':
+            answer = ""  # Or default
+        else:
+            result = route_multihop_query(intent, G_bipartite, G_actor_collab, entities_dict, question, debug=False)
+            if result['status'] == 'success':
+                data = result['data']  # List of names/movies
+                
+                if is_mcq:
+                    # Map to A/B/C/D: Check which option matches data (e.g., count or exact match)
+                    for idx, opt in enumerate(options):
+                        choice = chr(65 + idx)  # A, B, C, D
+                        opt_text = opt.split('.')[1].strip() if '.' in opt else opt
+                        if opt_text in data or len(data) == int(opt_text) if opt_text.isdigit() else False:  # Customize matching
+                            answer = choice
+                            break
+                    else:
+                        answer = ""
+                else:  # T/F
+                    answer = "True" if data else "False"  # E.g., if result non-empty -> True
+            else:
+                answer = ""
+        
+        answers.append(answer)
+    
+    # Format as "1. A\n2. True\n..."
+    formatted = "\n".join(f"{i+1}. {ans}" for i, ans in enumerate(answers))
+    return formatted
+
 def normalize_answer(output: str, is_mcq: bool) -> Tuple[str, bool]:
-    """
-    Returns: (normalized_answer, parse_success)
-    """
     text = output.strip().upper()
    
     if is_mcq:
-        # Tìm tất cả A/B/C/D, lấy cái cuối cùng
         matches = re.findall(r'\b([A-D])\b', text)
         if matches:
             return matches[-1], True
         return "", False
     else:
-        # Mở rộng cho True/False, thêm synonym
         match = re.search(r'\b(TRUE|FALSE|YES|NO|T|F)\b', text)
         if match:
             ans = match.group(1)
@@ -55,10 +121,6 @@ def normalize_answer(output: str, is_mcq: bool) -> Tuple[str, bool]:
             normalized = mapping.get(ans, ans).capitalize()
             return normalized, True
         return "", False
-
-# ================================
-# 3) BATCH PROMPTING
-# ================================
 def format_batch_prompt(batch: List[Dict]) -> str:
     prompt_parts = []
     for idx, q in enumerate(batch, 1):
@@ -84,16 +146,11 @@ NO explanations. NO extra text. ONLY numbered answers.
 {'='*50}
 """ + "\n\n".join(prompt_parts)
     return prompt
-
 def parse_batch_response(response: str, batch_size: int) -> List[str]:
-    """
-    Robust parser cho batch responses
-    """
     answers = [""] * batch_size
     lines = response.strip().split('\n')
    
     for line in lines:
-        # Pattern 1: "1. A" hoặc "1. True"
         match = re.match(r'^\s*(\d+)\.\s*(.+)', line.strip())
         if match:
             idx = int(match.group(1)) - 1
@@ -101,15 +158,13 @@ def parse_batch_response(response: str, batch_size: int) -> List[str]:
                 answers[idx] = match.group(2).strip()
                 continue
        
-        # Pattern 2: "Answer 1: A"
         match = re.match(r'(?:Answer\s+)?(\d+)[:\.]\s*(.+)', line.strip(), re.IGNORECASE)
         if match:
             idx = int(match.group(1)) - 1
             if 0 <= idx < batch_size:
                 answers[idx] = match.group(2).strip()
    
-    # Fallback nếu parse fail: Extract từ toàn bộ text
-    if not any(answers): # Nếu tất cả rỗng
+    if not any(answers): 
         all_matches = re.findall(r'(\d+)\.\s*([A-D]|TRUE|FALSE|YES|NO|T|F)', response.upper(), re.IGNORECASE)
         for idx_str, ans in all_matches:
             idx = int(idx_str) - 1
@@ -117,10 +172,6 @@ def parse_batch_response(response: str, batch_size: int) -> List[str]:
                 answers[idx] = ans
    
     return answers
-
-# ================================
-# 4) METRICS CALCULATION
-# ================================
 def compute_prf(results: List[Dict]):
     labels = set()
     for r in results:
@@ -152,7 +203,6 @@ def compute_prf(results: List[Dict]):
     micro_f1 = 2*micro_prec*micro_rec/(micro_prec+micro_rec) if (micro_prec+micro_rec)>0 else 0.0
     macro_f1 = sum(m["f1"] for m in metrics.values()) / len(metrics) if metrics else 0.0
     return {"per_label":metrics, "micro": {"precision":micro_prec,"recall":micro_rec,"f1":micro_f1}, "macro_f1":macro_f1}
-
 def latency_stats(latencies: List[float]):
     if not latencies:
         return {}
@@ -169,7 +219,6 @@ def latency_stats(latencies: List[float]):
         "p90": pct(90),
         "p95": pct(95)
     }
-
 def mcq_confusion_matrix(results: List[Dict], options=("A","B","C","D")):
     opts = list(options)
     idx = {o:i for i,o in enumerate(opts)}
@@ -183,23 +232,6 @@ def mcq_confusion_matrix(results: List[Dict], options=("A","B","C","D")):
         if g in idx and p in idx:
             mat[idx[g]][idx[p]] += 1
     return {"labels":opts, "matrix":mat}
-
-def bootstrap_accuracy_diff(a_results: List[Dict], b_results: List[Dict], n_bootstrap: int = 1000, seed: int = 42):
-    assert len(a_results) == len(b_results)
-    random.seed(seed)
-    n = len(a_results)
-    diffs = []
-    for _ in range(n_bootstrap):
-        idxs = [random.randrange(n) for _ in range(n)]
-        a_acc = sum(1 for i in idxs if a_results[i]["correct"]) / n
-        b_acc = sum(1 for i in idxs if b_results[i]["correct"]) / n
-        diffs.append(a_acc - b_acc)
-    diffs.sort()
-    lower = diffs[int(0.025 * n_bootstrap)]
-    upper = diffs[int(0.975 * n_bootstrap)]
-    mean_diff = sum(diffs)/len(diffs)
-    return {"mean_diff": mean_diff, "95ci": (lower, upper)}
-
 def calculate_metrics(results: List[Dict]) -> Dict:
     total = len(results)
     correct = sum(1 for r in results if r["correct"])
@@ -233,42 +265,32 @@ def calculate_metrics(results: List[Dict]) -> Dict:
         "total_questions": total,
         "correct_answers": correct
     }
-
-# ================================
-# 5) EVALUATE MODEL (GraphRAG only)
-# ================================
-def evaluate_model(model_name: str, dataset: List[Dict], batch_size: int = 1):
-    """
-    Đánh giá model với batch processing.
-    Designed for GraphRAG (model_name == "graphrag"). Nếu model_name khác -> raise.
-    """
-    if model_name != "graphrag":
-        raise ValueError("This evaluate_model is intended for 'graphrag' only in the new workflow.")
-   
+def eval_graphrag(dataset: List[Dict], batch_size: int = 1) -> Dict:
+    model_name = "graphrag"
     call_fn = call_graphrag
-
+   
     results = []
     all_latencies = []
     total_latency = 0
     num_batches = math.ceil(len(dataset) / batch_size)
-
+   
     logging.info(f"Evaluating {model_name}: {len(dataset)} questions in {num_batches} batches")
-
+   
     for batch_idx in range(num_batches):
         start_idx = batch_idx * batch_size
         end_idx = min(start_idx + batch_size, len(dataset))
         batch = dataset[start_idx:end_idx]
-
+       
         prompt = format_batch_prompt(batch)
         retry_count = 0
-        max_retries = 2
+        max_retries = 2 
         while retry_count < max_retries:
             start_time = time.time()
             try:
                 raw_output = call_fn(prompt)
                 latency = time.time() - start_time
                 total_latency += latency
-                break
+                break 
             except Exception as e:
                 logging.exception(f"Batch {batch_idx + 1} failed (attempt {retry_count + 1}): {e}")
                 retry_count += 1
@@ -277,17 +299,17 @@ def evaluate_model(model_name: str, dataset: List[Dict], batch_size: int = 1):
                     latency = 0
         all_latencies.append(latency)
         logging.info(f"Batch {batch_idx + 1}/{num_batches} - Latency: {latency:.2f}s")
-
+       
         parsed_answers = parse_batch_response(raw_output, len(batch))
-
+       
         for q_idx, q in enumerate(batch):
             is_mcq = "options" in q
             raw_ans = parsed_answers[q_idx]
             model_ans, parse_ok = normalize_answer(raw_ans, is_mcq)
             gold = q["answer"]
-
+           
             is_correct = (model_ans == gold) and parse_ok
-
+           
             results.append({
                 "question_id": start_idx + q_idx + 1,
                 "question": q["question"],
@@ -298,8 +320,9 @@ def evaluate_model(model_name: str, dataset: List[Dict], batch_size: int = 1):
                 "parse_success": parse_ok,
                 "correct": is_correct
             })
-
+   
     metrics = calculate_metrics(results)
+   
     prf_metrics = compute_prf(results)
     lat_stats = latency_stats(all_latencies)
     mcq_conf = mcq_confusion_matrix(results)
@@ -313,171 +336,30 @@ def evaluate_model(model_name: str, dataset: List[Dict], batch_size: int = 1):
         "total_batches": num_batches,
         "batch_size": batch_size
     })
-
-    # Save full metrics to JSON (data/eval/)
-    import os
-    os.makedirs("data/eval", exist_ok=True)
-    with open(f"data/eval/{model_name}_v1_detailed_metrics.json", "w", encoding="utf-8") as outf:
+   
+    with open(f"data/eval/{model_name}_detailed_metrics.json", "w", encoding="utf-8") as outf:
         json.dump(metrics, outf, ensure_ascii=False, indent=2)
-
-    # Save detailed results (CSV) in project root and data/eval for convenience
-    csv_filename = f"{model_name}_v1_evaluation_results.csv"
-    csv_path_eval = os.path.join("data/eval", csv_filename)
-    with open(csv_path_eval, "w", newline="", encoding="utf-8") as csvfile:
+   
+    csv_filename = f"{model_name}_evaluation_results.csv"
+    with open(csv_filename, "w", newline="", encoding="utf-8") as csvfile:
         fieldnames = ["question_id", "question", "is_mcq", "gold_answer",
                       "model_raw_output", "model_normalized_answer",
                       "parse_success", "correct"]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(results)
-
-    logging.info(f"Results saved to {csv_path_eval}")
-    return metrics, results
-
-# ================================
-# 6) COMPARE: load Gemini from files, evaluate GraphRAG only
-# ================================
-def _try_load_gemini_metrics():
-    """
-    Thử load gemini metrics + results từ vài đường dẫn khả dĩ.
-    File JSON: data/eval/gemini_v1_detailed_metrics.json
-    File CSV: data/eval/gemini_v1_evaluation_results.csv
-    Trả về (metrics_dict, results_list)
-    """
-    import os
-    possible_json = [
-        "data/eval/gemini_v1_detailed_metrics.json",
-        "data/eval/gemini_detailed_metrics.json",
-        "gemini_v1_detailed_metrics.json",
-        "gemini_detailed_metrics.json"
-    ]
-    possible_csv = [
-        "data/eval/gemini_v1_evaluation_results.csv",
-        "data/eval/gemini_evaluation_results.csv",
-        "gemini_v1_evaluation_results.csv",
-        "gemini_evaluation_results.csv"
-    ]
-    metrics = None
-    results = []
-
-    for p in possible_json:
-        if os.path.exists(p):
-            with open(p, "r", encoding="utf-8") as f:
-                metrics = json.load(f)
-            break
-
-    for p in possible_csv:
-        if os.path.exists(p):
-            with open(p, "r", encoding="utf-8") as csvfile:
-                reader = csv.DictReader(csvfile)
-                for row in reader:
-                    # Convert types
-                    row["is_mcq"] = row.get("is_mcq", "False") in ("True", "true", "1")
-                    row["parse_success"] = row.get("parse_success", "False") in ("True", "true", "1")
-                    row["correct"] = row.get("correct", "False") in ("True", "true", "1")
-                    try:
-                        row["question_id"] = int(row.get("question_id", 0))
-                    except:
-                        row["question_id"] = row.get("question_id")
-                    results.append(row)
-            break
-
-    return metrics, results
-
-def compare_models(dataset: List[Dict], batch_size_graphrag: int = 1):
-    print("\n" + "="*60)
-    print("LOADING GEMINI RESULTS (from file)")
-    print("="*60)
-    gemini_metrics, gemini_results = _try_load_gemini_metrics()
-
-    if gemini_metrics is None:
-        print("Không tìm thấy file metrics của Gemini. Hãy đảm bảo bạn đã xuất ra 'data/eval/gemini_v1_detailed_metrics.json'.")
-    else:
-        print("Gemini metrics loaded.")
-
-    print("\n" + "="*60)
-    print("EVALUATING GRAPHRAG")
-    print("="*60)
-    try:
-        graphrag_metrics, graphrag_results = evaluate_model("graphrag", dataset, batch_size_graphrag)
-    except NotImplementedError:
-        print("GraphRAG chưa được implement! Bỏ qua đánh giá GraphRAG...")
-        graphrag_metrics = None
-        graphrag_results = []
-
-    comparison = {
-        "gemini": {
-            "metrics": gemini_metrics,
-            "results": gemini_results
-        },
-        "graphrag": {
-            "metrics": graphrag_metrics,
-            "results": graphrag_results
-        }
-    }
-
-    # Only compute diff if both exist
-    if gemini_metrics is not None and graphrag_metrics is not None:
-        # guard division by zero when avg_latency_per_batch == 0
-        speed_ratio = None
-        try:
-            speed_ratio = gemini_metrics.get("avg_latency_per_batch", 0) / graphrag_metrics.get("avg_latency_per_batch", 1)
-        except Exception:
-            speed_ratio = None
-
-        comparison["comparison"] = {
-            "accuracy_diff": gemini_metrics.get("accuracy") - graphrag_metrics.get("accuracy"),
-            "speed_ratio": speed_ratio
-        }
-    else:
-        comparison["comparison"] = {
-            "accuracy_diff": None,
-            "speed_ratio": None
-        }
-
-    # Save comparison
-    import os
-    os.makedirs("data/eval", exist_ok=True)
-    with open("data/eval/model_comparison_v1.json", "w", encoding="utf-8") as f:
-        json.dump(comparison, f, ensure_ascii=False, indent=2)
-
-    print("\n" + "="*60)
-    print("COMPARISON SUMMARY")
-    print("="*60)
-    if gemini_metrics is not None:
-        try:
-            print(f"Gemini Accuracy: {gemini_metrics['accuracy']:.2%}")
-        except Exception:
-            print("Gemini Accuracy: (không khả dụng trong file)")
-    else:
-        print("Gemini: Không có dữ liệu")
-
-    if graphrag_metrics is not None:
-        print(f"GraphRAG Accuracy: {graphrag_metrics['accuracy']:.2%}")
-        if gemini_metrics is not None:
-            winner = "Gemini" if gemini_metrics.get("accuracy", 0) >= graphrag_metrics.get("accuracy", 0) else "GraphRAG"
-            print(f"Winner: {winner}")
-    else:
-        print("GraphRAG: Không có dữ liệu (Not implemented or failed)")
-
-    print("Saved comparison -> data/eval/model_comparison_v1.json")
-    return comparison
-
-# ================================
-# MAIN EXECUTION
-# ================================
+   
+    logging.info(f"Results saved to {csv_filename}")
+    return metrics
 if __name__ == "__main__":
-    DATASET = "data/evaluation_dataset.json"
-
+    DATASET = f"data/evaluation_dataset.json"
+   
     with open(DATASET, "r", encoding="utf-8") as f:
         QA_dict = json.load(f)
-
-    comparison = compare_models(
+   
+    metrics = eval_graphrag(
         dataset=QA_dict,
-        batch_size_graphrag=1
+        batch_size=1  
     )
-
-    print("\nEvaluation complete! Check data/eval/model_comparison_v1.json")
-
-
-
+   
+    print("\nEvaluation complete! Check data/eval/graphrag_detailed_metrics.json")

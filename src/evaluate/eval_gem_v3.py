@@ -348,13 +348,11 @@ if __name__ == "__main__":
     with open(DATASET, "r", encoding="utf-8") as f:
         QA_dict = json.load(f)
 
-    # Với Pro key và 2000 QA:
-    # - Batch size 50: 40 batches, ~40-80 giây tổng
-    # - Batch size 100: 20 batches, ~20-40 giây tổng
+   
 
     metrics = eval_gemini(
         dataset=QA_dict,
-        batch_size=100  # Recommended cho Pro key
+        batch_size=100  
     )
 
     print("\nEvaluation complete! Check data/eval/gemini_detailed_metrics.json")

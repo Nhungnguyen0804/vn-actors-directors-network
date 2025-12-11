@@ -55,13 +55,13 @@
   },
   "latency_stats": {
     "count": 2000,
-    "mean": 0.0,
+    "mean": 0.4749293254613876,
     "min": 0,
-    "max": 0,
-    "p50": 0,
-    "p75": 0,
-    "p90": 0,
-    "p95": 0
+    "max": 73.12886428833008,
+    "p50": 0.4056556224822998,
+    "p75": 0.474285364151001,
+    "p90": 0.5668253898620605,
+    "p95": 0.6632709503173828
   },
   "mcq_confusion": {
     "labels": [
@@ -98,8 +98,8 @@
     ]
   },
   "model": "graphrag",
-  "avg_latency_per_batch": 0.0,
-  "total_latency": 0,
+  "avg_latency_per_batch": 0.4749293254613876,
+  "total_latency": 949.8586509227753,
   "total_batches": 2000,
   "batch_size": 1
 }

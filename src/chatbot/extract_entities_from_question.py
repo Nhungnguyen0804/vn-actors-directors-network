@@ -1,7 +1,8 @@
 import unicodedata
 import re
 from underthesea import pos_tag, word_tokenize
-from nlp.ner import extract_person_entities, run_ner
+from src.nlp.ner import extract_person_entities, run_combine_ner
+from src.nlp.ner import film_list,person_list, wiki_enrich,B 
 # ==================== CONSTANTS ====================
 
 VIETNAMESE_STOPWORDS = {
@@ -386,7 +387,7 @@ def extract_entities(question):
     total_alpha = sum(1 for c in original_q if c.isalpha())
     accent_ratio = accent_count / max(total_alpha, 1)
     
-    people = extract_person_entities(run_ner(original_q))
+    people = extract_person_entities(run_combine_ner(original_q, person_list, film_list, wiki_enrich, B))
     entities_list.extend(people)
     
     # ===== PHƯƠNG PHÁP 1: POS TAGGING (nếu câu có dấu) =====
