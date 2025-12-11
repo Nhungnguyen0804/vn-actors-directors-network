@@ -343,7 +343,7 @@ def eval_gemini(dataset: List[Dict], batch_size: int = 100) -> Dict:
 # MAIN EXECUTION
 # ================================
 if __name__ == "__main__":
-    DATASET = f"data/evaluation_dataset.json"
+    DATASET = f"data/eval/evaluation_dataset.json"
 
     with open(DATASET, "r", encoding="utf-8") as f:
         QA_dict = json.load(f)
