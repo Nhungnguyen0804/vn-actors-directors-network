@@ -55,55 +55,18 @@ def determine_intent(question: str) -> str:
     # Add more for basic queries (e.g., 'movies by actor' -> 'movies_by_actor')
     return 'unknown'
 
-
-def call_graphrag(prompt: str) -> str:
-    # Parse prompt into questions (assume format from format_batch_prompt)
-    question_parts = re.split(r'Question \d+:', prompt)[1:]  # Split by "Question X:"
+def chatbot(ques):
+    return "A"
+def call_graphrag(batch) -> str:
     answers = []
-    
-    for part in question_parts:
-        lines = part.strip().split('\n')
-        question = lines[0].strip()  # E.g., "Did Trấn Thành act in Bố Già?"
-        
-        is_mcq = 'Options:' in part
-        options = []
-        if is_mcq:
-            opts_start = part.index('Options:') + len('Options:\n')
-            opts_end = part.index('Answer: (A/B/C/D only)')
-            options = [line.strip() for line in part[opts_start:opts_end].split('\n') if line.strip()]
-        
-        # Extract entities and intent
-        entities_dict = extract_entities(question)
-        intent = determine_intent(question)
-        
-        # Query graph
-        if intent == 'unknown':
-            answer = ""  # Or default
-        else:
-            result = route_multihop_query(intent, G_bipartite, G_actor_collab, entities_dict, question, debug=False)
-            if result['status'] == 'success':
-                data = result['data']  # List of names/movies
-                
-                if is_mcq:
-                    # Map to A/B/C/D: Check which option matches data (e.g., count or exact match)
-                    for idx, opt in enumerate(options):
-                        choice = chr(65 + idx)  # A, B, C, D
-                        opt_text = opt.split('.')[1].strip() if '.' in opt else opt
-                        if opt_text in data or len(data) == int(opt_text) if opt_text.isdigit() else False:  # Customize matching
-                            answer = choice
-                            break
-                    else:
-                        answer = ""
-                else:  # T/F
-                    answer = "True" if data else "False"  # E.g., if result non-empty -> True
-            else:
-                answer = ""
-        
+    for item in batch:
+        question = item["question"]
+        options = item["options"]
+        answer = chatbot(question)
         answers.append(answer)
-    
-    # Format as "1. A\n2. True\n..."
     formatted = "\n".join(f"{i+1}. {ans}" for i, ans in enumerate(answers))
     return formatted
+
 
 def normalize_answer(output: str, is_mcq: bool) -> Tuple[str, bool]:
     text = output.strip().upper()
@@ -265,9 +228,10 @@ def calculate_metrics(results: List[Dict]) -> Dict:
         "total_questions": total,
         "correct_answers": correct
     }
+
 def eval_graphrag(dataset: List[Dict], batch_size: int = 1) -> Dict:
     model_name = "graphrag"
-    call_fn = call_graphrag
+    call_fn = call_graphrag  # GẮN HÀM 
    
     results = []
     all_latencies = []
@@ -281,13 +245,17 @@ def eval_graphrag(dataset: List[Dict], batch_size: int = 1) -> Dict:
         end_idx = min(start_idx + batch_size, len(dataset))
         batch = dataset[start_idx:end_idx]
        
-        prompt = format_batch_prompt(batch)
+        # # prompt = format_batch_prompt(batch)
+        # prompt = batch       # truyền list dict
+        
+
         retry_count = 0
         max_retries = 2 
         while retry_count < max_retries:
             start_time = time.time()
             try:
-                raw_output = call_fn(prompt)
+                raw_output = call_fn(batch)
+                # print(raw_output)
                 latency = time.time() - start_time
                 total_latency += latency
                 break 
@@ -351,6 +319,21 @@ def eval_graphrag(dataset: List[Dict], batch_size: int = 1) -> Dict:
    
     logging.info(f"Results saved to {csv_filename}")
     return metrics
+
+# TEST 1 CÁI 
+# sample_prompt = [
+#     {
+#         "question": "Đạo diễn ...?",
+#         "options": ["A...", "B...", "C...", "D..."]
+#     }
+# ]
+
+# print(call_graphrag(sample_prompt))
+
+
+
+
+
 if __name__ == "__main__":
     DATASET = f"data/evaluation_dataset.json"
    

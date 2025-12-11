@@ -1,7 +1,7 @@
 {
-  "accuracy": 0.0,
-  "parse_rate": 0.0,
-  "mcq_accuracy": 0.0,
+  "accuracy": 0.257,
+  "parse_rate": 1.0,
+  "mcq_accuracy": 0.257,
   "tf_accuracy": 0,
   "confusion_matrix": {
     "TP": 0,
@@ -10,15 +10,15 @@
     "FN": 0
   },
   "total_questions": 2000,
-  "correct_answers": 0,
+  "correct_answers": 514,
   "prf": {
     "per_label": {
       "A": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "tp": 0,
-        "fp": 0,
+        "precision": 0.257,
+        "recall": 1.0,
+        "f1": 0.4089101034208433,
+        "tp": 514,
+        "fp": 1486,
         "fn": 0
       },
       "B": {
@@ -27,7 +27,7 @@
         "f1": 0.0,
         "tp": 0,
         "fp": 0,
-        "fn": 0
+        "fn": 465
       },
       "C": {
         "precision": 0.0,
@@ -35,7 +35,7 @@
         "f1": 0.0,
         "tp": 0,
         "fp": 0,
-        "fn": 0
+        "fn": 505
       },
       "D": {
         "precision": 0.0,
@@ -43,25 +43,25 @@
         "f1": 0.0,
         "tp": 0,
         "fp": 0,
-        "fn": 0
+        "fn": 516
       }
     },
     "micro": {
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1": 0.0
+      "precision": 0.257,
+      "recall": 0.257,
+      "f1": 0.257
     },
-    "macro_f1": 0.0
+    "macro_f1": 0.10222752585521082
   },
   "latency_stats": {
     "count": 2000,
-    "mean": 0.4749293254613876,
-    "min": 0,
-    "max": 73.12886428833008,
-    "p50": 0.4056556224822998,
-    "p75": 0.474285364151001,
-    "p90": 0.5668253898620605,
-    "p95": 0.6632709503173828
+    "mean": 4.971504211425781e-06,
+    "min": 0.0,
+    "max": 0.003698110580444336,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p90": 0.0,
+    "p95": 0.0
   },
   "mcq_confusion": {
     "labels": [
@@ -72,25 +72,25 @@
     ],
     "matrix": [
       [
-        0,
-        0,
-        0,
-        0
-      ],
-      [
-        0,
+        514,
         0,
         0,
         0
       ],
       [
-        0,
+        465,
         0,
         0,
         0
       ],
       [
+        505,
         0,
+        0,
+        0
+      ],
+      [
+        516,
         0,
         0,
         0
@@ -98,8 +98,8 @@
     ]
   },
   "model": "graphrag",
-  "avg_latency_per_batch": 0.4749293254613876,
-  "total_latency": 949.8586509227753,
+  "avg_latency_per_batch": 4.971504211425781e-06,
+  "total_latency": 0.009943008422851562,
   "total_batches": 2000,
   "batch_size": 1
 }

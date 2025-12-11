@@ -358,190 +358,226 @@ def extract_entities_with_pos(question):
         return []
 
 
-def extract_entities(question):
-    """
-    Trích xuất thực thể từ câu hỏi - HYBRID APPROACH
+# def extract_entities(question):
+#     """
+#     Trích xuất thực thể từ câu hỏi - HYBRID APPROACH
     
-    Strategy:
-    1. Nếu câu có dấu (≥30% ký tự có dấu) → Dùng POS tagging
-    2. Nếu câu không dấu → Dùng heuristic + name pattern
-    3. Kết hợp cả 2 để tăng độ chính xác
+#     Strategy:
+#     1. Nếu câu có dấu (≥30% ký tự có dấu) → Dùng POS tagging
+#     2. Nếu câu không dấu → Dùng heuristic + name pattern
+#     3. Kết hợp cả 2 để tăng độ chính xác
     
-    Args:
-        question (str): Câu hỏi đầu vào
+#     Args:
+#         question (str): Câu hỏi đầu vào
         
-    Returns:
-        list: Danh sách các thực thể
-    """
-    if not question or len(question.strip()) < 2:
-        return []
+#     Returns:
+#         list: Danh sách các thực thể
+#     """
+#     if not question or len(question.strip()) < 2:
+#         return []
     
-    original_q = question.strip()
-    q_fixed = fix_teencode(original_q)
+#     original_q = question.strip()
+#     q_fixed = fix_teencode(original_q)
     
-    entities_list = []
+#     entities_list = []
     
-    # ===== KIỂM TRA: Câu có dấu không? =====
-    accent_chars = 'áàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ'
-    accent_count = sum(1 for c in original_q.lower() if c in accent_chars)
-    total_alpha = sum(1 for c in original_q if c.isalpha())
-    accent_ratio = accent_count / max(total_alpha, 1)
+#     # ===== KIỂM TRA: Câu có dấu không? =====
+#     accent_chars = 'áàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ'
+#     accent_count = sum(1 for c in original_q.lower() if c in accent_chars)
+#     total_alpha = sum(1 for c in original_q if c.isalpha())
+#     accent_ratio = accent_count / max(total_alpha, 1)
     
-    people = extract_person_entities(run_combine_ner(original_q, person_list, film_list, wiki_enrich, B))
-    entities_list.extend(people)
+#     people = extract_person_entities(run_combine_ner(original_q, person_list, film_list, wiki_enrich, B))
+#     entities_list.extend(people)
     
-    # ===== PHƯƠNG PHÁP 1: POS TAGGING (nếu câu có dấu) =====
-    if accent_ratio >= 0.3:
-        pos_entities = extract_entities_with_pos(original_q)
-        entities_list.extend(pos_entities)
+#     # ===== PHƯƠNG PHÁP 1: POS TAGGING (nếu câu có dấu) =====
+#     if accent_ratio >= 0.3:
+#         pos_entities = extract_entities_with_pos(original_q)
+#         entities_list.extend(pos_entities)
     
-    # ===== PHƯƠNG PHÁP 2: HEURISTIC (luôn chạy để bổ sung) =====
-    # Thay các từ nối MẠNH bằng dấu phân cách đặc biệt
-    text_to_process = q_fixed.lower()
-    for sep in STRONG_SEPARATORS:
-        text_to_process = re.sub(rf'\b{sep}\b', ' | ', text_to_process)
+#     # ===== PHƯƠNG PHÁP 2: HEURISTIC (luôn chạy để bổ sung) =====
+#     # Thay các từ nối MẠNH bằng dấu phân cách đặc biệt
+#     text_to_process = q_fixed.lower()
+#     for sep in STRONG_SEPARATORS:
+#         text_to_process = re.sub(rf'\b{sep}\b', ' | ', text_to_process)
     
-    # Tách theo dấu câu và |
-    segments = re.split(r'[,;|]', text_to_process)
+#     # Tách theo dấu câu và |
+#     segments = re.split(r'[,;|]', text_to_process)
     
-    entities_list = []
+#     entities_list = []
     
-    # ===== BƯỚC 2: Xử lý từng segment =====
-    for segment in segments:
-        segment = segment.strip()
-        if not segment:
-            continue
+#     # ===== BƯỚC 2: Xử lý từng segment =====
+#     for segment in segments:
+#         segment = segment.strip()
+#         if not segment:
+#             continue
         
-        # Tokenize
-        tokens = segment.split()
+#         # Tokenize
+#         tokens = segment.split()
         
-        current_phrase = []
-        i = 0
+#         current_phrase = []
+#         i = 0
         
-        while i < len(tokens):
-            word = tokens[i]
-            word_norm = normalize_text(word)
+#         while i < len(tokens):
+#             word = tokens[i]
+#             word_norm = normalize_text(word)
             
-            # **CHECK 1: Có phải bắt đầu tên người không?**
-            # Nhìn trước 2-3 từ tiếp theo
-            lookahead = tokens[i:min(i+4, len(tokens))]
-            if is_vietnamese_name(lookahead):
-                # Đây là tên người → gom hết
-                name_length = min(len(lookahead), 3)  # Tối đa 3 từ
-                full_name = " ".join(tokens[i:i+name_length])
-                entities_list.append(full_name)
-                i += name_length
-                current_phrase = []  # Reset cụm hiện tại
-                continue
+#             # **CHECK 1: Có phải bắt đầu tên người không?**
+#             # Nhìn trước 2-3 từ tiếp theo
+#             lookahead = tokens[i:min(i+4, len(tokens))]
+#             if is_vietnamese_name(lookahead):
+#                 # Đây là tên người → gom hết
+#                 name_length = min(len(lookahead), 3)  # Tối đa 3 từ
+#                 full_name = " ".join(tokens[i:i+name_length])
+#                 entities_list.append(full_name)
+#                 i += name_length
+#                 current_phrase = []  # Reset cụm hiện tại
+#                 continue
             
-            # **CHECK 2: Kiểm tra stopword có xét ngữ cảnh**
-            surrounding = []
-            if i > 0:
-                surrounding.append(tokens[i-1])
-            if i < len(tokens) - 1:
-                surrounding.append(tokens[i+1])
-            if i < len(tokens) - 2:
-                surrounding.append(tokens[i+2])
+#             # **CHECK 2: Kiểm tra stopword có xét ngữ cảnh**
+#             surrounding = []
+#             if i > 0:
+#                 surrounding.append(tokens[i-1])
+#             if i < len(tokens) - 1:
+#                 surrounding.append(tokens[i+1])
+#             if i < len(tokens) - 2:
+#                 surrounding.append(tokens[i+2])
             
-            if is_stopword(word, check_context=True, surrounding_words=surrounding) or len(word) <= 1:
-                # Gặp stopword → lưu cụm hiện tại
-                if current_phrase:
-                    entity = " ".join(current_phrase)
-                    if is_valid_entity(entity, allow_short=True):
-                        entities_list.append(entity)
-                    current_phrase = []
-            else:
-                # Thêm từ vào cụm
-                current_phrase.append(word)
+#             if is_stopword(word, check_context=True, surrounding_words=surrounding) or len(word) <= 1:
+#                 # Gặp stopword → lưu cụm hiện tại
+#                 if current_phrase:
+#                     entity = " ".join(current_phrase)
+#                     if is_valid_entity(entity, allow_short=True):
+#                         entities_list.append(entity)
+#                     current_phrase = []
+#             else:
+#                 # Thêm từ vào cụm
+#                 current_phrase.append(word)
                 
-                # Giới hạn độ dài entity tối đa 4 từ
-                if len(current_phrase) >= 4:
-                    entity = " ".join(current_phrase)
-                    if is_valid_entity(entity, allow_short=True):
-                        entities_list.append(entity)
-                    current_phrase = []
+#                 # Giới hạn độ dài entity tối đa 4 từ
+#                 if len(current_phrase) >= 4:
+#                     entity = " ".join(current_phrase)
+#                     if is_valid_entity(entity, allow_short=True):
+#                         entities_list.append(entity)
+#                     current_phrase = []
             
-            i += 1
+#             i += 1
         
-        # Lưu cụm cuối
-        if current_phrase:
-            entity = " ".join(current_phrase)
-            if is_valid_entity(entity, allow_short=True):
-                entities_list.append(entity)
+#         # Lưu cụm cuối
+#         if current_phrase:
+#             entity = " ".join(current_phrase)
+#             if is_valid_entity(entity, allow_short=True):
+#                 entities_list.append(entity)
     
-    # ===== BƯỚC 3: Tìm tên riêng (chữ hoa) =====
-    # Pattern: Từ bắt đầu bằng chữ hoa
-    proper_nouns = re.findall(
-        r'\b[A-ZÀÁẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬÈÉẺẼẸÊẾỀỂỄỆÌÍỈĨỊÒÓỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÙÚỦŨỤƯỨỪỬỮỰỲÝỶỸỴĐ]'
-        r'[a-zàáảãạăắằẳẵặâấầẩẫậèéẻẽẹêếềểễệìíỉĩịòóỏõọôốồổỗộơớờởỡợùúủũụưứừửữựỳýỷỹỵđ]*'
-        r'(?:\s+[A-ZÀÁẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬÈÉẺẼẸÊẾỀỂỄỆÌÍỈĨỊÒÓỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÙÚỦŨỤƯỨỪỬỮỰỲÝỶỸỴĐ]'
-        r'[a-zàáảãạăắằẳẵặâấầẩẫậèéẻẽẹêếềểễệìíỉĩịòóỏõọôốồổỗộơớờởỡợùúủũụưứừửữựỳýỷỹỵđ]*){0,3}',
-        original_q
-    )
+#     # ===== BƯỚC 3: Tìm tên riêng (chữ hoa) =====
+#     # Pattern: Từ bắt đầu bằng chữ hoa
+#     proper_nouns = re.findall(
+#         r'\b[A-ZÀÁẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬÈÉẺẼẸÊẾỀỂỄỆÌÍỈĨỊÒÓỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÙÚỦŨỤƯỨỪỬỮỰỲÝỶỸỴĐ]'
+#         r'[a-zàáảãạăắằẳẵặâấầẩẫậèéẻẽẹêếềểễệìíỉĩịòóỏõọôốồổỗộơớờởỡợùúủũụưứừửữựỳýỷỹỵđ]*'
+#         r'(?:\s+[A-ZÀÁẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬÈÉẺẼẸÊẾỀỂỄỆÌÍỈĨỊÒÓỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÙÚỦŨỤƯỨỪỬỮỰỲÝỶỸỴĐ]'
+#         r'[a-zàáảãạăắằẳẵặâấầẩẫậèéẻẽẹêếềểễệìíỉĩịòóỏõọôốồổỗộơớờởỡợùúủũụưứừửữựỳýỷỹỵđ]*){0,3}',
+#         original_q
+#     )
     
-    for proper_noun in proper_nouns:
-        # Kiểm tra không phải stopword
-        if normalize_text(proper_noun) not in FULL_BLOCK_WORDS:
-            entities_list.append(proper_noun)
+#     for proper_noun in proper_nouns:
+#         # Kiểm tra không phải stopword
+#         if normalize_text(proper_noun) not in FULL_BLOCK_WORDS:
+#             entities_list.append(proper_noun)
     
-    # ===== BƯỚC 4: Làm sạch và khôi phục dấu =====
-    cleaned_entities = []
-    seen = set()
+#     # ===== BƯỚC 4: Làm sạch và khôi phục dấu =====
+#     cleaned_entities = []
+#     seen = set()
     
-    for entity in entities_list:
-        # Khôi phục dấu
-        entity_with_accent = reconstruct_with_accents(entity, original_q)
+#     for entity in entities_list:
+#         # Khôi phục dấu
+#         entity_with_accent = reconstruct_with_accents(entity, original_q)
         
-        # Loại bỏ stopword ở đầu và cuối
-        words = entity_with_accent.split()
-        while words and is_stopword(words[0], check_context=False):
-            words.pop(0)
-        while words and is_stopword(words[-1], check_context=False):
-            words.pop()
+#         # Loại bỏ stopword ở đầu và cuối
+#         words = entity_with_accent.split()
+#         while words and is_stopword(words[0], check_context=False):
+#             words.pop(0)
+#         while words and is_stopword(words[-1], check_context=False):
+#             words.pop()
         
-        if not words:
-            continue
+#         if not words:
+#             continue
         
-        final_entity = " ".join(words)
-        norm = normalize_text(final_entity)
+#         final_entity = " ".join(words)
+#         norm = normalize_text(final_entity)
         
-        # Kiểm tra trùng lặp
-        if norm not in seen and is_valid_entity(final_entity, allow_short=True):
-            seen.add(norm)
-            cleaned_entities.append(final_entity)
+#         # Kiểm tra trùng lặp
+#         if norm not in seen and is_valid_entity(final_entity, allow_short=True):
+#             seen.add(norm)
+#             cleaned_entities.append(final_entity)
     
-    # ===== BƯỚC 5: Loại bỏ entity con (subset) =====
-    filtered = []
-    for i, ent1 in enumerate(cleaned_entities):
-        norm1 = normalize_text(ent1)
-        is_subset = False
+#     # ===== BƯỚC 5: Loại bỏ entity con (subset) =====
+#     filtered = []
+#     for i, ent1 in enumerate(cleaned_entities):
+#         norm1 = normalize_text(ent1)
+#         is_subset = False
         
-        for j, ent2 in enumerate(cleaned_entities):
-            if i == j:
-                continue
-            norm2 = normalize_text(ent2)
+#         for j, ent2 in enumerate(cleaned_entities):
+#             if i == j:
+#                 continue
+#             norm2 = normalize_text(ent2)
             
-            # ent1 là con của ent2 nếu:
-            # - norm1 xuất hiện trong norm2
-            # - norm1 không bằng norm2
-            # - norm1 không dài hơn norm2
-            if norm1 != norm2 and norm1 in norm2 and len(norm1) < len(norm2):
-                is_subset = True
-                break
+#             # ent1 là con của ent2 nếu:
+#             # - norm1 xuất hiện trong norm2
+#             # - norm1 không bằng norm2
+#             # - norm1 không dài hơn norm2
+#             if norm1 != norm2 and norm1 in norm2 and len(norm1) < len(norm2):
+#                 is_subset = True
+#                 break
         
-        if not is_subset:
-            filtered.append(ent1)
+#         if not is_subset:
+#             filtered.append(ent1)
     
-    # ===== BƯỚC 6: Sắp xếp theo thứ tự xuất hiện =====
-    def position_in_original(entity):
-        try:
-            return original_q.lower().index(normalize_text(entity))
-        except:
-            return 9999
+#     # ===== BƯỚC 6: Sắp xếp theo thứ tự xuất hiện =====
+#     def position_in_original(entity):
+#         try:
+#             return original_q.lower().index(normalize_text(entity))
+#         except:
+#             return 9999
     
-    filtered.sort(key=position_in_original)
+#     filtered.sort(key=position_in_original)
     
-    return filtered
+#     return filtered
+
+
+
+def extract_entities(question: str) -> dict:
+    entities = {
+        'actors': [],
+        'movies': [],
+        'directors': []
+    }
+    
+    # Extract movie names in quotes
+    movie_pattern = r"'([^']+)'"
+    movies = re.findall(movie_pattern, question)
+    entities['movies'].extend(movies)
+    
+    # Extract names after "sự tham gia của", "diễn viên"
+    actor_patterns = [
+        r'sự tham gia của\s+([A-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỲỴÝỶỸ][a-zàáâãèéêìíòóôõùúăđĩũơưăạảấầẩẫậắằẳẵặẹẻẽềềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ\s]+?)(?:\s+và|\s+là|$)',
+        r'của\s+([A-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỲỴÝỶỸ][a-zàáâãèéêìíòóôõùúăđĩũơưăạảấầẩẫậắằẳẵặẹẻẽềềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ\s]+?)(?:\s+là|$)',
+        r'cả\s+([A-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỲỴÝỶỸ][a-zàáâãèéêìíòóôõùúăđĩũơưăạảấầẩẫậắằẳẵặẹẻẽềềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ\s]+?)\s+và\s+([A-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỲỴỶỸ][a-zàáâãèéêìíòóôõùúăđĩũơưăạảấầẩẫậắằẳẵặẹẻẽềềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ]+)',
+    ]
+    
+    for pattern in actor_patterns:
+        matches = re.findall(pattern, question)
+        if isinstance(matches[0], tuple) if matches else False:
+            entities['actors'].extend([m for match in matches for m in match if m])
+        else:
+            entities['actors'].extend(matches)
+    
+    # Clean duplicates
+    entities['actors'] = list(set([a.strip() for a in entities['actors'] if a.strip()]))
+    entities['movies'] = list(set([m.strip() for m in entities['movies'] if m.strip()]))
+    
+    return entities
+
+
 
 def  entity_linking_question(question):
     entities = extract_entities(question)
