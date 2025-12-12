@@ -55,9 +55,9 @@
   },
   "latency_stats": {
     "count": 2000,
-    "mean": 4.971504211425781e-06,
+    "mean": 5.028247833251953e-07,
     "min": 0.0,
-    "max": 0.003698110580444336,
+    "max": 0.0010056495666503906,
     "p50": 0.0,
     "p75": 0.0,
     "p90": 0.0,
@@ -98,8 +98,8 @@
     ]
   },
   "model": "graphrag",
-  "avg_latency_per_batch": 4.971504211425781e-06,
-  "total_latency": 0.009943008422851562,
+  "avg_latency_per_batch": 5.028247833251953e-07,
+  "total_latency": 0.0010056495666503906,
   "total_batches": 2000,
   "batch_size": 1
 }
