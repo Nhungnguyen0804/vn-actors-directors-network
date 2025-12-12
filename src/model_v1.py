@@ -7,13 +7,15 @@ from peft import PeftModel
 
 # Thêm đường dẫn cha để import module
 sys.path.insert(0, str(Path(__file__).parent.parent))
-
+from src.nlp.ner import extract_entity_from_sentences
 # ==================== IMPORT MODULES ====================
 try:
     from src.chatbot.entity_linking_node import (
         extract_entities,
-        normalize_text
+        normalize_text,
+        entity_linking_graph
     )
+    
     from src.chatbot.extract_entities_from_question import VIETNAMESE_STOPWORDS
     
     # IMPORT CÁC HÀM QUERY TỪ FILE NEO4J CYPHER
@@ -129,9 +131,8 @@ def detect_intent(question):
 
 def detect_entity_type_from_context(entity, question):
     """Nhận diện loại entity từ ngữ cảnh trong câu hỏi"""
-    question_norm = normalize_text(question)
-    entity_norm = normalize_text(entity)
-    context_window = question_norm.lower()
+    
+    context_window = question.lower()
     
     type_scores = {
         'film': 0,
@@ -140,10 +141,10 @@ def detect_entity_type_from_context(entity, question):
     
     # Tìm vị trí entity trong câu
     try:
-        entity_idx = context_window.index(entity_norm)
+        entity_idx = context_window.index(entity)
         # Lấy context trước và sau entity
         before = context_window[:entity_idx].strip()
-        after = context_window[entity_idx + len(entity_norm):].strip()
+        after = context_window[entity_idx + len(entity):].strip()
     except ValueError:
         before = context_window
         after = ""
@@ -276,7 +277,7 @@ def entity_linking_cypher(question, threshold=70, debug=False):
     AUTH = ("neo4j", "askC5IvfBm2QXlzpKKn6gb9CEGxdouOCdTTKMhI6Si4")
     
     # Extract entities từ câu hỏi
-    entities = extract_entities(question)
+    entities = extract_entity_from_sentences(question)
     
     # Làm sạch entities (bỏ dấu chấm hỏi, dấu phẩy...)
     entities = [e.rstrip('?.,!;:') for e in entities]
@@ -655,7 +656,8 @@ def get_answer(question, model_pack, use_finetuned=False, debug=False):
     print(f"\n{'='*60}\nQUESTION: {question}")
     
     # Bước 1: Trích xuất entities
-    entities = extract_entities(question)
+    entities = extract_entity_from_sentences(question)
+    
     if not entities:
         return "Không tìm thấy tên riêng."
     if debug:
@@ -667,7 +669,7 @@ def get_answer(question, model_pack, use_finetuned=False, debug=False):
         print(f"[2] Intent: {intent['intent']}")
     
     # Bước 3: Entity linking với Cypher
-    linked_entities = entity_linking_cypher(question, threshold=70, debug=debug)
+    linked_entities = entity_linking_graph(question)
     if not linked_entities:
         return "Không tìm thấy thực thể phù hợp trong Graph."
     
@@ -700,7 +702,7 @@ if __name__ == "__main__":
 
     print("\n>>> INITIALIZING SYSTEM...")
     
-    # ✅ KHÔNG CẦN LOAD GRAPH NỮA!
+    
     print("✓ Sử dụng Cypher queries trực tiếp từ Neo4j")
 
     # Load Model
@@ -713,14 +715,18 @@ if __name__ == "__main__":
     # Test
     test_questions = [
         "Trấn Thành đóng phim gì?",
-        "năm sinh của trấn thành?",
-        "Trấn Thành và Ninh Dương Lan Ngọc đóng chung phim nào?",
+        "Trấn Thành và Ninh Dương Lan Ngọc có quan hệ gì?",
+        "Trấn Thành và Hari Won đóng chung phim nào?",
         "Ai cùng trường với Ninh Dương Lan Ngọc?",
+        "Đạo diễn của phim Bố Già là ai?",
+        "Phim nào do Victor Vũ làm?",
     ]
     
     for q in test_questions:
         get_answer(q, llm_pack, use_finetuned=True, debug=True)
     
+    
+    
     # Đóng kết nối Neo4j khi kết thúc
     close_driver()
-    print("\n✅ Neo4j driver closed.")
+    print("\n Neo4j driver closed.")
