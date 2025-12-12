@@ -160,7 +160,7 @@ def graph_query_common_movies(actor1, actor2, debug=False):
 
 def graph_query_shortest_path(person1, person2, debug=False):
     """
-    🔗 Path: Đường đi ngắn nhất
+    Path: Đường đi ngắn nhất
     """
     person1 = normalize_input(person1)
     person2 = normalize_input(person2)
