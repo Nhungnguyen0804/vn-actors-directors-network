@@ -372,87 +372,87 @@ def is_valid_pair(subj_type, obj_type, relation):
 RE_RES_FILE = f"data/re_results.jsonl"
 
 
-if re_model is not None:
+# if re_model is not None:
 
-    for entity in graph_nodes:
+#     for entity in graph_nodes:
 
-        if entity not in wiki_enrich:
-            continue
+#         if entity not in wiki_enrich:
+#             continue
 
-        clean_text = wiki_enrich[entity].get("clean_wikitext", "")
-        if not clean_text:
-            continue
+#         clean_text = wiki_enrich[entity].get("clean_wikitext", "")
+#         if not clean_text:
+#             continue
 
-        # --------------------------
-        # 1) NER kết hợp
-        # --------------------------
-        ner_out = run_combine_ner(
-            text=clean_text,
-            person_list=person_list,
-            film_list=film_list,
-            wiki_enrich=wiki_enrich,
-            bipartite_graph=B
-        )
+#         # --------------------------
+#         # 1) NER kết hợp
+#         # --------------------------
+#         ner_out = run_combine_ner(
+#             text=clean_text,
+#             person_list=person_list,
+#             film_list=film_list,
+#             wiki_enrich=wiki_enrich,
+#             bipartite_graph=B
+#         )
 
-        # --------------------------
-        # 2) RE bằng SetFit
-        # --------------------------
-        relations = run_setfit_rel_extraction_debug(
-            clean_text=clean_text,
-            ner_out=ner_out,
-            setfit_model=re_model,
-            person_list=person_list,
-            film_list=film_list,
-            wiki_enrich=wiki_enrich
-        )
+#         # --------------------------
+#         # 2) RE bằng SetFit
+#         # --------------------------
+#         relations = run_setfit_rel_extraction_debug(
+#             clean_text=clean_text,
+#             ner_out=ner_out,
+#             setfit_model=re_model,
+#             person_list=person_list,
+#             film_list=film_list,
+#             wiki_enrich=wiki_enrich
+#         )
 
-        # --------------------------
-        # 3) Dedup
-        # --------------------------
-        # 3) Lọc quan hệ sai schema (dựa vào VALID_TYPES)
-        filtered_relations = []
-        for (s, r, o) in relations:
-            # s và o là tuple (name, type)
-            subj_type = s[1]  # Lấy type từ tuple
-            obj_type = o[1]   # Lấy type từ tuple
+#         # --------------------------
+#         # 3) Dedup
+#         # --------------------------
+#         # 3) Lọc quan hệ sai schema (dựa vào VALID_TYPES)
+#         filtered_relations = []
+#         for (s, r, o) in relations:
+#             # s và o là tuple (name, type)
+#             subj_type = s[1]  # Lấy type từ tuple
+#             obj_type = o[1]   # Lấy type từ tuple
             
-            if is_valid_pair(subj_type, obj_type, r):
-                filtered_relations.append((s, r, o))
-        # 4) Dedup
-        filtered_relations = dedup_triples(filtered_relations)
+#             if is_valid_pair(subj_type, obj_type, r):
+#                 filtered_relations.append((s, r, o))
+#         # 4) Dedup
+#         filtered_relations = dedup_triples(filtered_relations)
 
 
-        # --------------------------
-        # 4) Xuất file cho entity
-        # --------------------------
+#         # --------------------------
+#         # 4) Xuất file cho entity
+#         # --------------------------
         
-        # Mỗi lần chạy toàn pipeline → reset file
-        # (Chỉ reset 1 lần ở entity đầu tiên)
-        if entity == graph_nodes[0]:  
-            open(RE_RES_FILE, "w", encoding="utf-8").close()
+#         # Mỗi lần chạy toàn pipeline → reset file
+#         # (Chỉ reset 1 lần ở entity đầu tiên)
+#         if entity == graph_nodes[0]:  
+#             open(RE_RES_FILE, "w", encoding="utf-8").close()
 
-        # Chuẩn bị danh sách quan hệ cho entity này
-        import json
-        relations_list = []
-        for (s, r, o) in filtered_relations:
-            s_name = s[0] if isinstance(s, tuple) else s
-            o_name = o[0] if isinstance(o, tuple) else o
+#         # Chuẩn bị danh sách quan hệ cho entity này
+#         import json
+#         relations_list = []
+#         for (s, r, o) in filtered_relations:
+#             s_name = s[0] if isinstance(s, tuple) else s
+#             o_name = o[0] if isinstance(o, tuple) else o
             
-            relations_list.append({
-                "subject": s_name,
-                "relation": r,
-                "object": o_name
-            })
+#             relations_list.append({
+#                 "subject": s_name,
+#                 "relation": r,
+#                 "object": o_name
+#             })
 
-        # Ghi 1 dòng JSON cho entity
-        with open(RE_RES_FILE, "a", encoding="utf-8") as f:
-            json.dump({
-                "entity": entity,
-                "relations": relations_list
-            }, f, ensure_ascii=False)
-            f.write("\n")
+        # # Ghi 1 dòng JSON cho entity
+        # with open(RE_RES_FILE, "a", encoding="utf-8") as f:
+        #     json.dump({
+        #         "entity": entity,
+        #         "relations": relations_list
+        #     }, f, ensure_ascii=False)
+        #     f.write("\n")
 
-        print(f"Wrote RE for {entity} → {RE_RES_FILE}")
+        # print(f"Wrote RE for {entity} → {RE_RES_FILE}")
         # --------------------------
         # 5) In ra console
         # --------------------------
@@ -462,15 +462,29 @@ if re_model is not None:
         # else:
         #     print(f"[{entity}] → (no extracted relations)")
 
-else:
-    print("Chưa train model SetFit RE!")
+# else:
+#     print("Chưa train model SetFit RE!")
 
 
 
 
 
 
+clean_text = "Ngày 25 tháng 12 năm 2016, Trấn Thành kết hôn với nữ ca sĩ mang hai dòng máu Việt-Hàn Hari Won[7] tại Trung tâm Hội nghị Gem Center, Thành phố Hồ Chí Minh.[8] Anh có hai người em gái tên Huỳnh Trinh Mi và Huỳnh Uyển Ân, trong đó Uyển Ân cũng trở thành một diễn viên như anh sau khi cô tham gia đóng chính trong phim Nhà bà Nữ."
 
+
+ner_out = run_combine_ner(clean_text, person_list, film_list, wiki_enrich, B)
+
+rels = run_setfit_rel_extraction_debug(
+    clean_text,
+    ner_out,
+    re_model,
+    person_list,
+    film_list,
+    wiki_enrich
+)
+
+print(rels)
 
 
 

@@ -1242,6 +1242,19 @@ def extract_entity_from_sentences(text):
 
     return output
 
+def extract_entity_detail_from_sentences(text):
+    res =test_ner_output(text, person_list, film_list, wiki_enrich, B)
+    output = []
+    res_dict = {}
+
+    for r in res: 
+        # r = { name : tran thanh type: person roles: abc} 
+        key = r['name']
+        res_dict[key] = r['type']
+        output.append(r['name'])
+
+    return output, res_dict
+    
 
 
 
@@ -1283,8 +1296,16 @@ def print_debug():
 
     print('------------------------------------')
     text2 = "Trấn Thành và Ninh Dương Lan Ngọc có đóng trong Cua lại vợ bầu ? "
+    text2 = "Trấn Thành và Ninh Dương Lan Ngọc có đóng chung phim nào ? "
     print(text2)
+    print(debug_ner_pipeline(text2))
     print(extract_entity_from_sentences(text2))
+
+    list_ent , dict_ent = extract_entity_detail_from_sentences(text2)
+    print(list_ent)
+    print(dict_ent[list_ent[0]])
+
+
 
 
 # print_debug()
