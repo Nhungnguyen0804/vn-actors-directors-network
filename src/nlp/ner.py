@@ -42,7 +42,7 @@ def load_jsonl_to_dict(path, key_field="name"):
 
 
 wiki_enrich = load_jsonl_to_dict(WIKI_ENRICHMENT)
-print('wiki_enrich độ lớn = ', len(wiki_enrich))
+
 # ===========================================
 # lọc khỏi vb tập từ ko quan trọng
 DEFAULT_STOPWORDS = {
@@ -838,11 +838,6 @@ def debug_ner_pipeline(text):
     print("\nEntities cuối cùng (sau BIO grouping):")
     print(final_entities)
 
-# print('*****************************************************************')
-# print('TEST 3 TẦNG NER')
-# debug_ner_pipeline("Trấn Thành đóng trong phim Bố Già cùng các diễn viên khác như ninh dương lan ngọc, kiều minh tuấn")
-# print('*****************************************************************')
-
 
 def extract_location_entities(entities):
     return [normalize_entity_name(e["name"]) for e in entities if e["type"] == "LOC"]
@@ -1177,11 +1172,9 @@ def pipeline_extract_nodes_from_summary(summary_text,person_list, film_list, wik
 
 
 
-print(detect_entity_type_from_wiki("Trấn Thành", wiki_enrich))      # EXPECT: "PER"
-print(detect_entity_type_from_wiki("Bố Già", wiki_enrich))          # EXPECT: "FILM"
 
 def test_ner_output(text, person_list, film_list, wiki_enrich, bipartite_graph):
-    print("============ TEST NER OUTPUT ============")
+    
 
     ner_out = run_combine_ner(
         text=text,
@@ -1191,13 +1184,7 @@ def test_ner_output(text, person_list, film_list, wiki_enrich, bipartite_graph):
         bipartite_graph=bipartite_graph
     )
 
-    # 1) In bảng kết quả
-    print("\n--- NER RESULTS ---")
-    print("ner_out:")
-    print(ner_out)
-    # for ent in ner_out:
-    #     print(f"[{ent['type']}] {ent['name']}   | roles={ent.get('roles', [])}")
-
+    
     # 2) Kiểm tra lỗi cơ bản
     errors = []
 
@@ -1227,31 +1214,22 @@ def test_ner_output(text, person_list, film_list, wiki_enrich, bipartite_graph):
     # 2.4 FILM nhưng map roles?
     # (tạm chưa dùng, nhưng để placeholder)
     
-    print("\n--- VALIDATION ---")
+    # print("\n--- VALIDATION ---")
     if errors:
-        print("❌ FAIL – Có lỗi:")
+        # print("FAIL – Có lỗi:")
         for e in errors:
-            print("   -", e)
-    else:
-        print("NER ổn, chuyển sang bước RE được.")
+            print("Lỗi -", e)
+    # else:
+        # print("NER ổn, chuyển sang bước RE được.")
 
     return ner_out
 
 
 
-# text = """
-# Trấn Thành đóng trong phim Bố Già cùng với Tuấn Trần. 
-# Ninh Dương Lan Ngọc tham gia Cua Lại Vợ Bầu.
-# """
-
-# test_ner_output(text, person_list, film_list, wiki_enrich, B)
 
 
-text = "năm sinh của trấn thành?"
-# res =test_ner_output(text, person_list, film_list, wiki_enrich, B)
-# print(text)
-# print(res)
-# print(type(res))
+
+
 
 def extract_entity_from_sentences(text):
     res =test_ner_output(text, person_list, film_list, wiki_enrich, B)
@@ -1263,11 +1241,50 @@ def extract_entity_from_sentences(text):
         output.append(r['name'])
 
     return output
-print(extract_entity_from_sentences(text))
-
-text2 = "Trấn Thành và Ninh Dương Lan Ngọc có đóng trong Cua lại vợ bầu ? "
-
-print(extract_entity_from_sentences(text2))
 
 
 
+
+
+
+def print_debug():
+    print('PRINT DEBUG =================================')
+    # print('wiki_enrich độ lớn = ', len(wiki_enrich))
+    # print('*****************************************************************')
+    # print('TEST 3 TẦNG NER')
+    # debug_ner_pipeline("Trấn Thành đóng trong phim Bố Già cùng các diễn viên khác như ninh dương lan ngọc, kiều minh tuấn")
+    # print('*****************************************************************')
+
+    print(detect_entity_type_from_wiki("Trấn Thành", wiki_enrich))      # EXPECT: "PER"
+    print(detect_entity_type_from_wiki("Bố Già", wiki_enrich))          # EXPECT: "FILM"
+    # 1) In bảng kết quả
+    # print("\n--- NER RESULTS ---")
+    # print("ner_out:")
+    # print(ner_out)
+    # for ent in ner_out:
+    #     print(f"[{ent['type']}] {ent['name']}   | roles={ent.get('roles', [])}")
+
+    # print('------------------------------------')
+    # text = """
+    # Trấn Thành đóng trong phim Bố Già cùng với Tuấn Trần. 
+    # Ninh Dương Lan Ngọc tham gia Cua Lại Vợ Bầu.
+    # """
+
+    # test_ner_output(text, person_list, film_list, wiki_enrich, B)
+    # print('------------------------------------')
+    text = "năm sinh của trấn thành?"
+    # res =test_ner_output(text, person_list, film_list, wiki_enrich, B)
+    # print(text)
+    # print(res)
+    # print(type(res))
+    print('------------------------------------')
+    print(text)
+    print(extract_entity_from_sentences(text))
+
+    print('------------------------------------')
+    text2 = "Trấn Thành và Ninh Dương Lan Ngọc có đóng trong Cua lại vợ bầu ? "
+    print(text2)
+    print(extract_entity_from_sentences(text2))
+
+
+# print_debug()

@@ -16,7 +16,7 @@ def split_text_into_sentences(text):
 def remove_text_in_parentheses(text):   # xóa text trong ngoặc
     cleaned_text = re.sub(r"\s*\(.*?\)", "", text)  # kết quả sau khi xóa
     return cleaned_text
-print(remove_text_in_parentheses('Hoa Mặt Trời (phim truyền hình)')) # ==> Hoa Mặt Trời
+
 # ************************************ Dùng cho văn bản dài 
 
 def normalize_text_for_nlp(text):
@@ -41,8 +41,6 @@ def normalize_text_for_nlp(text):
     text = RE_SPACE.sub(" ", text)
 
     return text.strip()
-
-print(normalize_text_for_nlp('Hoa Mặt Trời')) # ==> hoa mặt trời
 
 
 import re
@@ -89,7 +87,6 @@ def normalize_entity_name(x):
     return x
 
 
-print(normalize_entity_name('Ninh Dương Lan Ngọc .'))
 
 
 
@@ -142,3 +139,11 @@ def canonical_title(name: str) -> str:
     # Thu gọn khoảng trắng
     name = " ".join(name.split())
     return name
+
+
+def print_debug():
+    print(remove_text_in_parentheses('Hoa Mặt Trời (phim truyền hình)')) # ==> Hoa Mặt Trời
+    print(normalize_text_for_nlp('Hoa Mặt Trời')) # ==> hoa mặt trời
+
+    print(normalize_entity_name('Ninh Dương Lan Ngọc .'))
+# print_debug()
