@@ -838,10 +838,10 @@ def debug_ner_pipeline(text):
     print("\nEntities cuối cùng (sau BIO grouping):")
     print(final_entities)
 
-print('*****************************************************************')
-print('TEST 3 TẦNG NER')
-debug_ner_pipeline("Trấn Thành đóng trong phim Bố Già cùng các diễn viên khác như ninh dương lan ngọc, kiều minh tuấn")
-print('*****************************************************************')
+# print('*****************************************************************')
+# print('TEST 3 TẦNG NER')
+# debug_ner_pipeline("Trấn Thành đóng trong phim Bố Già cùng các diễn viên khác như ninh dương lan ngọc, kiều minh tuấn")
+# print('*****************************************************************')
 
 
 def extract_location_entities(entities):
@@ -1193,8 +1193,10 @@ def test_ner_output(text, person_list, film_list, wiki_enrich, bipartite_graph):
 
     # 1) In bảng kết quả
     print("\n--- NER RESULTS ---")
-    for ent in ner_out:
-        print(f"[{ent['type']}] {ent['name']}   | roles={ent.get('roles', [])}")
+    print("ner_out:")
+    print(ner_out)
+    # for ent in ner_out:
+    #     print(f"[{ent['type']}] {ent['name']}   | roles={ent.get('roles', [])}")
 
     # 2) Kiểm tra lỗi cơ bản
     errors = []
@@ -1237,40 +1239,35 @@ def test_ner_output(text, person_list, film_list, wiki_enrich, bipartite_graph):
 
 
 
-text = """
-Trấn Thành đóng trong phim Bố Già cùng với Tuấn Trần. 
-Ninh Dương Lan Ngọc tham gia Cua Lại Vợ Bầu.
-"""
+# text = """
+# Trấn Thành đóng trong phim Bố Già cùng với Tuấn Trần. 
+# Ninh Dương Lan Ngọc tham gia Cua Lại Vợ Bầu.
+# """
 
-test_ner_output(text, person_list, film_list, wiki_enrich, B)
-
-# if __name__ == "__main__":
-    
-#     sample = "Bố Già là một phim điện ảnh chủ đề gia đình, hài kịch, bối cảnh tại TP.HCM. Diễn viên chính: Trấn Thành, Ninh Dương Lan Ngọc, kiều minh tuấn. Bộ phim do Galaxy Studio sản xuất."
-
-#     from underthesea import ner
+# test_ner_output(text, person_list, film_list, wiki_enrich, B)
 
 
+text = "năm sinh của trấn thành?"
+# res =test_ner_output(text, person_list, film_list, wiki_enrich, B)
+# print(text)
+# print(res)
+# print(type(res))
 
-#     ner_raw = ner(sample)
+def extract_entity_from_sentences(text):
+    res =test_ner_output(text, person_list, film_list, wiki_enrich, B)
+    output = []
+    # res => list  
+
+    for r in res:
+        # r => dict 
+        output.append(r['name'])
+
+    return output
+print(extract_entity_from_sentences(text))
+
+text2 = "Trấn Thành và Ninh Dương Lan Ngọc có đóng trong Cua lại vợ bầu ? "
+
+print(extract_entity_from_sentences(text2))
 
 
-#     combine_ner = run_combine_ner(sample,person_list, film_list, wiki_enrich, B)
-#     print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
-#     print("NER raw:", combine_ner)
-#     print("Locations:", extract_location_entities(combine_ner))
-#     print("Films:", extract_film_entities(combine_ner))
-#     print("Persons:", extract_person_entities(combine_ner))
-#     print("Orgs:", extract_org_entities(combine_ner))
-#     print("POS:", tokenize_and_pos_tag(sample))
-#     print("Keywords by POS:", extract_keywords_from_pos(tokenize_and_pos_tag(sample), 
-#           extract_film_entities(combine_ner), 
-#           extract_person_entities(combine_ner),
-#           extract_org_entities(combine_ner), 
-#           extract_location_entities(combine_ner) 
-#           ))
-
-#     print("Top tokens:", extract_top_keywords(sample, k=10))
-#     print("Generated topic nodes:", generate_topic_nodes(["gia đình", "hài kịch", "phim"]))
-#     print("Final nodes:", pipeline_extract_nodes_from_summary(sample,person_list, film_list, wiki_enrich, B))
 
