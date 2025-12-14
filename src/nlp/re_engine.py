@@ -1,7 +1,7 @@
 # ==============================================================================
 # 1. IMPORTS & SETUP 
 # ==============================================================================
-from src.nlp.ner import person_list, film_list, wiki_enrich, run_combine_ner
+from src.nlp.ner import person_list, film_list, wiki_enrich, run_combine_ner, extract_entity_detail_from_sentences
 from src.data_prep.load_graph import B, G_collab
 from src.nlp.text_utils import normalize_entity, normalize_entity_name,remove_footnotes,split_text_into_sentences
 import re
@@ -205,7 +205,7 @@ def run_setfit_rel_extraction_debug(
     person_list,
     film_list,
     wiki_enrich=None,
-    debug=True
+    debug=False
 ):
 
     if debug:
@@ -369,7 +369,7 @@ def is_valid_pair(subj_type, obj_type, relation):
 
 
 
-RE_RES_FILE = f"data/re_results.jsonl"
+RE_RES_FILE = f"data/re_res.jsonl"
 
 
 # if re_model is not None:
@@ -470,7 +470,10 @@ RE_RES_FILE = f"data/re_results.jsonl"
 
 
 
-clean_text = "Ngày 25 tháng 12 năm 2016, Trấn Thành kết hôn với nữ ca sĩ mang hai dòng máu Việt-Hàn Hari Won[7] tại Trung tâm Hội nghị Gem Center, Thành phố Hồ Chí Minh.[8] Anh có hai người em gái tên Huỳnh Trinh Mi và Huỳnh Uyển Ân, trong đó Uyển Ân cũng trở thành một diễn viên như anh sau khi cô tham gia đóng chính trong phim Nhà bà Nữ."
+clean_text = '''Ngày 25 tháng 12 năm 2016, Trấn Thành kết hôn với nữ ca sĩ mang hai dòng máu Việt-Hàn Hari Won[7] 
+tại Trung tâm Hội nghị Gem Center, Thành phố Hồ Chí Minh.[8] 
+Anh có hai người em gái tên Huỳnh Trinh Mi và Huỳnh Uyển Ân, trong đó Uyển Ân 
+cũng trở thành một diễn viên như anh sau khi cô tham gia đóng chính trong phim Nhà bà Nữ.'''
 
 
 ner_out = run_combine_ner(clean_text, person_list, film_list, wiki_enrich, B)
@@ -483,9 +486,17 @@ rels = run_setfit_rel_extraction_debug(
     film_list,
     wiki_enrich
 )
+print('=> INPUT: ')
+print(clean_text)
 
+print('=> OUTPUT:')
 print(rels)
+print('=> Các mối quan hệ từ output: ')
+for r in rels:
+    print(r)
 
+
+print("                   ")
 
 
 

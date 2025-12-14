@@ -2,7 +2,7 @@ import networkx as nx
 import community.community_louvain as community_louvain
 import json
 
-from data_prep.load_graph import load_graph   
+from src.data_prep.load_graph import load_graph   
 def compute_page_rank(G):
     """
     Tính PageRank cho đồ thị
@@ -81,27 +81,30 @@ def analyze_actor_importance(G):
 
 G_actor_collab = load_graph('data/updated/G_collab.json')
 page_rank = compute_page_rank(G_actor_collab)
-actor_importance = analyze_actor_importance(G_actor_collab)
-degree_centrality = compute_degree_centrality(G_actor_collab)
 print('Page Rank:', page_rank)
-print('Actor Importance:', actor_importance)
-print('Degree Centrality:', degree_centrality)
-group  = compute_louvain_communities(G_actor_collab)
-for comm_id in set(group.values()):
-    members = [actor for actor, comm in group.items() if comm == comm_id]
-    print(f"Community {comm_id}: {members}")
+
+
+# actor_importance = analyze_actor_importance(G_actor_collab)
+# degree_centrality = compute_degree_centrality(G_actor_collab)
+
+# print('Actor Importance:', actor_importance)
+# print('Degree Centrality:', degree_centrality)
+# group  = compute_louvain_communities(G_actor_collab)
+# for comm_id in set(group.values()):
+#     members = [actor for actor, comm in group.items() if comm == comm_id]
+#     print(f"Community {comm_id}: {members}")
     
-actor_subgraph = get_actor_subgraph(G_actor_collab, "Ngô Thanh Vân")
-print(f"Số nút trong đồ thị con của Ngô Thanh Vân: {actor_subgraph.number_of_nodes()}")
-for neighbor in actor_subgraph.neighbors("Ngô Thanh Vân"):
-    print(f"Ngô Thanh Vân hợp tác với: {neighbor}")
+# actor_subgraph = get_actor_subgraph(G_actor_collab, "Ngô Thanh Vân")
+# print(f"Số nút trong đồ thị con của Ngô Thanh Vân: {actor_subgraph.number_of_nodes()}")
+# for neighbor in actor_subgraph.neighbors("Ngô Thanh Vân"):
+#     print(f"Ngô Thanh Vân hợp tác với: {neighbor}")
     
-betweenness = compute_betweenness(G_actor_collab)
-print("Betweenness Centrality:")
-for actor, score in betweenness.items():
-    print(f"Actor: {actor}, Betweenness: {score}")
+# betweenness = compute_betweenness(G_actor_collab)
+# print("Betweenness Centrality:")
+# for actor, score in betweenness.items():
+#     print(f"Actor: {actor}, Betweenness: {score}")
     
-actor_importance = analyze_actor_importance(G_actor_collab)
-print("Actor Importance Analysis:")
-for actor, metrics in actor_importance.items():
-    print(f"Actor: {actor}, Metrics: {metrics}")
+# actor_importance = analyze_actor_importance(G_actor_collab)
+# print("Actor Importance Analysis:")
+# for actor, metrics in actor_importance.items():
+#     print(f"Actor: {actor}, Metrics: {metrics}")

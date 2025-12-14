@@ -3,13 +3,6 @@ from collections import defaultdict
 from src.nlp.text_utils import normalize_entity, normalize_entity_name,remove_text_in_parentheses,split_text_into_sentences
 import json
 def detect_spouse_relations(G_collab):
-    """
-    Phát hiện quan hệ vợ chồng từ graph, loại bỏ trùng lặp và chuẩn hóa tên.
-    
-    Returns:
-        List of tuples: [(person1, 'SPOUSE', person2), ...]
-        Mỗi cặp chỉ xuất hiện 1 lần (đã sắp xếp alphabet để tránh trùng ngược chiều)
-    """
     seen_pairs = set()
     out = []
     
@@ -65,15 +58,15 @@ def find_co_spouse_groups(pairs):
         person_to_spouses[a].add(b)
         person_to_spouses[b].add(a)
     
-    # Tìm các cặp người có chung vợ/chồng
+   
     co_spouse_map = defaultdict(set)
     
     for person, spouses in person_to_spouses.items():
         for spouse in spouses:
-            # Tất cả vợ/chồng khác của spouse (trừ chính person)
+          
             other_spouses = person_to_spouses[spouse] - {person}
             for other in other_spouses:
-                # person và other có chung vợ/chồng (spouse)
+             
                 key = tuple(sorted([person, other]))
                 co_spouse_map[key].add(spouse)
     
@@ -88,10 +81,7 @@ def find_co_spouse_groups(pairs):
 
 
 def normalize_spouse_pairs(pairs):
-    """
-    Input: list of (person1, 'SPOUSE', person2)
-    Output: list đã được chuẩn hóa
-    """
+   
     # Step 1: gom spouse theo anchor
     spouse_map = defaultdict(list)
 
@@ -169,7 +159,6 @@ def canonical_name(name, all_names):
             continue
         
         # Rule 1: tên dài hơn và kết thúc bằng tên ngắn
-        # Ví dụ: "Đinh Ngọc Diệp" kết thúc bằng "Ngọc Diệp"
         if other.endswith(name) and len(other_tokens) > len(tokens):
             # Kiểm tra thêm: các token phải match theo thứ tự
             # "Ngọc Diệp" phải là 2 từ cuối của "Đinh Ngọc Diệp"
@@ -180,17 +169,13 @@ def canonical_name(name, all_names):
     return best
 
 def dedup_spouse_pairs(raw_pairs):
-    """
-    Dedup chỉ canonical hóa khi có chung vợ/chồng
-    Input: list từ normalize_spouse_pairs
-    """
+   
     # B1: thu thập tất cả tên
     all_names = set()
     for a, rel, b in raw_pairs:
         all_names.add(a)
         all_names.add(b)
     
-    # B2: Tìm các nhóm có chung vợ/chồng
     co_spouse_groups = find_co_spouse_groups(raw_pairs)
     
     # B3: Xây dựng canonical map CHỈ trong các nhóm co-spouse
@@ -213,7 +198,7 @@ def dedup_spouse_pairs(raw_pairs):
                     # Kiểm tra nếu other chứa name (ví dụ: "Đinh Ngọc Diệp" chứa "Ngọc Diệp")
                     if other.endswith(name) or name in other:
                         best = other
-                # Nếu cùng độ dài, ưu tiên tên có dấu ngoặc (thông tin đầy đủ hơn)
+                # Nếu cùng độ dài, ưu tiên tên có dấu ngoặc 
                 elif len(other_tokens) == len(best_tokens):
                     if "(" in other and "(" not in best:
                         best = other
@@ -368,13 +353,10 @@ def detect_directed(G_bipartite):
 def detect_collaboration_with_weight(G_collab, min_films=1, min_weight=0.0):
     """
     Phát hiện quan hệ hợp tác với ngưỡng tùy chỉnh.
-    
-    Args:
         G_collab: Đồ thị collaboration
         min_films: Số phim hợp tác tối thiểu (default: 1)
         min_weight: Trọng số hợp tác tối thiểu (default: 0.0)
     
-    Returns:
         List[Tuple[str, str, str, dict]]:
             [(personA, "COLLABORATED_WITH", personB, metadata), ...]
             metadata chứa film_count, films, weight
@@ -419,7 +401,6 @@ def detect_collaboration(G_collab):
 def detect_same_school(G_collab):
     """
     Phát hiện quan hệ 'cùng trường học' giữa các person trong graph.
-    Ưu tiên các key như education, alma_mater, học_vấn.
     """
     school_keys = ["alma_mater", "education", "học_vấn", "education_background"]
 
@@ -473,26 +454,13 @@ def detect_same_school(G_collab):
 
 
 raw = normalize_spouse_pairs(detect_spouse_relations(G_collab))
-
-# print("\n\nRUNNING DEDUP DEBUG...\n")
-# fixed = dedup_spouse_pairs(raw)
-# for x in fixed:
-#     print(x)
-
-# print(len(fixed))
-
 same_hometown_pairs = detect_same_hometown(G_collab)
-# for x in same_hometown_pairs:
-#     print(x)
+
 
 acted_in_pairs = detect_acted_in(B)
 directed_pairs = detect_directed(B)
 collaboration_pairs = detect_collaboration(G_collab)
-# produced_pairs = detect_produced(B)
 
-
-# for x in collaboration_pairs:
-#     print(x)
 
 def collect_all_relations():
     triples = []

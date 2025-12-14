@@ -38,9 +38,6 @@ def load_jsonl_to_dict(path, key_field="name"):
 
     return result
 
-
-
-
 wiki_enrich = load_jsonl_to_dict(WIKI_ENRICHMENT)
 
 # ===========================================
@@ -93,23 +90,7 @@ def normalize_film_name(text):
 # LAYER 1: BASE NER (UNDERTHESEA)
 
 def ner_raw_underthesea(text):
-    """
-    Tầng 1 — chạy NER gốc từ Underthesea.
-    Output: list [(token, ner_tag)]
-
-    
-    - PER → B-PER
-    - ORG → B-ORG
-    - LOC → B-LOC
-    - O  → O
-    - B-xxx / I-xxx giữ nguyên
-
-    ============================================================
-    Chạy NER bằng underthesea.
-    Input: text (str)
-    Output: List[Tuple[str, str]] ==> list [(token, tag)] như underthesea trả về (chưa nhóm BIO)
-    note: underthesea.ner trả về list (word, tag) với tag có thể là 'B-ORG', 'I-ORG', 'O', ...
-    """
+   
     if not text or not text.strip():
         return []
     # underthesea.ner yêu cầu đầu vào là string và sẽ tự tách token
@@ -148,8 +129,6 @@ def ner_raw_underthesea(text):
             fixed.append((w, t))
     return fixed
 
-
-
 def build_map(input_list):
     """
     Tạo map canonical -> list các tiêu đề gốc.
@@ -161,14 +140,10 @@ def build_map(input_list):
             continue
 
         key = canonical_title(title)
-        # if key != title:
-        #     print('test build map: ',title, '==>' ,key)
         if key not in res_map:
             res_map[key] = [ title.strip() ]
         else:
             res_map[key].append(title.strip())
-
-
     return res_map
 
 def build_normalized_sets(person_list, film_list):
@@ -189,30 +164,8 @@ def build_normalized_sets(person_list, film_list):
     return person_set, film_set
 
 def ner_override_graph(raw_tokens, person_list, film_list):
-    """
-    Tầng 2 — override tag dựa trên graph bipartite.
-    Override NER tags dựa trên bipartite graph.
-    Sử dụng longest match để xử lý tên nhiều từ.
-    Input: list [(token, tag_raw)]
-    Output: list [(token, tag_graph_fixed)]
-    """
-    '''
-    raw_tokens: 
-        Tầng 1 (raw BIO):
-        [('Trấn Thành', 'O'), ('đóng', 'O'), ('trong', 'O'), ('phim', 'O'), ('Bố Già', 'I-LOC')]
-    person_list: ['Trấn Thành', 'Ninh Dương Lan Ngọc', 'Ngô Thanh Vân', 'Hồng Đào', 'Kiều Minh Tuấn', 'Victor Vũ', 
-    film_list: ['Nhà bà Nữ', 'Hai Phượng', 'Tèo em', 'Mùi ngò gai', 'Cổng mặt trời (phim truyền hình)', 
-    film_set: ... 'Những công dân tập thể', 'Mắt biếc', 'Một lần đi bụi', 'Con đường sáng', 'Bước nhảy hoàn vũ', 'Ngôi nhà trong hẻm', 'Bố già', 'Hello cô Ba', 'Những người đã hết thời', 'Đảo của dân ngụ cư'
-    person_set: {'Công Hậu', 'Nikki Dương Nhật Vi', 'Trương Minh Cường', 'Nguyệt Nhi', 'Trí Tuệ', 'Nguyên Trinh', 'Thân Thanh Giang', 'Khoa', 'Nguyễn Thị Tuyết', 'Thanh Ngọc', 'Hoàng Trinh diễn viên', 'Thành Trí', 'Tiến Thành', 'Hoàng Mèo', 'Long Điền', 'Linh Chi', 'Minh Luân', 'Thanh Thúy', 'Kathy Tiên', 'Thảo Quyên', 'Quách Ngọc Tuyên', 'Isaac ca sĩ',
-    
-    output hàm: [('Trấn Thành', 'B-PER'), ('đóng', 'B-PER'), ('trong', 'O'), ('phim', 'O'), ('Bố Già', 'I-LOC')]
-
-    print(normalize("Bố già") ) bố già
-    '''
     # Chuẩn hóa lookup: tạo set 
       # ----- PERSON/ FILM MAP + SET -----
-    
-   
     # Xây dựng set chuẩn hóa
     person_set, film_set = build_normalized_sets(person_list, film_list)
     
@@ -244,8 +197,7 @@ def ner_override_graph(raw_tokens, person_list, film_list):
                 best_match_length = length
                 best_match_type = "FILM"
                 matched = True
-                break
-        
+                break    
         # Nếu match được, gán tag mới
         if matched and best_match_length > 0:
             phrase_tokens = [raw_tokens[i + j][0] for j in range(best_match_length)]
@@ -274,8 +226,6 @@ def ner_override_graph(raw_tokens, person_list, film_list):
             i += 1
     
     return out
-
-
 # ====================================
 # LAYER 3: WIKI ENRICHMENT
 # Keywords để detect entity type từ Wiki
@@ -302,20 +252,13 @@ def detect_entity_type_from_wiki(entity_text, wiki_enrich):
             wiki_norm[key_norm] = v
     
     # Exact lookup
-    wiki_data = wiki_norm.get(entity_norm)
-    
-    
-    
+    wiki_data = wiki_norm.get(entity_norm) 
     if not wiki_data:
         return None
-    
     summary = str(wiki_data.get("summary", "")).lower()
     if not summary:
         return None
-    
-    # ===== LOGIC PHÁT HIỆN CẢI TIẾN =====
-    
-    # 1. Kiểm tra câu ĐẦU TIÊN (quan trọng nhất!)
+    # 1. Kiểm tra câu ĐẦU TIÊN 
     first_sentence = summary.split('.')[0] if '.' in summary else summary[:200]
     
     # PERSON: Câu đầu thường là "X (sinh ngày...) là..."
@@ -342,8 +285,6 @@ def detect_entity_type_from_wiki(entity_text, wiki_enrich):
         r'do đạo diễn .+ đạo diễn',  # "do đạo diễn X đạo diễn"
         r'phim của đạo diễn',
     ]
-    
-    import re
     
     # Check PERSON trong câu đầu (priority cao)
     for pattern in person_first_sentence_patterns:
@@ -404,7 +345,6 @@ def detect_entity_type_from_wiki(entity_text, wiki_enrich):
         if keyword in summary:
             film_score += score
     
-    # 3. Loại trừ false positives
     # Nếu có "đóng vai" + "trong phim" → đang nói về người diễn trong phim
     if 'đóng vai' in summary and 'trong phim' in summary:
         person_score += 3
@@ -1115,27 +1055,6 @@ def create_new_nodes(films, persons,orgs,locations,topics):
     return nodes
 
 def pipeline_extract_nodes_from_summary(summary_text,person_list, film_list, wiki_enrich, B,top_k_keywords=5,stopwords=None):
-    """
-    Pipeline đầy đủ trích xuất các node từ một đoạn summary.
-
-    Các bước xử lý:
-    1) Chạy NER để lấy:
-       - Location
-       - Person
-       - Organization
-    2) POS tagging → chọn keyword dạng danh từ/tính từ.
-    3) Lấy top_k_keywords làm Topic nodes.
-    4) Gộp toàn bộ thành danh sách node chuẩn hóa dạng:
-       [(name, type), ...]
-
-    Tham số:
-    - summary_text: đoạn văn cần phân tích.
-    - top_k_keywords: số lượng Topic mong muốn.
-    - stopwords: bộ stopwords tùy chỉnh (nếu None → dùng mặc định).
-
-    Trả về:
-    - Danh sách node không trùng (name, type).
-    """
 
     # --- Trường hợp input rỗng ---
     if not summary_text or not summary_text.strip():
@@ -1167,11 +1086,6 @@ def pipeline_extract_nodes_from_summary(summary_text,person_list, film_list, wik
                                  topics=topic_nodes
                                  )
     return new_nodes
-
-
-
-
-
 
 def test_ner_output(text, person_list, film_list, wiki_enrich, bipartite_graph):
     
@@ -1223,13 +1137,6 @@ def test_ner_output(text, person_list, film_list, wiki_enrich, bipartite_graph):
         # print("NER ổn, chuyển sang bước RE được.")
 
     return ner_out
-
-
-
-
-
-
-
 
 def extract_entity_from_sentences(text):
     res =test_ner_output(text, person_list, film_list, wiki_enrich, B)
@@ -1290,21 +1197,26 @@ def print_debug():
     # print(text)
     # print(res)
     # print(type(res))
-    print('------------------------------------')
-    print(text)
-    print(extract_entity_from_sentences(text))
+    # print('------------------------------------')
+    # print(text)
+    # print(extract_entity_from_sentences(text))
 
-    print('------------------------------------')
-    text2 = "Trấn Thành và Ninh Dương Lan Ngọc có đóng trong Cua lại vợ bầu ? "
-    text2 = "Trấn Thành và Ninh Dương Lan Ngọc có đóng chung phim nào ? "
-    print(text2)
-    print(debug_ner_pipeline(text2))
-    print(extract_entity_from_sentences(text2))
+    # print('------------------------------------')
+    # text2 = "Trấn Thành và Ninh Dương Lan Ngọc có đóng trong Cua lại vợ bầu ? "
+    # text2 = "Trấn Thành và Ninh Dương Lan Ngọc có đóng chung phim nào ? "
+    # print(text2)
+    # print(debug_ner_pipeline(text2))
+    # print(extract_entity_from_sentences(text2))
 
-    list_ent , dict_ent = extract_entity_detail_from_sentences(text2)
-    print(list_ent)
-    print(dict_ent[list_ent[0]])
+    # list_ent , dict_ent = extract_entity_detail_from_sentences(text2)
+    # print(list_ent)
+    # print(dict_ent[list_ent[0]])
 
+    text1 = "Trấn Thành đóng trong phim Bố Già"
+    text1 = "Thanh Hà sinh tại Khánh Hòa"
+    print('Text input: ',text1)
+
+    print(debug_ner_pipeline(text1))
 
 
 

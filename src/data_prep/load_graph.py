@@ -28,27 +28,19 @@ def load_bipartite_graph_and_nodes(B):
     # Tách danh sách ACTORS & MOVIES
     person_list = []
     film_list = []
+    person_list1 = []
+    film_list1 = []
     for node, attrs in B.nodes(data=True):
         ntype = attrs.get("type")
+        info = attrs.get('info')
         if ntype == "person":
             person_list.append(node)
         elif ntype == "film":
             film_list.append(node)
-    
     return B, person_list, film_list
-
-
-
-
-
 
 # Load graph
 B = load_graph(BIPARTITE_JSON)
-
-
-
-
-
 #TEST 
 def debug_json_structure(path):
     import json
@@ -62,18 +54,14 @@ def debug_json_structure(path):
         print(f"Sample Node 0: {data['nodes'][0]}")
         # Nếu sample node có chứa 'source' và 'target' -> File JSON bị sai nguồn
         if 'source' in data['nodes'][0]:
-            print("!!! Key 'nodes' đang chứa dữ liệu của links/edges !!!")
+            print("!!! Key 'nodes' đang chứa dữ liệu của links/edges !")
             
     if "edges" in data:
         print(f"Sample Link 0: {data['edges'][0]}")
 
-
-
-
 B, person_list, film_list = load_bipartite_graph_and_nodes(B)
 G_collab = load_graph(G_COLLAB_JSON)
 #
-
 
 
 def print_debug():
@@ -107,18 +95,11 @@ def print_debug():
     print("Số phim:", len(film_list))
     print("Số node trong collab graph:", G_collab.number_of_nodes())
     print("Số cạnh collab graph:", G_collab.number_of_edges())
-
     print("Ví dụ 10 actor:", person_list[:10])
     print("Ví dụ 10 movie:", film_list[:10])
-
-
     debug_json_structure(G_COLLAB_JSON)
-
     print('**************************************************')
     print("Node Trấn Thành:", G_collab.nodes["Trấn Thành"])
     print('-------------------------------------------------')
     print("Edge Trấn Thành - Uyển Ân:", G_collab["Trấn Thành"]["Uyển Ân"])
-
-
-
 # print_debug()

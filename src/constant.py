@@ -1,4 +1,4 @@
-BIPARTITE_JSON = 'data/cleaned_vn_bipartite_graph.json'
-G_COLLAB_JSON = 'data/cleaned_vn_film_collaboration_graph.json'
+BIPARTITE_JSON = 'data/updated/B.json'
+G_COLLAB_JSON = 'data/updated/G_collab.json'
 WIKI_ENRICHMENT = 'data/wiki_enrichment.jsonl'
 XML_FILE = "viwiki-latest-pages-articles.xml"
