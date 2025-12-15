@@ -711,6 +711,24 @@ if __name__ == "__main__":
 
     # Test queries
     test_questions = [
+        # === BASIC 1-HOP QUERIES (1 entity) ===
+        "Trấn Thành đóng phim gì?",
+        "Ai đạo diễn phim Bố Già?",
+        "Hari Won học cùng trường với ai?",
+        
+        # === 2-HOP PROPERTY QUERIES (1 entity) ===
+        "Vợ của Trấn Thành sinh năm nao?",
+        "Vợ Trấn Thành quê ở đâu?",
+        "Đạo diễn phim Bố Già sinh năm nào?",
+        
+        # === 2-HOP EDGE QUERIES (1 entity) ===
+        "Vợ của Trấn Thành đóng phim gì?",
+        "Trấn Thành đóng thể loại phim gì?",
+        
+        # === MULTI-QUERY (3+ properties in 1 question) ===
+        "Vợ của Trấn Thành là ai và sinh năm bao nhiêu và quê ở đâu?",
+        "Hari Won sinh năm nào và quê ở đâu?",
+        "Vợ Trấn Thành tên gì, sinh năm nào?",
         
         # === 2-ENTITY QUERIES (MUST BE 2-HOP+) ===
         "Trấn Thành và Hari Won đóng chung phim nào?",
