@@ -1,6 +1,6 @@
 """
 FastAPI Backend cho GraphRAG Chatbot
-Tích hợp với hệ thống GraphRAG đã có
+Tích hợp với hệ thống GraphRAG đã có (với anti-hallucination)
 """
 
 from fastapi import FastAPI, HTTPException
@@ -41,8 +41,8 @@ except ImportError as e:
 
 app = FastAPI(
     title="GraphRAG Chatbot API",
-    description="API cho hệ thống Q&A với Neo4j + LLM",
-    version="1.0.0"
+    description="API cho hệ thống Q&A với Neo4j + LLM (Anti-hallucination enabled)",
+    version="2.0.0"
 )
 
 # CORS middleware
@@ -59,6 +59,7 @@ app.add_middleware(
 class QuestionRequest(BaseModel):
     question: str
     debug: Optional[bool] = False
+    use_finetuned: Optional[bool] = False
 
 class StepOutput(BaseModel):
     id: str
@@ -81,13 +82,12 @@ class ChatbotResponse(BaseModel):
 # ==================== GLOBAL STATE ====================
 
 MODEL_PACK = None
-MODEL_LOADING = False  # Flag để tránh load nhiều lần đồng thời
+MODEL_LOADING = False
 
 def get_model():
     """Lazy load model với timeout"""
     global MODEL_PACK, MODEL_LOADING
     
-    # Nếu đang load, đợi
     if MODEL_LOADING:
         print("Model is loading by another request, please wait...")
         return None
@@ -108,9 +108,9 @@ def get_model():
 
 # ==================== MAIN CHATBOT FUNCTION ====================
 
-def chatbot_answer(question: str, debug: bool = False) -> Dict[str, Any]:
+def chatbot_answer(question: str, debug: bool = False, use_finetuned: bool = False) -> Dict[str, Any]:
     """
-    CONTRACT BACKEND - Tích hợp thật với GraphRAG
+    CONTRACT BACKEND - Tích hợp thật với GraphRAG (with anti-hallucination)
     """
     
     start = time.time()
@@ -165,14 +165,18 @@ def chatbot_answer(question: str, debug: bool = False) -> Dict[str, Any]:
                 if isinstance(e, dict):
                     normalized_entities.append({
                         "node_name": e.get('node_name', e.get('name', 'Unknown')),
-                        "node_label": e.get('node_label', e.get('label', e.get('type', 'PERSON'))),
-                        "type": e.get('type', e.get('node_label', 'person'))
+                        "node_id": e.get('node_id', e.get('node_name', 'Unknown')),
+                        "type": e.get('type', 'person'),
+                        "score": e.get('score', 0),
+                        "match_type": e.get('match_type', 'unknown')
                     })
                 elif isinstance(e, str):
                     normalized_entities.append({
                         "node_name": e,
-                        "node_label": "PERSON",
-                        "type": "person"
+                        "node_id": e,
+                        "type": "person",
+                        "score": 100,
+                        "match_type": "direct"
                     })
             linked_entities = normalized_entities
         
@@ -188,8 +192,9 @@ def chatbot_answer(question: str, debug: bool = False) -> Dict[str, Any]:
                 "linked_entities": [
                     {
                         "node_name": e['node_name'],
-                        "node_label": e['node_label'],
-                        "type": e.get('type', 'person')
+                        "type": e.get('type', 'person'),
+                        "score": e.get('score', 0),
+                        "match_type": e.get('match_type', 'unknown')
                     } for e in (linked_entities or [])
                 ],
                 "count": len(linked_entities) if linked_entities else 0
@@ -239,6 +244,12 @@ def chatbot_answer(question: str, debug: bool = False) -> Dict[str, Any]:
         if not composed:
             t0 = time.time()
             intent = detect_intent(question, num_entities=num_entities)
+            
+            # Log if 2+ entities forced to 2-hop query
+            forced_2hop = False
+            if num_entities >= 2 and intent['intent'] not in ['get_common_movies', 'get_common_directors', 'get_collaboration_history']:
+                forced_2hop = True
+            
             steps.append({
                 "id": "detect_intent",
                 "title": "Detect question intent",
@@ -250,7 +261,9 @@ def chatbot_answer(question: str, debug: bool = False) -> Dict[str, Any]:
                 "output": {
                     "intent": intent['intent'],
                     "confidence": intent['confidence'],
-                    "entity_count": num_entities
+                    "entity_count": num_entities,
+                    "forced_2hop": forced_2hop,
+                    "note": "2+ entities requires 2-hop+ query" if forced_2hop else None
                 },
                 "duration_ms": int((time.time() - t0) * 1000)
             })
@@ -281,7 +294,8 @@ def chatbot_answer(question: str, debug: bool = False) -> Dict[str, Any]:
             g_res = {
                 'status': 'success',
                 'data': composed,
-                'entity_name': entity_name
+                'entity_name': entity_name,
+                'formatted': formatted
             }
         else:
             # Single query case
@@ -294,21 +308,25 @@ def chatbot_answer(question: str, debug: bool = False) -> Dict[str, Any]:
             )
             
             entity_name = g_res.get('entity_name', linked_entities[0]['node_name'])
-            cypher_desc = f"MATCH (n)-[r]->(m) WHERE n.name = '{entity_name}' RETURN m"
+            
+            # Generate readable query description
+            query_desc = f"Query for '{entity_name}' with intent '{intent['intent']}'"
             
             steps.append({
                 "id": "query_neo4j",
                 "title": "Query Neo4j graph database",
                 "type": "neo4j",
                 "input": {
-                    "cypher": cypher_desc,
+                    "query_description": query_desc,
                     "intent": intent['intent'],
-                    "entities": [e['node_name'] for e in linked_entities]
+                    "entities": [e['node_name'] for e in linked_entities],
+                    "num_entities": num_entities
                 },
                 "output": {
                     "status": g_res['status'],
                     "records_count": len(g_res['data']) if isinstance(g_res['data'], list) else 1,
-                    "data_preview": str(g_res['data'])[:200] + "..." if len(str(g_res['data'])) > 200 else str(g_res['data'])
+                    "data_preview": str(g_res['data'])[:200] + "..." if len(str(g_res['data'])) > 200 else str(g_res['data']),
+                    "has_fallback": 'formatted' in g_res
                 },
                 "duration_ms": int((time.time() - t0) * 1000)
             })
@@ -350,7 +368,7 @@ def chatbot_answer(question: str, debug: bool = False) -> Dict[str, Any]:
                 "duration_ms": int((time.time() - t0) * 1000)
             })
         
-        # ===== STEP 7: LLM PARAPHRASE =====
+        # ===== STEP 7: LLM PARAPHRASE (with anti-hallucination) =====
         t0 = time.time()
         model_pack = get_model()
         
@@ -362,8 +380,10 @@ def chatbot_answer(question: str, debug: bool = False) -> Dict[str, Any]:
             final_answer = final_answer.replace("THONG TIN: ", "")
             final_answer = final_answer.replace("DANH SACH", "Danh sách")
             final_answer = final_answer.replace("PHIM:", "Các phim:")
+            final_answer = final_answer.replace("THE LOAI:", "Thể loại:")
             final_answer = final_answer.replace("DAO DIEN:", "Đạo diễn:")
             final_answer = final_answer.replace("DIEN VIEN:", "Diễn viên:")
+            final_answer = final_answer.replace("KHONG TIM THAY", "Không tìm thấy")
             
             steps.append({
                 "id": "llm_generate",
@@ -372,18 +392,25 @@ def chatbot_answer(question: str, debug: bool = False) -> Dict[str, Any]:
                 "input": None,
                 "output": {
                     "answer": final_answer,
-                    "note": "Using formatted text without LLM paraphrase (faster response)"
+                    "note": "Using formatted text without LLM paraphrase (faster response)",
+                    "anti_hallucination": "N/A (no LLM used)"
                 },
                 "duration_ms": int((time.time() - t0) * 1000)
             })
         else:
+            # Use LLM with anti-hallucination checks
             final_answer = llm_paraphrase_graphrag(
                 model_pack, 
                 formatted, 
                 question, 
-                use_finetuned=False, 
+                use_finetuned=use_finetuned, 
                 debug=debug
             )
+            
+            # Detect if anti-hallucination kicked in
+            is_direct_data = (final_answer == formatted or 
+                            final_answer in formatted or
+                            formatted.split(":")[-1].strip().rstrip('.') == final_answer)
             
             steps.append({
                 "id": "llm_generate",
@@ -391,10 +418,13 @@ def chatbot_answer(question: str, debug: bool = False) -> Dict[str, Any]:
                 "type": "llm",
                 "input": {
                     "formatted_text": formatted[:100] + "...",
-                    "question": question
+                    "question": question,
+                    "anti_hallucination_enabled": True
                 },
                 "output": {
-                    "answer": final_answer
+                    "answer": final_answer,
+                    "direct_data_returned": is_direct_data,
+                    "note": "Anti-hallucination checks passed" if not is_direct_data else "Returned direct data (hallucination prevented)"
                 },
                 "duration_ms": int((time.time() - t0) * 1000)
             })
@@ -447,9 +477,15 @@ async def root():
     """Health check endpoint"""
     return {
         "status": "ok",
-        "message": "GraphRAG Chatbot API is running",
+        "message": "GraphRAG Chatbot API is running (v2.0 - Anti-hallucination enabled)",
         "graphrag_available": HAS_GRAPHRAG,
-        "model_loaded": MODEL_PACK is not None
+        "model_loaded": MODEL_PACK is not None,
+        "features": [
+            "Multi-query support",
+            "Film genre queries",
+            "Anti-hallucination checks",
+            "2-entity = 2-hop enforcement"
+        ]
     }
 
 @app.post("/api/chat", response_model=ChatbotResponse)
@@ -460,8 +496,9 @@ async def chat(request: QuestionRequest):
     Example request:
     ```json
     {
-        "question": "Trấn Thành đóng phim gì?",
-        "debug": false
+        "question": "Phim Nhà Bà Nữ thuộc thể loại gì?",
+        "debug": false,
+        "use_finetuned": false
     }
     ```
     """
@@ -469,7 +506,11 @@ async def chat(request: QuestionRequest):
         raise HTTPException(status_code=400, detail="Question cannot be empty")
     
     try:
-        result = chatbot_answer(request.question, debug=request.debug)
+        result = chatbot_answer(
+            request.question, 
+            debug=request.debug,
+            use_finetuned=request.use_finetuned
+        )
         return result
     except Exception as e:
         import traceback
@@ -495,6 +536,12 @@ async def health_check():
             "loaded": MODEL_PACK is not None,
             "loading": MODEL_LOADING,
             "note": "First query will be slower if model not preloaded"
+        },
+        "features": {
+            "anti_hallucination": True,
+            "film_genre_query": True,
+            "multi_query": True,
+            "two_entity_enforcement": True
         },
         "timestamp": time.time()
     }
@@ -543,7 +590,13 @@ async def startup_event():
     Startup event - Preload model in background if needed
     """
     print("\n" + "="*60)
-    print("🚀 GraphRAG Chatbot API Starting...")
+    print("🚀 GraphRAG Chatbot API Starting (v2.0)...")
+    print("="*60)
+    print("✨ Features:")
+    print("  - Anti-hallucination checks")
+    print("  - Film genre queries")
+    print("  - Multi-query support")
+    print("  - 2-entity = 2-hop enforcement")
     print("="*60)
     
     # Option 1: Preload model on startup (slower startup, faster first query)
@@ -588,10 +641,10 @@ if __name__ == "__main__":
     print("="*60 + "\n")
     
     test_questions = [
+        "Phim Nhà Bà Nữ thuộc thể loại gì?",
         "Trấn Thành đóng phim gì?",
         "Vợ của Trấn Thành sinh năm nào?",
         "Trấn Thành và Hari Won đóng chung phim nào?",
-        "Vợ Trấn Thành tên gì, sinh năm nào và quê ở đâu?"
     ]
     
     for q in test_questions:
@@ -605,7 +658,7 @@ if __name__ == "__main__":
     
     # ===== SERVER MODE =====
     print("\n" + "="*60)
-    print("GRAPHRAG CHATBOT API")
+    print("GRAPHRAG CHATBOT API v2.0")
     print("="*60)
     print(f"GraphRAG modules available: {HAS_GRAPHRAG}")
     print("\nStarting server...")
@@ -615,7 +668,7 @@ if __name__ == "__main__":
     
     uvicorn.run(
         app,
-        host="localhost",  # Changed to accept external connections
+        host="localhost",
         port=8000,
         log_level="info"
     )

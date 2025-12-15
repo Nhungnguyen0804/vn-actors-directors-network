@@ -671,20 +671,34 @@ def llm_paraphrase_graphrag(model_pack, formatted_sentence, question, use_finetu
     """Viết lại câu trả lời tự nhiên"""
     model, tokenizer = model_pack
     
-    if "KHONG TIM THAY" in formatted_sentence:
-        return "Xin loi, hien tai toi chua co thong tin day du ve cau hoi nay trong du lieu."
+    if "KHÔNG TÌM THẤY" in formatted_sentence:
+        return "Xin lỗi, hiện tại tôi chưa có thông tin đầy đủ về câu hỏi này trong dữ liệu."
 
+   # ===== PROMPT ĐƠN GIẢN CHO MODEL NHỎ =====
+    
+    system_prompt = "Bạn là trợ lý trả lời câu hỏi từ dữ liệu."
+    user_prompt = f"""Dữ liệu: {formatted_sentence}
+
+Câu hỏi: {question}
+
+Trả lời ngắn gọn dựa trên dữ liệu:"""
+   
+        # Không dùng system prompt với model nhỏ
     user_prompt = f"""{formatted_sentence}
 
-Hoi: {question}
-Tra loi:"""
+Hỏi: {question}
+Trả lời:"""
 
-    messages = [{"role": "user", "content": user_prompt}]
+
+    messages = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_prompt}
+    ]
     text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
     model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
     
     with torch.no_grad():
-        generated_ids = model.generate(**model_inputs, max_new_tokens=128, temperature=0.1, repetition_penalty=1.0, do_sample=False, num_beams=1)
+        generated_ids = model.generate(**model_inputs, max_new_tokens=100, temperature=0, repetition_penalty=1.0, do_sample=False, num_beams=1)
     
     response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
     if "assistant" in response:
@@ -774,9 +788,8 @@ if __name__ == "__main__":
 
     # Test queries
     test_questions = [
-        "Phim Nhà Bà Nữ có thể loại là gì",
-        "Thể loại phim Người Vợ Ba",
-        "Phim Đất Phương Nam thuộc thể loại gì",
+        "Phim Nhà Bà Nữ thuộc thể loại gì",
+       
     ]
     
     print("\n" + "="*60)
