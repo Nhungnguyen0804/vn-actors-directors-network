@@ -17,8 +17,6 @@ def close_driver():
     driver.close()
 
 
-
-
 # ========================================================
 # RELATIONSHIP REGISTRY
 # ========================================================
@@ -145,7 +143,7 @@ RELATIONSHIPS = {
 
 
 # ========================================================
-# CORE QUERY BUILDER
+# CORE QUERY BUILDER WITH STEP TRACKING
 # ========================================================
 
 def build_query_from_relationships(
@@ -153,11 +151,16 @@ def build_query_from_relationships(
     start_label: str,
     relationships: List[str],
     limit: int = 20,
-    debug: bool = False
-) -> List[Any]:
+    debug: bool = False,
+    return_steps: bool = False  # NEW: Trả về kết quả từng bước
+) -> Any:
     """
     Xây dựng và thực thi query từ danh sách relationships
     Hỗ trợ EDGES, PROPERTIES, và COLLECT
+    
+    Args:
+        return_steps: Nếu True, trả về dict với kết quả từng hop
+                     Nếu False, chỉ trả về kết quả cuối cùng
     """
     
     if debug:
@@ -168,10 +171,20 @@ def build_query_from_relationships(
     current_label = start_label
     previous_results = None
     
+    # NEW: Track kết quả từng bước
+    step_results = {
+        "start_entity": start_entity,
+        "start_label": start_label,
+        "chain": relationships,
+        "steps": []
+    }
+    
     for i, rel_key in enumerate(relationships):
         if rel_key not in RELATIONSHIPS:
             if debug:
                 print(f"  ❌ Unknown relationship: {rel_key}")
+            if return_steps:
+                return step_results
             return []
         
         rel_config = RELATIONSHIPS[rel_key]
@@ -206,6 +219,20 @@ def build_query_from_relationships(
                     if not record or not record["result"]:
                         if debug:
                             print(f"    ❌ No values found")
+                        
+                        step_results["steps"].append({
+                            "hop": i + 1,
+                            "relationship": rel_key,
+                            "description": rel_config.get("description", ""),
+                            "type": "property_collect",
+                            "property": prop,
+                            "source_entities": previous_results,
+                            "result": [],
+                            "count": 0
+                        })
+                        
+                        if return_steps:
+                            return step_results
                         return []
                     
                     # Flatten and clean
@@ -223,6 +250,21 @@ def build_query_from_relationships(
                     if debug:
                         print(f"    ✓ Collected {len(result_list)} values: {result_list}")
                     
+                    # NEW: Lưu kết quả bước này
+                    step_results["steps"].append({
+                        "hop": i + 1,
+                        "relationship": rel_key,
+                        "description": rel_config.get("description", ""),
+                        "type": "property_collect",
+                        "property": prop,
+                        "source_entities": previous_results,
+                        "result": result_list,
+                        "count": len(result_list)
+                    })
+                    
+                    if return_steps:
+                        step_results["final_result"] = result_list
+                        return step_results
                     return result_list
             
             # CASE 1B: Single property lookup
@@ -248,6 +290,19 @@ def build_query_from_relationships(
                     if not record or not record["result"]:
                         if debug:
                             print(f"    ❌ Property {prop} not found")
+                        
+                        step_results["steps"].append({
+                            "hop": i + 1,
+                            "relationship": rel_key,
+                            "description": rel_config.get("description", ""),
+                            "type": "property",
+                            "property": prop,
+                            "source_entity": current_entity,
+                            "result": None
+                        })
+                        
+                        if return_steps:
+                            return step_results
                         return []
                     
                     result = record["result"]
@@ -267,12 +322,42 @@ def build_query_from_relationships(
                         
                         if debug:
                             print(f"    ✓ Values: {result_list}")
+                        
+                        # NEW: Lưu kết quả bước này
+                        step_results["steps"].append({
+                            "hop": i + 1,
+                            "relationship": rel_key,
+                            "description": rel_config.get("description", ""),
+                            "type": "property_list",
+                            "property": prop,
+                            "source_entity": current_entity,
+                            "result": result_list,
+                            "count": len(result_list)
+                        })
+                        
+                        if return_steps:
+                            step_results["final_result"] = result_list
+                            return step_results
                         return result_list
                     
                     if debug:
                         print(f"    ✓ Value: {result}")
                     
+                    # NEW: Lưu kết quả bước này
+                    step_results["steps"].append({
+                        "hop": i + 1,
+                        "relationship": rel_key,
+                        "description": rel_config.get("description", ""),
+                        "type": "property",
+                        "property": prop,
+                        "source_entity": current_entity,
+                        "result": result
+                    })
+                    
                     if i == len(relationships) - 1:
+                        if return_steps:
+                            step_results["final_result"] = [result]
+                            return step_results
                         return [result]
                     
                     current_entity = result
@@ -332,12 +417,31 @@ def build_query_from_relationships(
             if debug:
                 print(f"    ✓ Found {len(results)} results")
             
+            # NEW: Lưu kết quả bước này
+            step_results["steps"].append({
+                "hop": i + 1,
+                "relationship": rel_key,
+                "description": rel_config.get("description", ""),
+                "type": "edge",
+                "edge_type": rel_type,
+                "source_entity": current_entity,
+                "source_label": start_label_rel,
+                "target_label": end_label_rel,
+                "result": results,
+                "count": len(results)
+            })
+            
             if i == len(relationships) - 1:
+                if return_steps:
+                    step_results["final_result"] = results
+                    return step_results
                 return results
             
             if not results:
                 if debug:
                     print(f"    ❌ No results found")
+                if return_steps:
+                    return step_results
                 return []
             
             # Lưu results cho hop tiếp
@@ -354,6 +458,8 @@ def build_query_from_relationships(
             
             current_label = end_label_rel
     
+    if return_steps:
+        return step_results
     return []
 
 
@@ -365,28 +471,52 @@ def query_flexible(
     start_entity: str,
     start_label: str,
     relationship_chain: List[str],
-    debug: bool = False
-) -> List[Any]:
+    debug: bool = False,
+    return_steps: bool = False
+) -> Any:
     """Query linh hoạt với chuỗi relationships bất kỳ"""
     return build_query_from_relationships(
         start_entity,
         start_label,
         relationship_chain,
         limit=50,
-        debug=debug
+        debug=debug,
+        return_steps=return_steps
     )
 
 
 # ========================================================
-# CONVENIENCE FUNCTIONS
+# CONVENIENCE FUNCTIONS (có thể thêm return_steps)
 # ========================================================
 
-def graph_query_movies_by_actor(actor_name: str, debug: bool = False):
+def graph_query_movies_by_actor(actor_name: str, debug: bool = False, return_steps: bool = False):
     """1-HOP: Phim của diễn viên"""
     return build_query_from_relationships(
-        actor_name, "PERSON", ["PERSON_ACTED_IN_FILM"], debug=debug
+        actor_name, "PERSON", ["PERSON_ACTED_IN_FILM"], 
+        debug=debug, return_steps=return_steps
     )
 
+
+def graph_query_spouse_movies(person_name: str, debug: bool = False, return_steps: bool = False):
+    """2-HOP: Phim của vợ/chồng"""
+    return query_flexible(
+        person_name, "PERSON",
+        ["PERSON_SPOUSE", "PERSON_ACTED_IN_FILM"],
+        debug=debug,
+        return_steps=return_steps
+    )
+
+
+def graph_query_common_movies(actor1: str, actor2: str, debug: bool = False):
+    """2-HOP: Phim chung"""
+    movies1 = set(graph_query_movies_by_actor(actor1, debug=False))
+    movies2 = set(graph_query_movies_by_actor(actor2, debug=False))
+    return sorted(list(movies1.intersection(movies2)))
+
+
+# ========================================================
+# ADDITIONAL CONVENIENCE FUNCTIONS
+# ========================================================
 
 def graph_query_actors_of_movie(movie_name: str, debug: bool = False):
     """1-HOP: Diễn viên trong phim"""
@@ -423,23 +553,9 @@ def graph_query_same_location(person_name: str, debug: bool = False):
     )
 
 
-def graph_query_spouse_movies(person_name: str, debug: bool = False):
-    """2-HOP: Phim của vợ/chồng"""
-    return query_flexible(
-        person_name, "PERSON",
-        ["PERSON_SPOUSE", "PERSON_ACTED_IN_FILM"],
-        debug=debug
-    )
-
-
-def graph_query_common_movies(actor1: str, actor2: str, debug: bool = False):
-    """2-HOP: Phim chung"""
-    movies1 = set(graph_query_movies_by_actor(actor1, debug=False))
-    movies2 = set(graph_query_movies_by_actor(actor2, debug=False))
-    return sorted(list(movies1.intersection(movies2)))
-
-
-# === CUSTOM QUERIES ===
+# ========================================================
+# CUSTOM MULTI-HOP QUERIES
+# ========================================================
 
 def graph_query_director_of_actor_movies(actor_name: str, limit: int = 10, debug: bool = False):
     """2-HOP: Đạo diễn các phim diễn viên đóng"""
@@ -466,7 +582,6 @@ def graph_query_director_of_actor_movies(actor_name: str, limit: int = 10, debug
 
 def graph_query_actors_in_director_movies(director_name: str, limit: int = 20, debug: bool = False):
     """2-HOP: Diễn viên trong phim của đạo diễn"""
-
     query = """
     MATCH (director:PERSON)-[:DIRECTED_IN]->(film:FILM)<-[:ACTED_IN]-(actor:PERSON)
     WHERE toLower(director.info_name) CONTAINS toLower($name)
@@ -511,7 +626,6 @@ def graph_query_schoolmate_movies(person_name: str, debug: bool = False):
 
 def graph_query_common_directors(actor1: str, actor2: str, debug: bool = False):
     """3-HOP: Đạo diễn chung"""
-    
     query = """
     MATCH (a1:PERSON)-[:ACTED_IN]->(f1:FILM)<-[:DIRECTED_IN]-(dir:PERSON)
          -[:DIRECTED_IN]->(f2:FILM)<-[:ACTED_IN]-(a2:PERSON)
@@ -561,7 +675,6 @@ def graph_query_coactor_network(actor_name: str, depth: int = 2, limit: int = 15
 
 def graph_query_actor_collaboration_history(actor1: str, actor2: str, debug: bool = False):
     """MULTI-HOP: Lịch sử hợp tác"""
-    
     query = """
     MATCH (a1:PERSON)-[:ACTED_IN]->(film:FILM)<-[:ACTED_IN]-(a2:PERSON),
           (film)<-[:DIRECTED_IN]-(director:PERSON)
@@ -570,7 +683,7 @@ def graph_query_actor_collaboration_history(actor1: str, actor2: str, debug: boo
     RETURN DISTINCT
         COALESCE(film.info_name, film.id) AS film,
         COALESCE(director.info_name, director.id) AS director,
-        film.info_release_date AS release_year
+        film.infobox_released AS release_year
     ORDER BY release_year DESC
     """
     
@@ -587,7 +700,6 @@ def graph_query_actor_collaboration_history(actor1: str, actor2: str, debug: boo
 
 def graph_query_shortest_path(person1: str, person2: str, debug: bool = False):
     """PATH: Đường đi ngắn nhất"""
-   
     query = """
     MATCH path = shortestPath((p1:PERSON)-[*]-(p2:PERSON))
     WHERE toLower(p1.info_name) CONTAINS toLower($p1) 
@@ -647,7 +759,7 @@ def graph_query_node_info(node_name: str, debug: bool = False):
         
         cleaned_props = {
             k: v for k, v in props.items() 
-            if k.startswith("info_") or k == "id"
+            if k.startswith("info_") or k.startswith("infobox_") or k == "id"
         }
         
         return {
@@ -685,25 +797,86 @@ def graph_query_with_planner(question: str, entity_name: str, entity_type: str =
 
 
 # ========================================================
+# PRETTY PRINT HELPER
+# ========================================================
+
+def print_step_results(step_data: Dict):
+    """In đẹp kết quả từng bước"""
+    print("\n" + "="*70)
+    print(f"QUERY: {step_data['start_entity']} ({step_data['start_label']})")
+    print(f"CHAIN: {' -> '.join(step_data['chain'])}")
+    print("="*70)
+    
+    for step in step_data["steps"]:
+        hop = step["hop"]
+        desc = step["description"]
+        count = step.get("count", 0)
+        
+        print(f"\n[HOP {hop}] {desc}")
+        print(f"  Type: {step['type']}")
+        
+        if step["type"] == "edge":
+            print(f"  From: {step['source_entity']} ({step['source_label']})")
+            print(f"  To: {step['target_label']}")
+            print(f"  Edge: {step['edge_type']}")
+        elif step["type"] in ["property", "property_list", "property_collect"]:
+            print(f"  Property: {step['property']}")
+            if "source_entity" in step:
+                print(f"  Source: {step['source_entity']}")
+        
+        print(f"  Found: {count} results")
+        
+        if count > 0 and count <= 10:
+            for item in step["result"]:
+                print(f"    - {item}")
+        elif count > 10:
+            print(f"    (showing first 5)")
+            for item in step["result"][:5]:
+                print(f"    - {item}")
+            print(f"    ... and {count - 5} more")
+    
+    print("\n" + "-"*70)
+    if "final_result" in step_data:
+        final = step_data["final_result"]
+        print(f"FINAL RESULT: {len(final) if isinstance(final, list) else 1} items")
+        if isinstance(final, list) and len(final) <= 5:
+            for item in final:
+                print(f"  - {item}")
+    print("="*70)
+
+
+# ========================================================
 # TEST
 # ========================================================
 
 if __name__ == "__main__":
     print("\n" + "="*60)
-    print("TESTING DYNAMIC GRAPH QUERY SYSTEM")
+    print("TESTING MULTI-HOP WITH STEP TRACKING")
     print("="*60)
     
     entity = "Trấn Thành"
     
-    print(f"\n[TEST 1] Movies by actor: {entity}")
-    movies = graph_query_movies_by_actor(entity, debug=True)
+    print(f"\n[TEST 1] 2-HOP: Phim của vợ/chồng (với return_steps=True)")
+    result = graph_query_spouse_movies(entity, debug=False, return_steps=True)
+    print_step_results(result)
     
-    print(f"\n[TEST 2] Spouse's movies")
-    spouse_movies = graph_query_spouse_movies(entity, debug=True)
+    print(f"\n[TEST 2] 2-HOP: Thể loại phim diễn viên đóng")
+    result = query_flexible(
+        entity, "PERSON", 
+        ["PERSON_ACTED_IN_FILM", "FILM_GENRE"], 
+        debug=False, 
+        return_steps=True
+    )
+    print_step_results(result)
     
-    print(f"\n[TEST 3] Genres of actor's films")
-    genres = query_flexible(entity, "PERSON", ["PERSON_ACTED_IN_FILM", "FILM_GENRE"], debug=True)
-    print(f"  Result: {genres}")
+    print(f"\n[TEST 3] So sánh với return_steps=False (chỉ kết quả cuối)")
+    final_only = query_flexible(
+        entity, "PERSON", 
+        ["PERSON_ACTED_IN_FILM", "FILM_GENRE"], 
+        debug=False, 
+        return_steps=False
+    )
+    print(f"Final result only: {final_only}")
     
     close_driver()
     print("\n✓ All tests completed!")

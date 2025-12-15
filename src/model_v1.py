@@ -6,7 +6,6 @@ from pathlib import Path
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import PeftModel
 
-# Them duong dan cha de import module
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 # ==================== IMPORT MODULES ====================
@@ -18,14 +17,11 @@ try:
     
     from src.nlp.ner import extract_entity_from_sentences
     
-    # IMPORT DYNAMIC QUERY BUILDER
     from src.chatbot.graph_query import (
-        # Core dynamic query functions
         build_query_from_relationships,
         query_flexible,
         RELATIONSHIPS,
         
-        # Convenience wrappers
         graph_query_movies_by_actor,
         graph_query_actors_of_movie,
         graph_query_movies_by_director,
@@ -34,7 +30,6 @@ try:
         graph_query_same_location,
         graph_query_common_movies,
         
-        # Multi-hop functions
         graph_query_director_of_actor_movies,
         graph_query_actors_in_director_movies,
         graph_query_spouse_movies,
@@ -43,14 +38,11 @@ try:
         graph_query_coactor_network,
         graph_query_actor_collaboration_history,
         
-        # Special queries
         graph_query_shortest_path,
         graph_query_node_info,
         graph_query_with_planner,
         
-        # Utilities
         close_driver,
-
     )
     
 except ImportError as e:
@@ -97,728 +89,523 @@ def load_llm_model(lora_path="./outputs_graphrag_lora", fine_tune=False):
         sys.exit(1)
 
 
-# ==================== 2. INTENT TO RELATIONSHIPS MAPPING ====================
+# ==================== 2. MULTI-QUERY COMPOSER ====================
 
-INTENT_TO_RELATIONSHIPS = {
-    # === BASIC 1-HOP QUERIES ===
-    "get_movies_by_actor": {
-        "relationships": ["PERSON_ACTED_IN_FILM"],
-        "start_label": "PERSON",
-        "requires_two_entities": False
-    },
+def compose_multi_queries(question, linked_entities, debug=False):
+    """
+    Phát hiện và thực thi NHIỀU queries trong 1 câu hỏi
+    CHỈ áp dụng khi có 2+ sub-queries (multi-query thật sự)
+    """
+    q_lower = normalize_text(question)
     
-    "get_actors_of_movie": {
-        "relationships": ["FILM_HAS_ACTOR"],
-        "start_label": "FILM",
-        "requires_two_entities": False
-    },
+    # CRITICAL: Chỉ xử lý PERSON entities
+    if not linked_entities or linked_entities[0].get('type') != 'person':
+        return None
     
-    "get_movies_by_director": {
-        "relationships": ["PERSON_DIRECTED_FILM"],
-        "start_label": "PERSON",
-        "requires_two_entities": False
-    },
+    # CRITICAL: Detect "và" để xác định multi-query
+    if ' va ' not in q_lower and ' và ' not in q_lower:
+        return None
     
-    "get_director_of_movie": {
-        "relationships": ["FILM_HAS_DIRECTOR"],
-        "start_label": "FILM",
-        "requires_two_entities": False
-    },
+    sub_queries = []
     
-    "get_same_school": {
-        "relationships": ["PERSON_SAME_SCHOOL"],
-        "start_label": "PERSON",
-        "requires_two_entities": False
-    },
+    # Detect base entity (spouse, self, etc.)
+    has_spouse_query = bool(re.search(r'\b(vo|chong|ba\s+xa|ong\s+xa)\b', q_lower))
     
-    "get_same_location": {
-        "relationships": ["PERSON_SAME_LOCATION"],
-        "start_label": "PERSON",
-        "requires_two_entities": False
-    },
+    # 1. Identity query: "là ai" / "tên gì"
+    if re.search(r'\b(la\s+ai|ten\s+la\s+gi|ten\s+gi|ten\s+cua)\b', q_lower):
+        if has_spouse_query:
+            sub_queries.append({
+                "type": "identity",
+                "relationships": ["PERSON_SPOUSE"],
+                "description": "Tên"
+            })
     
-    # === PROPERTY QUERIES ===
-    "get_birthdate_spouse": {
-        "special": "planner",
-        "requires_two_entities": False
-    },
+    # 2. Birth date: "sinh năm" / "năm sinh"
+    if re.search(r'\b(sinh\s+nam|nam\s+sinh|sinh|tuoi|bao\s+nhieu\s+tuoi)\b', q_lower):
+        if has_spouse_query:
+            sub_queries.append({
+                "type": "property",
+                "relationships": ["PERSON_SPOUSE", "PERSON_BIRTH_DATE"],
+                "description": "Năm sinh"
+            })
+        else:
+            sub_queries.append({
+                "type": "property",
+                "relationships": ["PERSON_BIRTH_DATE"],
+                "description": "Năm sinh"
+            })
     
-    # === EDGE -> PROPERTY QUERIES ===
-    "get_director_birthdate": {
-        "relationships": ["FILM_HAS_DIRECTOR", "PERSON_BIRTH_DATE"],
-        "start_label": "FILM",
-        "requires_two_entities": False
-    },
+    # 3. Birth place: "quê" / "ở đâu"
+    if re.search(r'\b(que|o\s+dau|noi\s+sinh|sinh\s+ra|sinh\s+o)\b', q_lower):
+        if has_spouse_query:
+            sub_queries.append({
+                "type": "property",
+                "relationships": ["PERSON_SPOUSE", "PERSON_BIRTH_PLACE"],
+                "description": "Quê quán"
+            })
+        else:
+            sub_queries.append({
+                "type": "property",
+                "relationships": ["PERSON_BIRTH_PLACE"],
+                "description": "Quê quán"
+            })
     
-    "get_actor_birthdate": {
-        "relationships": ["FILM_HAS_ACTOR", "PERSON_BIRTH_DATE"],
-        "start_label": "FILM",
-        "requires_two_entities": False
-    },
+    # 4. Movies: "đóng phim gì"
+    if re.search(r'\b(dong|phim|tham\s+gia|dien\s+trong)\b', q_lower):
+        if has_spouse_query:
+            sub_queries.append({
+                "type": "edge",
+                "relationships": ["PERSON_SPOUSE", "PERSON_ACTED_IN_FILM"],
+                "description": "Phim đóng"
+            })
+        else:
+            sub_queries.append({
+                "type": "edge",
+                "relationships": ["PERSON_ACTED_IN_FILM"],
+                "description": "Phim đóng"
+            })
     
-    "get_spouse_birthdate": {
-        "relationships": ["PERSON_SPOUSE", "PERSON_BIRTH_DATE"],
-        "start_label": "PERSON",
-        "requires_two_entities": False
-    },
+    # 5. Occupation: "nghề nghiệp"
+    if re.search(r'\b(nghe\s+nghiep|lam\s+nghe|nghe|cong\s+viec)\b', q_lower):
+        if has_spouse_query:
+            sub_queries.append({
+                "type": "property",
+                "relationships": ["PERSON_SPOUSE", "PERSON_OCCUPATION"],
+                "description": "Nghề nghiệp"
+            })
+        else:
+            sub_queries.append({
+                "type": "property",
+                "relationships": ["PERSON_OCCUPATION"],
+                "description": "Nghề nghiệp"
+            })
     
-    "get_spouse_birthplace": {
-        "relationships": ["PERSON_SPOUSE", "PERSON_BIRTH_PLACE"],
-        "start_label": "PERSON",
-        "requires_two_entities": False
-    },
+    # CRITICAL: Chỉ xử lý khi có 2+ sub-queries (multi-query thật sự)
+    if len(sub_queries) < 2:
+        return None
     
-    # === EDGE -> LIST PROPERTY (COLLECT) ===
-    "get_actor_film_genres": {
-        "relationships": ["PERSON_ACTED_IN_FILM", "FILM_GENRE"],
-        "start_label": "PERSON",
-        "requires_two_entities": False
-    },
+    if debug:
+        print(f"\n[COMPOSER] Detected {len(sub_queries)} sub-queries:")
+        for sq in sub_queries:
+            print(f"  - {sq['description']}: {sq['relationships']}")
     
-    "get_director_film_genres": {
-        "relationships": ["PERSON_DIRECTED_FILM", "FILM_GENRE"],
-        "start_label": "PERSON",
-        "requires_two_entities": False
-    },
+    # Execute queries
+    entity_name = linked_entities[0]['node_name']
+    start_label = "PERSON"
+    results = {}
     
-    # === MULTI-HOP QUERIES ===
-    "get_spouse_movies": {
-        "relationships": ["PERSON_SPOUSE", "PERSON_ACTED_IN_FILM"],
-        "start_label": "PERSON",
-        "requires_two_entities": False
-    },
+    for sq in sub_queries:
+        relationships = sq["relationships"]
+        desc = sq["description"]
+        
+        try:
+            step_result = build_query_from_relationships(
+                entity_name,
+                start_label,
+                relationships,
+                limit=20,
+                debug=False,
+                return_steps=True
+            )
+            
+            if step_result and "final_result" in step_result:
+                final = step_result["final_result"]
+                
+                if isinstance(final, list):
+                    if len(final) == 1:
+                        results[desc] = final[0]
+                    elif len(final) <= 5:
+                        results[desc] = ", ".join(str(x) for x in final)
+                    else:
+                        results[desc] = ", ".join(str(x) for x in final[:5]) + f" (va {len(final)-5} phim khac)"
+                else:
+                    results[desc] = final
+                
+                if debug:
+                    print(f"  ✓ {desc}: {results[desc]}")
+        
+        except Exception as e:
+            if debug:
+                print(f"  ✗ {desc}: Error - {e}")
+            continue
     
-    "get_director_of_actor_movies": {
-        "special": "custom",
-        "query_func": graph_query_director_of_actor_movies,
-        "requires_two_entities": False
-    },
+    return results if results else None
+
+
+def format_composed_results(results, entity_name):
+    """Format kết quả từ nhiều queries"""
+    if not results:
+        return None
     
-    "get_actors_in_director_movies": {
-        "special": "custom",
-        "query_func": graph_query_actors_in_director_movies,
-        "requires_two_entities": False
-    },
+    parts = []
     
-    "get_schoolmate_movies": {
-        "special": "custom",
-        "query_func": graph_query_schoolmate_movies,
-        "requires_two_entities": False
-    },
+    if "Tên" in results:
+        parts.append(f"la {results['Tên']}")
     
-    # === INTERSECTION QUERIES (2 entities) ===
-    "get_common_movies": {
-        "special": "intersection",
-        "query_func": graph_query_common_movies,
-        "requires_two_entities": True
-    },
+    if "Năm sinh" in results:
+        parts.append(f"sinh nam {results['Năm sinh']}")
     
-    "get_common_directors": {
-        "special": "custom",
-        "query_func": graph_query_common_directors,
-        "requires_two_entities": True
-    },
+    if "Quê quán" in results:
+        parts.append(f"que o {results['Quê quán']}")
     
-    "get_collaboration_history": {
-        "special": "custom",
-        "query_func": graph_query_actor_collaboration_history,
-        "requires_two_entities": True
-    },
+    if "Nghề nghiệp" in results:
+        parts.append(f"lam nghe {results['Nghề nghiệp']}")
     
-    "get_coactor_network": {
-        "special": "custom",
-        "query_func": graph_query_coactor_network,
-        "requires_two_entities": False
-    },
+    if "Phim đóng" in results:
+        parts.append(f"dong phim {results['Phim đóng']}")
     
-    "get_relationship_path": {
-        "special": "custom",
-        "query_func": graph_query_shortest_path,
-        "requires_two_entities": True
-    },
+    if not parts:
+        return None
     
-    "get_general_info": {
-        "special": "custom",
-        "query_func": graph_query_node_info,
-        "requires_two_entities": False
-    }
-}
+    return "THONG TIN: " + ", ".join(parts) + "."
 
 
 # ==================== 3. INTENT DETECTION ====================
 
-# ==================== CẬP NHẬT DETECT_INTENT VỚI PATTERN TỐT HƠN ====================
-
-def detect_intent(question):
-    """Phat hien intent bang regex - CẢI THIỆN PHÂN BIỆT 1-HOP vs 2-HOP"""
+def detect_intent(question, num_entities=1):
+    """
+    Phát hiện intent bằng regex
+    
+    CRITICAL RULE: Nếu num_entities >= 2, CHỈ cho phép intent 2-hop trở lên
+    """
     q_lower = normalize_text(question)
     
     patterns = {
-        # === COLLECT PROPERTY QUERIES (check truoc) ===
+        # === PROPERTY QUERIES (HIGHEST PRIORITY) ===
+        "get_spouse_birthdate": [r'\b(vo|chong).+(sinh|nam\s+sinh)\b'],
+        "get_spouse_birthplace": [r'\b(vo|chong).+(que|o\s+dau)\b'],
+        "get_director_birthdate": [r'\b(dao\s+dien).+(phim).+(sinh|nam\s+sinh)\b'],
+        "get_actor_birthdate": [r'\b(dien\s+vien).+(phim).+(sinh|nam\s+sinh)\b'],
+        
+        # === COLLECT PROPERTY QUERIES ===
         "get_actor_film_genres": [
             r'\b(the\s+loai).+(phim).+(dong|tham\s+gia)\b',
             r'\b(dong|tham\s+gia).+(the\s+loai|loai)\s+(phim)\b',
-            r'\b(cac|nhung)\s+(the\s+loai)\b',
         ],
+        "get_director_film_genres": [r'\b(dao\s+dien).+(the\s+loai|loai)\s+(phim)\b'],
         
-        "get_director_film_genres": [
-            r'\b(the\s+loai).+(phim).+(dao\s+dien)\b',
-            r'\b(dao\s+dien).+(the\s+loai|loai)\s+(phim)\b',
-        ],
-        
-        # === PROPERTY QUERIES (check truoc) ===
-        "get_spouse_birthdate": [
-            r'\b(vo|chong).+(sinh|nam\s+sinh)\b',
-        ],
-        
-        "get_spouse_birthplace": [
-            r'\b(vo|chong).+(que|o\s+dau|sinh\s+ra)\b',
-        ],
-        
-        "get_director_birthdate": [
-            r'\b(dao\s+dien).+(phim).+(sinh|nam\s+sinh)\b',  # "đạo diễn phim X sinh năm nào"
-        ],
-        
-        "get_actor_birthdate": [
-            r'\b(dien\s+vien).+(phim).+(sinh|nam\s+sinh)\b',  # "diễn viên phim X sinh năm nào"
-        ],
-        
-        "get_birthdate_spouse": [
-            r'\bsinh\s+(nam|ngay|thang)\s+(nao|bao\s+nhieu)\b',
-            r'\bnam\s+sinh\b',
-            r'\bngay\s+sinh\b',
-            r'\bque\s+(quan|o\s+dau)\b',
-            r'\b(vo|chong|ba\s+xa|ong\s+xa)\s+(cua|la)\b(?!.+(sinh|que|o\s+dau))',
-        ],
-        
-        # === MULTI-HOP QUERIES ===
+        # === MULTI-HOP (2-HOP+) - CHECK BEFORE BASIC ===
         "get_spouse_movies": [
-            r'\b(vo|chong|ba\s+xa|ong\s+xa).+(dong|phim)\b',
+            r'\b(vo|chong|ba\s+xa|ong\s+xa).+(dong|phim|tham\s+gia)\b',
             r'\bphim\s+(cua|nao).+(vo|chong)\b'
         ],
         
         "get_director_of_actor_movies": [
-            # QUAN TRỌNG: Chỉ match khi có "phim của NGƯỜI" (actor)
-            r'\b(dao\s+dien).+(phim)\s+(cua|ma).+(?=\b(tran\s+thanh|hari\s+won|[\w\s]+)\b)',  # "đạo diễn phim của Trấn Thành"
-            r'\b(ai|nguoi\s+nao)\s+(dao\s+dien).+(phim).+(cua)\b',  # "ai đạo diễn phim của X"
+            r'\b(dao\s+dien).+(phim)\s+(cua|ma)\b',
+            r'\b(ai|nguoi\s+nao)\s+(dao\s+dien).+(phim).+(cua)\b',
         ],
         
-        "get_common_directors": [
-            r'\b(dao\s+dien)\s+(chung|cung|nao)\b',
-            r'\b(lam\s+viec|hop\s+tac)\s+voi\s+(dao\s+dien)\b',
+        "get_common_directors": [r'\b(dao\s+dien)\s+(chung|cung|nao)\b'],
+        "get_coactor_network": [r'\b(ban\s+dien|dong\s+phim\s+voi)\b'],
+        "get_collaboration_history": [r'\b(lich\s+su|qua\s+trinh)\s+(hop\s+tac)\b'],
+        "get_actors_in_director_movies": [r'\b(ai|dien\s+vien)\s+(dong|tham\s+gia).+(phim).+(dao\s+dien)\b'],
+        "get_schoolmate_movies": [r'\b(ban\s+hoc|hoc\s+sinh).+(dong|phim)\b'],
+        
+        # === INTERSECTION (2-HOP+) ===
+        "get_common_movies": [
+            r'\b(dong|tham\s+gia)\s+(chung|cung)\b.*\b(phim)\b',
+            r'\bphim\s+(chung|cung)\b',
         ],
         
-        "get_coactor_network": [
-            r'\b(ban\s+dien|dong\s+phim\s+voi)\b',
-            r'\b(ai|nguoi\s+nao)\s+(dong\s+chung|tung\s+dong)\b'
-        ],
-        
-        "get_collaboration_history": [
-            r'\b(lich\s+su|qua\s+trinh)\s+(hop\s+tac)\b',
-            r'\b(tung|da)\s+(hop\s+tac|dong\s+chung)\s+(trong|phim|nao)\b',
-        ],
-        
-        "get_actors_in_director_movies": [
-            r'\b(ai|dien\s+vien)\s+(dong|tham\s+gia).+(phim).+(dao\s+dien)\b',
-        ],
-        
-        "get_schoolmate_movies": [
-            r'\b(ban\s+hoc|hoc\s+sinh).+(dong|phim)\b',
-        ],
-        
-        # === BASIC 1-HOP (ƯU TIÊN CAO HƠN) ===
+        # === BASIC 1-HOP (ONLY ALLOWED IF num_entities == 1) ===
         "get_director_of_movie": [
-            # Pattern rõ ràng: "đạo diễn phim TÊN_PHIM"
-            r'\b(ai|nguoi\s+nao)\s+(dao\s+dien|chi\s+dao)\s+(phim)\b',  # "ai đạo diễn phim"
-            r'\b(dao\s+dien|chu\s+dao)\s+(cua\s+)?(phim)\b',  # "đạo diễn phim" hoặc "đạo diễn của phim"
-            r'\bphim\s+.+\s+(do|boi|cua)\s+(ai|nguoi\s+nao)\s+(dao\s+dien)\b',  # "phim X do ai đạo diễn"
+            r'\b(ai|nguoi\s+nao)\s+(dao\s+dien|chi\s+dao)\s+(phim)\b',
+            r'\b(dao\s+dien|chu\s+dao)\s+(cua\s+)?(phim)\b',
         ],
-        
-        "get_movies_by_director": [
-            r'\b(dao\s+dien).+(lam|chi\s+dao|phim)\s+(nao|gi)\b',
-            r'\bphim\s+(cua|nao).+(dao\s+dien)\b',
-        ],
-        
+        "get_movies_by_director": [r'\b(dao\s+dien).+(lam|chi\s+dao|phim)\s+(nao|gi)\b'],
         "get_movies_by_actor": [
             r'\b(dong|tham\s+gia|vai)\s+(phim|trong)\b',
             r'\bphim\s+(cua|nao|gi)\b',
         ],
-        
-        "get_actors_of_movie": [
-            r'\b(ai|dien\s+vien|cast)\s+(dong|vai|tham\s+gia)\b',
-        ],
-        
+        "get_actors_of_movie": [r'\b(ai|dien\s+vien|cast)\s+(dong|vai|tham\s+gia)\b'],
         "get_same_school": [
             r'\b(hoc|ban\s+hoc|ban)\s+(cung|chung)\b',
             r'\bcung\s+(truong|hoc)\b',
         ],
+        "get_same_location": [r'\b(cung|dong)\s+(que|huong|noi)\b'],
         
-        "get_same_location": [
-            r'\b(cung|dong)\s+(que|huong|noi)\b',
-        ],
-        
-        # === INTERSECTION QUERIES - PHIM CHUNG (2 entities) ===
-        "get_common_movies": [
-            r'\b(dong|tham\s+gia)\s+(chung|cung)\b.*\b(phim)\b',
-            r'\bphim\s+(chung|cung)\b',
-            r'\b(cung|chung)\s+(dong|tham\s+gia)\b',
-            r'\b(co|da)\s+(dong|hop\s+tac)\s+(chung|cung|voi)\b.*\b(phim)\b',
-            r'\b(hai|2)\s+(nguoi|ng).+(dong|tham\s+gia)\s+(chung|cung)\b',
-            r'\b(va|voi)\b.+(dong\s+chung|tham\s+gia\s+chung)\b',
-        ],
-        
-        "get_relationship_path": [
-            r'\b(quan\s+he|lien\s+quan|ket\s+noi)\b',
-            r'\bmoi\s+(quan\s+he)\b'
-        ],
-        
-        "get_general_info": [
-            r'\b(la\s+ai|la\s+gi)\b',
-            r'\bthong\s+tin\b',
-        ]
+        # === OTHER ===
+        "get_relationship_path": [r'\b(quan\s+he|lien\s+quan|ket\s+noi)\b'],
+        "get_general_info": [r'\b(la\s+ai|la\s+gi)\b', r'\bthong\s+tin\b'],
     }
     
-    # Priority order - 1-HOP TRƯỚC 2-HOP
+    # Define which intents are 1-hop (not allowed for 2+ entities)
+    ONE_HOP_INTENTS = {
+        "get_movies_by_actor",
+        "get_actors_of_movie", 
+        "get_movies_by_director",
+        "get_director_of_movie",
+        "get_same_school",
+        "get_same_location",
+        "get_general_info"
+    }
+    
+    # CRITICAL: Priority order - Multi-hop BEFORE basic
     priority_order = [
-        # Collect properties (highest priority)
-        ("get_actor_film_genres", 0.98),
-        ("get_director_film_genres", 0.98),
+        # Properties (highest)
+        ("get_spouse_birthdate", 0.98), ("get_spouse_birthplace", 0.98),
+        ("get_director_birthdate", 0.95), ("get_actor_birthdate", 0.95),
+        ("get_actor_film_genres", 0.98), ("get_director_film_genres", 0.98),
         
-        # Property chains (high priority)
-        ("get_spouse_birthdate", 0.98),
-        ("get_spouse_birthplace", 0.98),
-        ("get_director_birthdate", 0.95),
-        ("get_actor_birthdate", 0.95),
-        
-        # === 1-HOP QUERIES (ƯU TIÊN CAO) ===
-        ("get_director_of_movie", 0.95),  # TĂNG ƯU TIÊN
-        ("get_movies_by_director", 0.9),
-        ("get_movies_by_actor", 0.9),
-        ("get_actors_of_movie", 0.85),
-        ("get_same_school", 0.95),
-        ("get_same_location", 0.95),
-        
-        # INTERSECTION - PHIM CHUNG
-        ("get_common_movies", 0.95),
-        
-        # === MULTI-HOP (ƯU TIÊN THẤP HƠN 1-HOP) ===
-        ("get_spouse_movies", 0.9),  # GIẢM ƯU TIÊN
-        ("get_director_of_actor_movies", 0.85),  # GIẢM ƯU TIÊN
+        # Multi-hop (check BEFORE basic)
+        ("get_spouse_movies", 0.95),
+        ("get_director_of_actor_movies", 0.9),
         ("get_common_directors", 0.9),
         ("get_collaboration_history", 0.9),
         ("get_actors_in_director_movies", 0.9),
         ("get_schoolmate_movies", 0.9),
         ("get_coactor_network", 0.85),
         
-        # Properties
-        ("get_birthdate_spouse", 0.85),
+        # Intersection (2-hop+)
+        ("get_common_movies", 0.9),
         
-        # Others
-        ("get_relationship_path", 0.85),
+        # Basic 1-hop (ONLY if num_entities == 1)
+        ("get_director_of_movie", 0.85),
+        ("get_movies_by_director", 0.8),
+        ("get_movies_by_actor", 0.8),
+        ("get_actors_of_movie", 0.8),
+        ("get_same_school", 0.85),
+        ("get_same_location", 0.85),
+        
+        # Other
+        ("get_relationship_path", 0.75),
         ("get_general_info", 0.7)
     ]
     
     for intent_type, confidence in priority_order:
+        # CRITICAL: Skip 1-hop intents if we have 2+ entities
+        if num_entities >= 2 and intent_type in ONE_HOP_INTENTS:
+            continue
+        
         if intent_type in patterns:
             for pattern in patterns[intent_type]:
                 if re.search(pattern, q_lower, re.IGNORECASE):
                     return {"intent": intent_type, "confidence": confidence}
     
+    # CRITICAL: If 2+ entities but no valid intent found, force intersection
+    if num_entities >= 2:
+        return {"intent": "get_common_movies", "confidence": 0.7}
+    
     return {"intent": "unknown", "confidence": 0.5}
 
 
-# ==================== THÊM FALLBACK MECHANISM ====================
+# ==================== 4. INTENT MAPPING ====================
+
+INTENT_TO_RELATIONSHIPS = {
+    "get_movies_by_actor": {"relationships": ["PERSON_ACTED_IN_FILM"], "start_label": "PERSON", "requires_two_entities": False},
+    "get_actors_of_movie": {"relationships": ["FILM_HAS_ACTOR"], "start_label": "FILM", "requires_two_entities": False},
+    "get_movies_by_director": {"relationships": ["PERSON_DIRECTED_FILM"], "start_label": "PERSON", "requires_two_entities": False},
+    "get_director_of_movie": {"relationships": ["FILM_HAS_DIRECTOR"], "start_label": "FILM", "requires_two_entities": False},
+    "get_same_school": {"relationships": ["PERSON_SAME_SCHOOL"], "start_label": "PERSON", "requires_two_entities": False},
+    "get_same_location": {"relationships": ["PERSON_SAME_LOCATION"], "start_label": "PERSON", "requires_two_entities": False},
+    
+    "get_spouse_birthdate": {"relationships": ["PERSON_SPOUSE", "PERSON_BIRTH_DATE"], "start_label": "PERSON", "requires_two_entities": False},
+    "get_spouse_birthplace": {"relationships": ["PERSON_SPOUSE", "PERSON_BIRTH_PLACE"], "start_label": "PERSON", "requires_two_entities": False},
+    "get_director_birthdate": {"relationships": ["FILM_HAS_DIRECTOR", "PERSON_BIRTH_DATE"], "start_label": "FILM", "requires_two_entities": False, "fallback_intent": "get_director_of_movie"},
+    "get_actor_birthdate": {"relationships": ["FILM_HAS_ACTOR", "PERSON_BIRTH_DATE"], "start_label": "FILM", "requires_two_entities": False, "fallback_intent": "get_actors_of_movie"},
+    
+    "get_actor_film_genres": {"relationships": ["PERSON_ACTED_IN_FILM", "FILM_GENRE"], "start_label": "PERSON", "requires_two_entities": False, "fallback_intent": "get_movies_by_actor"},
+    "get_director_film_genres": {"relationships": ["PERSON_DIRECTED_FILM", "FILM_GENRE"], "start_label": "PERSON", "requires_two_entities": False, "fallback_intent": "get_movies_by_director"},
+    
+    "get_spouse_movies": {"relationships": ["PERSON_SPOUSE", "PERSON_ACTED_IN_FILM"], "start_label": "PERSON", "requires_two_entities": False},
+    "get_director_of_actor_movies": {"special": "custom", "query_func": graph_query_director_of_actor_movies, "requires_two_entities": False, "fallback_intent": "get_movies_by_actor"},
+    "get_actors_in_director_movies": {"special": "custom", "query_func": graph_query_actors_in_director_movies, "requires_two_entities": False, "fallback_intent": "get_movies_by_director"},
+    "get_schoolmate_movies": {"special": "custom", "query_func": graph_query_schoolmate_movies, "requires_two_entities": False, "fallback_intent": "get_same_school"},
+    
+    "get_common_movies": {"special": "intersection", "query_func": graph_query_common_movies, "requires_two_entities": True},
+    "get_common_directors": {"special": "custom", "query_func": graph_query_common_directors, "requires_two_entities": True},
+    "get_collaboration_history": {"special": "custom", "query_func": graph_query_actor_collaboration_history, "requires_two_entities": True},
+    "get_coactor_network": {"special": "custom", "query_func": graph_query_coactor_network, "requires_two_entities": False},
+    "get_relationship_path": {"special": "custom", "query_func": graph_query_shortest_path, "requires_two_entities": True},
+    "get_general_info": {"special": "custom", "query_func": graph_query_node_info, "requires_two_entities": False}
+}
+
+
+# ==================== 5. QUERY ROUTER ====================
 
 def route_graph_query_dynamic(linked_entities, question, intent, debug=False):
-    """
-    Dieu huong query DONG - CÓ FALLBACK MECHANISM
-    Nếu query N-hop thất bại → tự động thử (N-1)-hop
-    CHỈ ÁP DỤNG FALLBACK CHO 1-ENTITY QUERIES
-    """
-    intent_type = intent['intent']
+    """Dynamic query routing với multi-query support"""
     
+    num_entities = len(linked_entities)
+    
+    # === CRITICAL CHECK: If 2+ entities, ensure intent is 2-hop+ ===
+    if num_entities >= 2:
+        intent_type = intent['intent']
+        config = INTENT_TO_RELATIONSHIPS.get(intent_type, {})
+        
+        # Check if intent requires 2 entities OR is multi-hop
+        is_valid_2entity_intent = (
+            config.get("requires_two_entities", False) or
+            config.get("special") in ["intersection", "custom"] or
+            len(config.get("relationships", [])) >= 2
+        )
+        
+        if not is_valid_2entity_intent:
+            if debug:
+                print(f"[ERROR] Intent '{intent_type}' is 1-hop but we have {num_entities} entities!")
+                print(f"[FORCING] Switching to 'get_common_movies' for 2-entity query")
+            
+            # Force switch to intersection query
+            intent = {"intent": "get_common_movies", "confidence": 0.7}
+            intent_type = "get_common_movies"
+    
+    # === STEP 1: Try multi-query composer (CHỈ cho multi-query thật sự) ===
+    composed = compose_multi_queries(question, linked_entities, debug=debug)
+    if composed:
+        entity_name = linked_entities[0]['node_name']
+        formatted = format_composed_results(composed, entity_name)
+        if formatted:
+            if debug:
+                print(f"[COMPOSER SUCCESS] Multi-query detected and processed")
+            return {"status": "success", "data": composed, "message": "Multi-query success", "entity_name": entity_name, "formatted": formatted}
+    
+    # === STEP 2: Standard routing (cho single queries) ===
+    intent_type = intent['intent']
     if not linked_entities:
-        return {"status": "error", "data": None, "message": "Khong tim thay thuc the lien quan."}
-
+        return {"status": "error", "data": None, "message": "Khong tim thay thuc the."}
     if intent_type not in INTENT_TO_RELATIONSHIPS:
         return {"status": "error", "data": None, "message": f"Intent {intent_type} chua duoc dinh nghia."}
     
     config = INTENT_TO_RELATIONSHIPS[intent_type]
     entity_name_1 = linked_entities[0]['node_name']
-    num_entities = len(linked_entities)
     
-    # Check neu can 2 entities
     if config.get("requires_two_entities", False):
         if num_entities < 2:
-            return {"status": "error", "data": None, "message": "Cau hoi nay can it nhat 2 thuc the."}
+            return {"status": "error", "data": None, "message": "Can 2 thuc the."}
         entity_name_2 = linked_entities[1]['node_name']
     
-    # === XU LY SPECIAL CASES ===
-    
-    # PLANNER (for property queries)
-    if config.get("special") == "planner":
-        data = graph_query_with_planner(question, entity_name_1, entity_type="PERSON", debug=debug)
-        return {
-            "status": "success",
-            "data": data,
-            "message": f"Query thanh cong",
-            "entity_name": entity_name_1
-        }
-    
-    # CUSTOM FUNCTIONS
+    # Custom functions
     if config.get("special") == "custom":
         query_func = config["query_func"]
-        
         if config.get("requires_two_entities"):
             data = query_func(entity_name_1, entity_name_2, debug=debug)
             entity_display = f"{entity_name_1} va {entity_name_2}"
-            # 2-entity queries KHÔNG có fallback - nếu thất bại thì thất bại
         else:
             data = query_func(entity_name_1, debug=debug)
             entity_display = entity_name_1
-            
-            # === FALLBACK: CHỈ cho 1-entity queries ===
             if not data and config.get("fallback_intent") and num_entities == 1:
-                if debug:
-                    print(f"[FALLBACK] 1-entity query thất bại, thử intent: {config['fallback_intent']}")
+                if debug: print(f"[FALLBACK] {config['fallback_intent']}")
                 fallback_intent = {"intent": config["fallback_intent"], "confidence": 0.8}
                 return route_graph_query_dynamic(linked_entities, question, fallback_intent, debug)
-        
-        return {
-            "status": "success",
-            "data": data,
-            "message": f"Query thanh cong",
-            "entity_name": entity_display
-        }
+        return {"status": "success", "data": data, "message": "Query success", "entity_name": entity_display}
     
-    # INTERSECTION
+    # Intersection
     if config.get("special") == "intersection":
-        query_func = config["query_func"]
-        data = query_func(entity_name_1, entity_name_2, debug=debug)
-        # 2-entity intersection queries KHÔNG có fallback
-        return {
-            "status": "success",
-            "data": data,
-            "message": f"Tim thay {len(data) if isinstance(data, list) else 1} ket qua",
-            "entity_name": f"{entity_name_1} va {entity_name_2}"
-        }
+        if num_entities < 2:
+            return {"status": "error", "data": None, "message": "Can 2 thuc the cho intersection query."}
+        entity_name_2 = linked_entities[1]['node_name']
+        data = config["query_func"](entity_name_1, entity_name_2, debug=debug)
+        return {"status": "success", "data": data, "message": f"Found {len(data)} results", "entity_name": f"{entity_name_1} va {entity_name_2}"}
     
-    # === XU LY STANDARD QUERIES (using relationships) ===
+    # Standard queries
     relationships = config.get("relationships")
     if not relationships:
-        return {"status": "error", "data": None, "message": "Config khong hop le."}
+        return {"status": "error", "data": None, "message": "Invalid config."}
     
     start_label = config["start_label"]
-    
     if debug:
-        print(f"\n[DYNAMIC ROUTING]")
-        print(f"  Intent: {intent_type}")
-        print(f"  Relationships: {relationships}")
-        print(f"  Start: {entity_name_1} ({start_label})")
+        print(f"\n[ROUTING] Intent: {intent_type}, Relationships: {relationships}, Start: {entity_name_1} ({start_label})")
     
-    # Execute query using dynamic builder
     if len(relationships) == 1:
-        # Simple 1-hop
-        rel_key = relationships[0]
-        
-        if rel_key == "PERSON_ACTED_IN_FILM":
-            data = graph_query_movies_by_actor(entity_name_1, debug=debug)
-        elif rel_key == "FILM_HAS_ACTOR":
-            data = graph_query_actors_of_movie(entity_name_1, debug=debug)
-        elif rel_key == "PERSON_DIRECTED_FILM":
-            data = graph_query_movies_by_director(entity_name_1, debug=debug)
-        elif rel_key == "FILM_HAS_DIRECTOR":
-            data = graph_query_director_of_movie(entity_name_1, debug=debug)
-        elif rel_key == "PERSON_SAME_SCHOOL":
-            data = graph_query_same_schoolmates(entity_name_1, debug=debug)
-        elif rel_key == "PERSON_SAME_LOCATION":
-            data = graph_query_same_location(entity_name_1, debug=debug)
-        else:
-            data = build_query_from_relationships(
-                entity_name_1, start_label, relationships, limit=20, debug=debug
-            )
+        data = build_query_from_relationships(entity_name_1, start_label, relationships, limit=20, debug=debug)
     else:
-        # Multi-hop - use flexible query
         data = query_flexible(entity_name_1, start_label, relationships, debug=debug)
-        
-        # === FALLBACK MECHANISM: CHỈ cho 1-entity queries ===
-        if not data and len(relationships) > 1 and config.get("fallback_intent") and num_entities == 1:
-            if debug:
-                print(f"[FALLBACK] Multi-hop 1-entity query trả về rỗng")
-                print(f"[FALLBACK] Thử query 1-hop: {config['fallback_intent']}")
-            
+        if not data and config.get("fallback_intent") and num_entities == 1:
+            if debug: print(f"[FALLBACK] {config['fallback_intent']}")
             fallback_intent = {"intent": config["fallback_intent"], "confidence": 0.8}
             return route_graph_query_dynamic(linked_entities, question, fallback_intent, debug)
     
-    return {
-        "status": "success",
-        "data": data,
-        "message": f"Tim thay {len(data) if isinstance(data, list) else 1} ket qua",
-        "entity_name": entity_name_1
-    }
+    return {"status": "success", "data": data, "message": f"Found {len(data) if isinstance(data, list) else 1} results", "entity_name": entity_name_1}
 
 
-# ==================== CẬP NHẬT INTENT MAPPING VỚI FALLBACK ====================
-
-INTENT_TO_RELATIONSHIPS = {
-    # === BASIC 1-HOP QUERIES ===
-    "get_movies_by_actor": {
-        "relationships": ["PERSON_ACTED_IN_FILM"],
-        "start_label": "PERSON",
-        "requires_two_entities": False
-    },
-    
-    "get_actors_of_movie": {
-        "relationships": ["FILM_HAS_ACTOR"],
-        "start_label": "FILM",
-        "requires_two_entities": False
-    },
-    
-    "get_movies_by_director": {
-        "relationships": ["PERSON_DIRECTED_FILM"],
-        "start_label": "PERSON",
-        "requires_two_entities": False
-    },
-    
-    "get_director_of_movie": {
-        "relationships": ["FILM_HAS_DIRECTOR"],
-        "start_label": "FILM",
-        "requires_two_entities": False
-    },
-    
-    "get_same_school": {
-        "relationships": ["PERSON_SAME_SCHOOL"],
-        "start_label": "PERSON",
-        "requires_two_entities": False
-    },
-    
-    "get_same_location": {
-        "relationships": ["PERSON_SAME_LOCATION"],
-        "start_label": "PERSON",
-        "requires_two_entities": False
-    },
-    
-    # === PROPERTY QUERIES ===
-    "get_birthdate_spouse": {
-        "special": "planner",
-        "requires_two_entities": False
-    },
-    
-    # === EDGE -> PROPERTY QUERIES ===
-    "get_director_birthdate": {
-        "relationships": ["FILM_HAS_DIRECTOR", "PERSON_BIRTH_DATE"],
-        "start_label": "FILM",
-        "requires_two_entities": False,
-        "fallback_intent": "get_director_of_movie"  # Fallback về 1-hop
-    },
-    
-    "get_actor_birthdate": {
-        "relationships": ["FILM_HAS_ACTOR", "PERSON_BIRTH_DATE"],
-        "start_label": "FILM",
-        "requires_two_entities": False,
-        "fallback_intent": "get_actors_of_movie"  # Fallback về 1-hop
-    },
-    
-    "get_spouse_birthdate": {
-        "relationships": ["PERSON_SPOUSE", "PERSON_BIRTH_DATE"],
-        "start_label": "PERSON",
-        "requires_two_entities": False
-    },
-    
-    "get_spouse_birthplace": {
-        "relationships": ["PERSON_SPOUSE", "PERSON_BIRTH_PLACE"],
-        "start_label": "PERSON",
-        "requires_two_entities": False
-    },
-    
-    # === EDGE -> LIST PROPERTY (COLLECT) ===
-    "get_actor_film_genres": {
-        "relationships": ["PERSON_ACTED_IN_FILM", "FILM_GENRE"],
-        "start_label": "PERSON",
-        "requires_two_entities": False,
-        "fallback_intent": "get_movies_by_actor"  # Fallback về phim
-    },
-    
-    "get_director_film_genres": {
-        "relationships": ["PERSON_DIRECTED_FILM", "FILM_GENRE"],
-        "start_label": "PERSON",
-        "requires_two_entities": False,
-        "fallback_intent": "get_movies_by_director"  # Fallback về phim
-    },
-    
-    # === MULTI-HOP QUERIES ===
-    "get_spouse_movies": {
-        "relationships": ["PERSON_SPOUSE", "PERSON_ACTED_IN_FILM"],
-        "start_label": "PERSON",
-        "requires_two_entities": False
-    },
-    
-    "get_director_of_actor_movies": {
-        "special": "custom",
-        "query_func": graph_query_director_of_actor_movies,
-        "requires_two_entities": False,
-        "fallback_intent": "get_movies_by_actor"  # Fallback về phim của actor
-    },
-    
-    "get_actors_in_director_movies": {
-        "special": "custom",
-        "query_func": graph_query_actors_in_director_movies,
-        "requires_two_entities": False,
-        "fallback_intent": "get_movies_by_director"  # Fallback về phim của đạo diễn
-    },
-    
-    "get_schoolmate_movies": {
-        "special": "custom",
-        "query_func": graph_query_schoolmate_movies,
-        "requires_two_entities": False,
-        "fallback_intent": "get_same_school"  # Fallback về bạn học
-    },
-    
-    # === INTERSECTION QUERIES (2 entities) ===
-    "get_common_movies": {
-        "special": "intersection",
-        "query_func": graph_query_common_movies,
-        "requires_two_entities": True
-    },
-    
-    "get_common_directors": {
-        "special": "custom",
-        "query_func": graph_query_common_directors,
-        "requires_two_entities": True
-    },
-    
-    "get_collaboration_history": {
-        "special": "custom",
-        "query_func": graph_query_actor_collaboration_history,
-        "requires_two_entities": True
-    },
-    
-    "get_coactor_network": {
-        "special": "custom",
-        "query_func": graph_query_coactor_network,
-        "requires_two_entities": False
-    },
-    
-    "get_relationship_path": {
-        "special": "custom",
-        "query_func": graph_query_shortest_path,
-        "requires_two_entities": True
-    },
-    
-    "get_general_info": {
-        "special": "custom",
-        "query_func": graph_query_node_info,
-        "requires_two_entities": False
-    }
-}
-
-
-
-# ==================== 5. FORMATTER ====================
+# ==================== 6. FORMATTER ====================
 
 def format_graph_data_dynamic(graph_data, intent_type, entity_name=None):
-    """Format data - tu dong xu ly tat ca cac loai data"""
-    
+    """Format data động"""
     if not graph_data:
-        return "KHONG TIM THAY thong tin lien quan trong du lieu."
+        return "KHONG TIM THAY thong tin."
     
-    # === XU LY DICT (General Info, Relationship Path) ===
+    # Dict
     if isinstance(graph_data, dict):
-        # General info
         if 'properties' in graph_data or 'info_name' in graph_data:
             props = graph_data.get('properties', graph_data)
-            key_map = {
-                'info_birth_name': 'Ten khai sinh',
-                'info_birth_date': 'Nam sinh',
-                'info_occupation': 'Nghe nghiep',
-                'info_spouse': 'Vo/Chong',
-                'info_relatives': 'Nguoi than',
-                'info_education': 'Hoc van',
-                'info_height': 'Chieu cao',
-                'info_nationality': 'Quoc tich',
-                'info_birth_place': 'Noi sinh'
-            }
-            
-            info_list = []
-            name = props.get('info_name') or props.get('name') or entity_name
-            info_list.append(f"Ten: {name}")
-            
+            key_map = {'info_birth_name': 'Ten khai sinh', 'info_birth_date': 'Nam sinh', 'info_occupation': 'Nghe nghiep', 'info_spouse': 'Vo/Chong', 'info_education': 'Hoc van', 'info_birth_place': 'Noi sinh'}
+            info_list = [f"Ten: {props.get('info_name') or props.get('name') or entity_name}"]
             for k, v in props.items():
                 if k in key_map and v:
-                    clean_v = str(v).replace('((', '').replace('))', '').replace('*', ',')
-                    info_list.append(f"{key_map[k]}: {clean_v}")
-            
-            return "THONG TIN HO SO: " + ". ".join(info_list) + "."
-        
-        # Relationship path
+                    info_list.append(f"{key_map[k]}: {str(v).replace('((', '').replace('))', '')}")
+            return "THONG TIN: " + ". ".join(info_list) + "."
         if 'description' in graph_data:
-            return f"THONG TIN QUAN HE: {graph_data['description']}."
+            return f"QUAN HE: {graph_data['description']}."
     
-    # === XU LY LIST ===
+    # List
     if isinstance(graph_data, list):
         if not graph_data:
-            return "KHONG TIM THAY ket qua nao."
+            return "KHONG TIM THAY ket qua."
         
-        # Neu list chua dict (complex structure)
+        # Check if list contains dict (complex structure)
         if isinstance(graph_data[0], dict):
             first_item = graph_data[0]
             
+            # Case 1: Director of actor's movies
             if 'director' in first_item and 'film' in first_item:
                 items = [f"{item['film']} (dao dien: {item['director']})" for item in graph_data]
-                items_str = ", ".join(items)
-                return f"DANH SACH DAO DIEN: {items_str}."
+                return f"DANH SACH DAO DIEN: {', '.join(items)}."
             
-            elif 'schoolmate' in first_item and 'film' in first_item:
-                items = [f"{item['schoolmate']}: {item['film']}" for item in graph_data]
-                items_str = ", ".join(items)
-                return f"DANH SACH PHIM: {items_str}."
-            
+            # Case 2: Actors in director's movies
             elif 'actor' in first_item and 'film' in first_item:
                 items = [f"{item['actor']} (phim: {item['film']})" for item in graph_data]
-                items_str = ", ".join(items)
-                return f"DANH SACH DIEN VIEN: {items_str}."
+                return f"DANH SACH DIEN VIEN: {', '.join(items)}."
             
+            # Case 3: Schoolmate movies
+            elif 'schoolmate' in first_item and 'film' in first_item:
+                items = [f"{item['schoolmate']}: {item['film']}" for item in graph_data]
+                return f"DANH SACH PHIM: {', '.join(items)}."
+            
+            # Case 4: Coactor network (with distance)
             elif 'name' in first_item and 'distance' in first_item:
                 items = [f"{item['name']} (khoang cach {item['distance']} buoc)" for item in graph_data]
-                items_str = ", ".join(items)
-                return f"MANG LUOI BAN DIEN: {items_str}."
+                return f"MANG LUOI BAN DIEN: {', '.join(items)}."
             
-            elif 'year' in first_item:
-                items = [f"{item['film']} ({item['year'] or 'N/A'}) - dao dien {item['director']}" for item in graph_data]
-                items_str = ", ".join(items)
-                return f"LICH SU HOP TAC: {items_str}."
+            # Case 5: Collaboration history (with year)
+            elif 'year' in first_item and 'film' in first_item:
+                items = [f"{item['film']} ({item.get('year', 'N/A')}) - dao dien {item.get('director', 'N/A')}" for item in graph_data]
+                return f"LICH SU HOP TAC: {', '.join(items)}."
             
-            elif 'films_with_actor1' in first_item:
-                # Common directors
+            # Case 6: Common directors
+            elif 'films_with_actor1' in first_item or 'films_with_actor2' in first_item:
                 items = [item['director'] for item in graph_data]
-                items_str = ", ".join(items)
-                return f"DANH SACH DAO DIEN CHUNG: {items_str}."
+                return f"DANH SACH DAO DIEN CHUNG: {', '.join(items)}."
+            
+            # Default: try to extract any meaningful field
+            else:
+                items = []
+                for item in graph_data:
+                    fields = [f"{k}: {v}" for k, v in item.items() if v and k not in ['id', 'type']]
+                    if fields:
+                        items.append(", ".join(fields[:2]))
+                
+                if items:
+                    return f"DANH SACH: {' | '.join(items)}."
         
-        # Simple list of strings
         items_str = ", ".join([str(item) for item in graph_data])
-        
-        # Generic templates
         templates = {
-            "get_movies_by_actor": f"DANH SACH PHIM: Dien vien {entity_name} dong cac phim: {items_str}.",
-            "get_actors_of_movie": f"DANH SACH DIEN VIEN: Phim {entity_name} co dien vien: {items_str}.",
-            "get_movies_by_director": f"DANH SACH PHIM: Dao dien {entity_name} lam phim: {items_str}.",
-            "get_director_of_movie": f"THONG TIN DAO DIEN: Dao dien phim {entity_name} la: {items_str}.",
-            "get_same_school": f"DANH SACH: Nguoi hoc cung truong {entity_name}: {items_str}.",
-            "get_same_location": f"DANH SACH: Nguoi cung que {entity_name}: {items_str}.",
-            "get_common_movies": f"DANH SACH: {entity_name} dong chung phim: {items_str}.",
-            "get_spouse_movies": f"DANH SACH PHIM: Vo/chong cua {entity_name} dong: {items_str}.",
+            "get_movies_by_actor": f"PHIM: {items_str}.",
+            "get_actors_of_movie": f"DIEN VIEN: {items_str}.",
+            "get_movies_by_director": f"PHIM: {items_str}.",
+            "get_director_of_movie": f"DAO DIEN: {items_str}.",
+            "get_common_movies": f"PHIM CHUNG: {items_str}.",
+            "get_spouse_movies": f"PHIM: {items_str}.",
         }
-        
-        return templates.get(intent_type, f"THONG TIN: {items_str}")
+        return templates.get(intent_type, f"KET QUA: {items_str}.")
     
-    # === XU LY STRING (Property values) ===
-    return f"THONG TIN: {str(graph_data)}"
+    return f"THONG TIN: {str(graph_data)}."
 
 
-# ==================== 6. GENERATION ====================
+# ==================== 7. LLM GENERATION ====================
 
 def llm_paraphrase_graphrag(model_pack, formatted_sentence, question, use_finetuned=False, debug=False):
-    """Viet lai cau tra loi"""
+    """Viết lại câu trả lời tự nhiên"""
     model, tokenizer = model_pack
     
     if "KHONG TIM THAY" in formatted_sentence:
@@ -830,33 +617,21 @@ Hoi: {question}
 Tra loi:"""
 
     messages = [{"role": "user", "content": user_prompt}]
-    
     text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
     model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
     
     with torch.no_grad():
-        generated_ids = model.generate(
-            **model_inputs,
-            max_new_tokens=128,
-            temperature=0.1,
-            repetition_penalty=1.0,
-            do_sample=False,
-            num_beams=1,
-            
-        )
+        generated_ids = model.generate(**model_inputs, max_new_tokens=128, temperature=0.1, repetition_penalty=1.0, do_sample=False, num_beams=1)
     
     response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
-    
     if "assistant" in response:
         response = response.split("assistant")[-1].strip()
-    
     response = re.sub(r'^[:\-\s]+', '', response)
     
-    # Anti-hallucination check
+    # Anti-hallucination
     if "không" in response.lower() and "không" not in formatted_sentence.lower():
-        if debug:
-            print(f"[WARNING] Model hallucination detected!")
-        if "DANH SACH" in formatted_sentence:
+        if debug: print(f"[WARNING] Model hallucination detected!")
+        if "DANH SACH" in formatted_sentence or "PHIM" in formatted_sentence:
             parts = formatted_sentence.split(":")
             if len(parts) >= 2:
                 response = parts[-1].strip().rstrip('.')
@@ -870,101 +645,96 @@ Tra loi:"""
     return response
 
 
-# ==================== 7. PIPELINE CHINH ====================
+# ==================== 8. MAIN PIPELINE ====================
 
 def get_answer(question, model_pack, use_finetuned=False, debug=False):
-    """Pipeline chinh - SU DUNG DYNAMIC QUERY BUILDER"""
+    """Pipeline chính - HỖ TRỢ MULTI-QUERIES và ĐẢM BẢO 2-ENTITY = 2-HOP+"""
     print(f"\n{'='*60}\nQUESTION: {question}")
     
     # 1. Extract entities
     entities = extract_entity_from_sentences(question)
     if not entities:
         return "Khong tim thay ten rieng."
-    if debug:
-        print(f"[1] Entities: {entities}")
+    if debug: print(f"[1] Entities: {entities}")
     
-    # 2. Detect intent
-    intent = detect_intent(question)
-    if debug:
-        print(f"[2] Intent: {intent['intent']}")
-    
-    # 3. Entity linking
+    # 2. Entity linking
     linked_entities = entity_linking_graph(question)
     if not linked_entities:
         return "Khong tim thay thuc the phu hop trong Graph."
-    if debug:
-        print(f"[3] Linked: {linked_entities}")
+    if debug: print(f"[2] Linked: {linked_entities}")
     
-    # 4. DYNAMIC QUERY ROUTING
+    # 3. Detect intent (PASS num_entities to enforce 2-hop rule)
+    num_entities = len(linked_entities)
+    intent = detect_intent(question, num_entities=num_entities)
+    if debug: 
+        print(f"[3] Intent: {intent['intent']} (num_entities={num_entities})")
+        if num_entities >= 2:
+            print(f"    [2-ENTITY MODE] Only 2-hop+ queries allowed")
+    
+    # 4. Dynamic query routing
     g_res = route_graph_query_dynamic(linked_entities, question, intent, debug=debug)
     if g_res['status'] == 'error':
         return g_res['message']
-    if debug:
-        print(f"[4] Graph Data: {g_res['data']}")
+    if debug: print(f"[4] Graph Data: {g_res['data']}")
     
     # 5. Format & Generate
-    formatted = format_graph_data_dynamic(g_res['data'], intent['intent'], g_res.get('entity_name'))
+    if 'formatted' in g_res:
+        formatted = g_res['formatted']
+    else:
+        formatted = format_graph_data_dynamic(g_res['data'], intent['intent'], g_res.get('entity_name'))
+    
     final = llm_paraphrase_graphrag(model_pack, formatted, question, use_finetuned, debug)
     
     print(f"ANSWER: {final}\n{'='*60}\n")
     return final
 
 
-# ==================== MAIN ====================
+# ==================== 9. TEST CASES ====================
 
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument("--use_finetuned", action="store_true")
-    parser.add_argument("--debug", action="store_true")
+    parser.add_argument("--use_finetuned", action="store_true", help="Use fine-tuned LoRA model")
+    parser.add_argument("--debug", action="store_true", help="Enable debug mode")
     args = parser.parse_args()
 
-    print("\n>>> INITIALIZING DYNAMIC QUERY SYSTEM...")
-    print("Su dung Dynamic Relationship-Based Query Builder")
+    print("\n" + "="*60)
+    print("GRAPHRAG CHATBOT - 2-ENTITY = 2-HOP+ ENFORCED")
+    print("="*60)
 
     # Load Model
     try:
-        llm_pack = load_llm_model(fine_tune=False)
+        llm_pack = load_llm_model(fine_tune=args.use_finetuned)
     except Exception as e:
         print(f"Error loading LLM: {e}")
         exit(1)
 
     # Test queries
     test_questions = [
-        # Basic
-        "Trấn Thành đóng phim gì?",
-        "Ai đạo diễn phim Bố Già?",
         
-        # Properties
-        "Vợ của Trấn Thành là ai?",
-        "Trấn Thành sinh năm bao nhiêu?",
-        
-        # Property -> Property chains
-        "Vợ của Trấn Thành sinh năm nào?",
-        "Vợ của Trấn Thành quê ở đâu?",
-        
-        # Edge -> Property chains
-        "Đạo diễn phim Bố Già sinh năm nào?",
-        
-        # Edge -> List Property (COLLECT)
-        "Ninh Dương Lan Ngọc đã đóng các thể loại phim gì?",
-        "Trấn Thành đạo diễn những thể loại phim nào?",
-        
-        # Multi-hop
-        "Ai đạo diễn các phim của Trấn Thành?",
-        "Vợ của Trấn Thành đóng phim gì?",
-        "Bạn học của Trấn Thành đóng phim nào?",
-        
-        # Intersection
+        # === 2-ENTITY QUERIES (MUST BE 2-HOP+) ===
         "Trấn Thành và Hari Won đóng chung phim nào?",
-        "Trấn Thành và Hari Won làm việc với đạo diễn nào?",
+        "Trấn Thành và Hari Won đóng phim gì?",  # Should find COMMON movies
+        "Phim của Trấn Thành và Hari Won?",  # Should find COMMON movies
         
-        # Network
-        "Ai đã đóng phim với Trấn Thành?",
-    ]
+          ]
     
-    for q in test_questions:
-        get_answer(q, llm_pack, use_finetuned=args.use_finetuned, debug=True)
+    print("\n" + "="*60)
+    print("RUNNING TEST QUERIES")
+    print("="*60)
+    
+    for i, q in enumerate(test_questions, 1):
+        print(f"\n[TEST {i}/{len(test_questions)}]")
+        try:
+            get_answer(q, llm_pack, use_finetuned=args.use_finetuned, debug=True)
+        except Exception as e:
+            print(f"ERROR: {e}")
+            if args.debug:
+                import traceback
+                traceback.print_exc()
     
     close_driver()
-    print("\nNeo4j driver closed.")
+    print("\n" + "="*60)
+    print("ALL TESTS COMPLETED")
+    print("Neo4j driver closed.")
+    print("="*60)
