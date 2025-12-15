@@ -21,9 +21,8 @@ try:
     )
     from src.nlp.ner import extract_entity_from_sentences
     from src.chatbot.graph_query import close_driver
-    
-    
-    from src.model_v1 import (  
+
+    from src.model_v1 import ( 
         load_llm_model,
         detect_intent,
         route_graph_query_dynamic,
@@ -82,18 +81,29 @@ class ChatbotResponse(BaseModel):
 # ==================== GLOBAL STATE ====================
 
 MODEL_PACK = None
+MODEL_LOADING = False  # Flag để tránh load nhiều lần đồng thời
 
 def get_model():
-    """Lazy load model"""
-    global MODEL_PACK
+    """Lazy load model với timeout"""
+    global MODEL_PACK, MODEL_LOADING
+    
+    # Nếu đang load, đợi
+    if MODEL_LOADING:
+        print("Model is loading by another request, please wait...")
+        return None
+    
     if MODEL_PACK is None and HAS_GRAPHRAG:
-        print("Loading LLM model...")
+        MODEL_LOADING = True
+        print("Loading LLM model (this may take 30-60 seconds on first request)...")
         try:
             MODEL_PACK = load_llm_model(fine_tune=False)
-            print("Model loaded successfully")
+            print("✅ Model loaded successfully and cached")
         except Exception as e:
-            print(f"Error loading model: {e}")
+            print(f"❌ Error loading model: {e}")
             MODEL_PACK = None
+        finally:
+            MODEL_LOADING = False
+    
     return MODEL_PACK
 
 # ==================== MAIN CHATBOT FUNCTION ====================
@@ -345,15 +355,24 @@ def chatbot_answer(question: str, debug: bool = False) -> Dict[str, Any]:
         model_pack = get_model()
         
         if model_pack is None:
+            # FALLBACK: Không cần model, trả về formatted text trực tiếp
             final_answer = formatted
+            
+            # Làm sạch formatted text để dễ đọc hơn
+            final_answer = final_answer.replace("THONG TIN: ", "")
+            final_answer = final_answer.replace("DANH SACH", "Danh sách")
+            final_answer = final_answer.replace("PHIM:", "Các phim:")
+            final_answer = final_answer.replace("DAO DIEN:", "Đạo diễn:")
+            final_answer = final_answer.replace("DIEN VIEN:", "Diễn viên:")
+            
             steps.append({
                 "id": "llm_generate",
-                "title": "Generate natural language answer (fallback)",
-                "type": "llm",
+                "title": "Format answer (no model paraphrase)",
+                "type": "logic",
                 "input": None,
                 "output": {
                     "answer": final_answer,
-                    "note": "Model not loaded, using formatted text"
+                    "note": "Using formatted text without LLM paraphrase (faster response)"
                 },
                 "duration_ms": int((time.time() - t0) * 1000)
             })
@@ -461,28 +480,89 @@ async def chat(request: QuestionRequest):
 @app.get("/api/health")
 async def health_check():
     """Detailed health check"""
-    model_status = "loaded" if MODEL_PACK is not None else "not_loaded"
+    if MODEL_PACK is not None:
+        model_status = "loaded"
+    elif MODEL_LOADING:
+        model_status = "loading"
+    else:
+        model_status = "not_loaded"
     
     return {
         "status": "healthy",
         "graphrag_available": HAS_GRAPHRAG,
         "model_status": model_status,
+        "model_info": {
+            "loaded": MODEL_PACK is not None,
+            "loading": MODEL_LOADING,
+            "note": "First query will be slower if model not preloaded"
+        },
         "timestamp": time.time()
     }
 
 @app.post("/api/preload-model")
 async def preload_model():
-    """Preload model to reduce first query latency"""
-    try:
-        model = get_model()
-        if model is None:
-            raise HTTPException(status_code=500, detail="Failed to load model")
+    """
+    Preload model to reduce first query latency
+    Call this endpoint after server starts to warm up the model
+    """
+    global MODEL_LOADING
+    
+    if MODEL_PACK is not None:
         return {
             "status": "success",
-            "message": "Model loaded successfully"
+            "message": "Model already loaded"
+        }
+    
+    if MODEL_LOADING:
+        return {
+            "status": "loading",
+            "message": "Model is currently being loaded by another process"
+        }
+    
+    try:
+        import threading
+        
+        def load_in_background():
+            get_model()
+        
+        # Load model in background thread
+        thread = threading.Thread(target=load_in_background)
+        thread.start()
+        
+        return {
+            "status": "loading",
+            "message": "Model loading started in background. This may take 30-60 seconds.",
+            "tip": "Check /api/health to see when model is ready"
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.on_event("startup")
+async def startup_event():
+    """
+    Startup event - Preload model in background if needed
+    """
+    print("\n" + "="*60)
+    print("🚀 GraphRAG Chatbot API Starting...")
+    print("="*60)
+    
+    # Option 1: Preload model on startup (slower startup, faster first query)
+    PRELOAD_MODEL = True  # Set to True to preload
+    
+    if PRELOAD_MODEL and HAS_GRAPHRAG:
+        import threading
+        def load_in_background():
+            print("⏳ Preloading model in background...")
+            get_model()
+            print("✅ Model preloaded and ready!")
+        
+        thread = threading.Thread(target=load_in_background, daemon=True)
+        thread.start()
+    else:
+        print("💡 Model will load on first query (lazy loading)")
+    
+    print("="*60 + "\n")
+
 
 @app.on_event("shutdown")
 async def shutdown_event():
