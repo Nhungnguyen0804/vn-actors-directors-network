@@ -11,15 +11,16 @@ from pathlib import Path
 import sys
 from typing import List, Dict, Tuple
 from collections import defaultdict
-from src.chatbot.extract_entities_from_question import extract_entities
-from src.chatbot.graph_query import route_multihop_query 
+
+
+from model_v2 import get_answer, load_llm_model 
 
 
 try:
     from load_graph import load_graphs
 except ImportError:
     try:
-        from ..load_graph import load_graphs
+        from .load_graph import load_graphs
     except ImportError:
         def load_graphs():
             return nx.Graph(), nx.Graph()
@@ -55,8 +56,23 @@ def determine_intent(question: str) -> str:
     # Add more for basic queries (e.g., 'movies by actor' -> 'movies_by_actor')
     return 'unknown'
 
-def chatbot(ques):
-    return "A"
+print(">>> Loading Model for Evaluation...")
+LLM_PACK = load_llm_model(use_finetuned=False)  # Hoặc False tùy nhu cầu
+print(">>> Model Loaded!")
+
+def chatbot(question):
+    """
+    Hàm wrapper gọi pipeline của model_v1
+    """
+    try:
+        # Gọi pipeline get_answer. debug=False để log sạch hơn
+        response = get_answer(question, LLM_PACK, use_finetuned=False, debug=False)
+        return response
+    except Exception as e:
+        print(f"Error processing question '{question}': {e}")
+        return "Error"
+    
+    
 def call_graphrag(batch) -> str:
     answers = []
     for item in batch:

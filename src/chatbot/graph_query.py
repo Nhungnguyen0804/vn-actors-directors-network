@@ -1,171 +1,593 @@
 from neo4j import GraphDatabase
 import unicodedata
 import logging
+import re
+from typing import List, Dict, Any
 
-# ==================== CONFIGURATION ====================
 URI = "neo4j+s://0538a688.databases.neo4j.io"
 AUTH = ("neo4j", "askC5IvfBm2QXlzpKKn6gb9CEGxdouOCdTTKMhI6Si4")
 
-# 🔇 TẮT CẢNH BÁO CỦA NEO4J DRIVER (Để output sạch đẹp)
 logging.getLogger("neo4j").setLevel(logging.ERROR)
 
 driver = GraphDatabase.driver(URI, auth=AUTH)
 
-# ==================== UTILITY FUNCTIONS ====================
 
 def close_driver():
     """Đóng kết nối Neo4j"""
     driver.close()
 
-def normalize_input(text):
-    """Chuẩn hóa input"""
-    if not isinstance(text, str): return ""
-    return unicodedata.normalize('NFC', text).strip()
 
-# ==================== 1-HOP QUERIES ====================
 
-def graph_query_movies_by_actor(actor_name, debug=False):
-    """
-    🔍 1-HOP: Tìm phim diễn viên tham gia
-    """
-    actor_name = normalize_input(actor_name)
-    if debug: print(f"\n[QUERY] Movies by actor: {actor_name}")
+
+# ========================================================
+# RELATIONSHIP REGISTRY
+# ========================================================
+
+RELATIONSHIPS = {
+    # === PERSON -> FILM (EDGES) ===
+    "PERSON_ACTED_IN_FILM": {
+        "start": "PERSON",
+        "rel": "ACTED_IN",
+        "end": "FILM",
+        "direction": "->",
+        "return_field": "info_name",
+        "description": "diễn viên đóng phim"
+    },
     
-    # Đã bỏ m.title, m.name để tránh warning
-    query = """
-    MATCH (p:PERSON)-[:ACTED_IN]->(m:FILM)
-    WHERE toLower(p.info_name) CONTAINS toLower($name) 
-       OR toLower(p.info_birth_name) CONTAINS toLower($name)
-       OR toLower(p.id) CONTAINS toLower($name)
-    RETURN DISTINCT COALESCE(m.info_name, m.id) AS result
-    ORDER BY result
-    """
-    return _execute_list_query(query, {"name": actor_name}, debug)
-
-
-def graph_query_actors_of_movie(movie_name, debug=False):
-    """
-    🔍 1-HOP: Tìm diễn viên trong phim
-    """
-    movie_name = normalize_input(movie_name)
-    if debug: print(f"\n[QUERY] Actors in movie: {movie_name}")
+    "PERSON_DIRECTED_FILM": {
+        "start": "PERSON",
+        "rel": "DIRECTED_IN",
+        "end": "FILM",
+        "direction": "->",
+        "return_field": "info_name",
+        "description": "đạo diễn phim"
+    },
     
-    # Đã bỏ m.title để tránh warning
-    query = """
-    MATCH (m:FILM)<-[:ACTED_IN]-(p:PERSON)
-    WHERE toLower(m.info_name) CONTAINS toLower($name) 
-       OR toLower(m.id) CONTAINS toLower($name)
-    RETURN DISTINCT COALESCE(p.info_name, p.info_birth_name, p.id) AS result
-    ORDER BY result
-    """
-    return _execute_list_query(query, {"name": movie_name}, debug)
-
-
-def graph_query_movies_by_director(director_name, debug=False):
-    """
-    🔍 1-HOP: Tìm phim của đạo diễn
-    Relation: DIRECTED_IN
-    """
-    director_name = normalize_input(director_name)
-    if debug: print(f"\n[QUERY] Movies by director: {director_name}")
+    # === PERSON -> PERSON (EDGES) ===
+    "PERSON_SAME_SCHOOL": {
+        "start": "PERSON",
+        "rel": "HAS_SAME_SCHOOL",
+        "end": "PERSON",
+        "direction": "-",
+        "return_field": "info_name",
+        "description": "bạn học",
+        "extra_fields": ["school"]
+    },
     
-    query = """
-    MATCH (p:PERSON)-[:DIRECTED_IN]->(m:FILM)
-    WHERE toLower(p.info_name) CONTAINS toLower($name)
-    RETURN DISTINCT COALESCE(m.info_name, m.id) AS result
-    ORDER BY result
-    """
-    return _execute_list_query(query, {"name": director_name}, debug)
-
-
-def graph_query_director_of_movie(movie_name, debug=False):
-    """
-    🔍 1-HOP: Tìm đạo diễn
-    """
-    movie_name = normalize_input(movie_name)
-    if debug: print(f"\n[QUERY] Director of movie: {movie_name}")
+    "PERSON_SAME_LOCATION": {
+        "start": "PERSON",
+        "rel": "HAS_SAME_LOCATION",
+        "end": "PERSON",
+        "direction": "-",
+        "return_field": "info_name",
+        "description": "đồng hương"
+    },
     
-    query = """
-    MATCH (m:FILM)<-[:DIRECTED_IN]-(p:PERSON)
-    WHERE toLower(m.info_name) CONTAINS toLower($name)
-       OR toLower(m.id) CONTAINS toLower($name)
-    RETURN DISTINCT COALESCE(p.info_name, p.id) AS result
-    ORDER BY result
-    """
-    return _execute_list_query(query, {"name": movie_name}, debug)
-
-
-def graph_query_same_schoolmates(person_name, debug=False):
-    """
-    🔍 1-HOP: Bạn học
-    """
-    person_name = normalize_input(person_name)
-    if debug: print(f"\n[QUERY] Schoolmates of: {person_name}")
+    # === FILM -> PERSON (REVERSE EDGES) ===
+    "FILM_HAS_ACTOR": {
+        "start": "FILM",
+        "rel": "ACTED_IN",
+        "end": "PERSON",
+        "direction": "<-",
+        "return_field": "info_name",
+        "description": "diễn viên trong phim"
+    },
     
+    "FILM_HAS_DIRECTOR": {
+        "start": "FILM",
+        "rel": "DIRECTED_IN",
+        "end": "PERSON",
+        "direction": "<-",
+        "return_field": "info_name",
+        "description": "đạo diễn của phim"
+    },
+    
+    # === PERSON PROPERTIES ===
+    "PERSON_SPOUSE": {
+        "start": "PERSON",
+        "type": "PROPERTY",
+        "property": "info_spouse",
+        "description": "vợ/chồng",
+        "target_label": "PERSON"
+    },
+    
+    "PERSON_BIRTH_DATE": {
+        "start": "PERSON",
+        "type": "PROPERTY",
+        "property": "info_birth_date",
+        "description": "năm sinh"
+    },
+    
+    "PERSON_BIRTH_PLACE": {
+        "start": "PERSON",
+        "type": "PROPERTY",
+        "property": "info_birth_place",
+        "description": "quê quán"
+    },
+    
+    "PERSON_OCCUPATION": {
+        "start": "PERSON",
+        "type": "PROPERTY",
+        "property": "info_occupation",
+        "description": "nghề nghiệp"
+    },
+    
+    "PERSON_EDUCATION": {
+        "start": "PERSON",
+        "type": "PROPERTY",
+        "property": "info_education",
+        "description": "học vấn"
+    },
+    
+    # === FILM PROPERTIES ===
+    "FILM_RELEASE_DATE": {
+        "start": "FILM",
+        "type": "PROPERTY",
+        "property": "infobox_released",
+        "description": "năm công chiếu"
+    },
+    
+    "FILM_REVENUE": {
+        "start": "FILM",
+        "type": "PROPERTY",
+        "property": "infobox_gross",
+        "description": "doanh thu"
+    },
+    
+    "FILM_GENRE": {
+        "start": "FILM",
+        "type": "PROPERTY",
+        "property": "infobox_genre",
+        "description": "thể loại phim",
+        "is_list": True
+    }
+}
+
+
+# ========================================================
+# CORE QUERY BUILDER
+# ========================================================
+
+def build_query_from_relationships(
+    start_entity: str,
+    start_label: str,
+    relationships: List[str],
+    limit: int = 20,
+    debug: bool = False
+) -> List[Any]:
+    """
+    Xây dựng và thực thi query từ danh sách relationships
+    Hỗ trợ EDGES, PROPERTIES, và COLLECT
+    """
+    
+    if debug:
+        print(f"\n[DYNAMIC QUERY] Start: {start_entity} ({start_label})")
+        print(f"  Chain: {' -> '.join(relationships)}")
+    
+    current_entity = start_entity
+    current_label = start_label
+    previous_results = None
+    
+    for i, rel_key in enumerate(relationships):
+        if rel_key not in RELATIONSHIPS:
+            if debug:
+                print(f"  ❌ Unknown relationship: {rel_key}")
+            return []
+        
+        rel_config = RELATIONSHIPS[rel_key]
+        
+        if debug:
+            print(f"\n  [HOP {i+1}] {rel_key} ({rel_config.get('description', '')})")
+        
+        # === CASE 1: PROPERTY HOP ===
+        if rel_config.get("type") == "PROPERTY":
+            prop = rel_config["property"]
+            is_list_property = rel_config.get("is_list", False)
+            
+            # CASE 1A: Collect property từ nhiều nodes
+            if previous_results and is_list_property:
+                if debug:
+                    print(f"    → Collecting '{prop}' from {len(previous_results)} nodes")
+                
+                query = f"""
+                MATCH (n:{current_label})
+                WHERE toLower(n.info_name) IN [x IN $names | toLower(x)]
+                   OR toLower(n.id) IN [x IN $names | toLower(x)]
+                WITH COLLECT(DISTINCT n.{prop}) AS all_props
+                UNWIND all_props AS prop_value
+                WITH DISTINCT prop_value
+                WHERE prop_value IS NOT NULL
+                RETURN COLLECT(DISTINCT prop_value) AS result
+                """
+                
+                with driver.session() as session:
+                    record = session.run(query, names=previous_results).single()
+                    
+                    if not record or not record["result"]:
+                        if debug:
+                            print(f"    ❌ No values found")
+                        return []
+                    
+                    # Flatten and clean
+                    result_list = []
+                    for item in record["result"]:
+                        if isinstance(item, list):
+                            result_list.extend(item)
+                        elif isinstance(item, str) and ',' in item:
+                            result_list.extend([x.strip() for x in item.split(',')])
+                        else:
+                            result_list.append(item)
+                    
+                    result_list = sorted(list(set(result_list)))
+                    
+                    if debug:
+                        print(f"    ✓ Collected {len(result_list)} values: {result_list}")
+                    
+                    return result_list
+            
+            # CASE 1B: Single property lookup
+            else:
+                query = f"""
+                MATCH (n:{current_label})
+                WHERE toLower(n.info_name) CONTAINS toLower($name)
+                   OR toLower(n.id) CONTAINS toLower($name)
+                   OR toLower(n.info_birth_name) CONTAINS toLower($name)
+                RETURN n.{prop} AS result
+                ORDER BY 
+                    CASE 
+                        WHEN toLower(n.info_name) = toLower($name) THEN 1
+                        WHEN toLower(n.id) = toLower($name) THEN 2
+                        ELSE 3
+                    END
+                LIMIT 1
+                """
+                
+                with driver.session() as session:
+                    record = session.run(query, name=current_entity).single()
+                    
+                    if not record or not record["result"]:
+                        if debug:
+                            print(f"    ❌ Property {prop} not found")
+                        return []
+                    
+                    result = record["result"]
+                    
+                    # Clean property value
+                    if prop == "info_spouse" and "(" in result:
+                        result = result.split("(")[0].strip()
+                    
+                    # Handle list properties
+                    if is_list_property:
+                        if isinstance(result, list):
+                            result_list = result
+                        elif isinstance(result, str) and ',' in result:
+                            result_list = [x.strip() for x in result.split(',')]
+                        else:
+                            result_list = [result]
+                        
+                        if debug:
+                            print(f"    ✓ Values: {result_list}")
+                        return result_list
+                    
+                    if debug:
+                        print(f"    ✓ Value: {result}")
+                    
+                    if i == len(relationships) - 1:
+                        return [result]
+                    
+                    current_entity = result
+                    current_label = rel_config.get("target_label", current_label)
+                    previous_results = None
+        
+        # === CASE 2: EDGE HOP ===
+        else:
+            start_label_rel = rel_config["start"]
+            end_label_rel = rel_config["end"]
+            rel_type = rel_config["rel"]
+            direction = rel_config["direction"]
+            return_field = rel_config.get("return_field", "info_name")
+            extra_fields = rel_config.get("extra_fields", [])
+            
+            # Build pattern
+            if direction == "->":
+                pattern = f"(n:{start_label_rel})-[r:{rel_type}]->(m:{end_label_rel})"
+            elif direction == "<-":
+                pattern = f"(n:{start_label_rel})<-[r:{rel_type}]-(m:{end_label_rel})"
+            else:
+                pattern = f"(n:{start_label_rel})-[r:{rel_type}]-(m:{end_label_rel})"
+            
+            # Query with fuzzy matching
+            query = f"""
+            MATCH {pattern}
+            WHERE toLower(n.info_name) CONTAINS toLower($name)
+               OR toLower(n.id) CONTAINS toLower($name)
+               OR toLower(n.info_birth_name) CONTAINS toLower($name)
+            WITH m, r,
+                CASE 
+                    WHEN toLower(n.info_name) = toLower($name) THEN 1
+                    WHEN toLower(n.id) = toLower($name) THEN 2
+                    WHEN toLower(n.info_birth_name) = toLower($name) THEN 3
+                    ELSE 4
+                END AS priority
+            ORDER BY priority
+            RETURN DISTINCT 
+                COALESCE(m.{return_field}, m.id) AS result
+                {', r.' + extra_fields[0] + ' AS extra' if extra_fields else ''}
+            LIMIT $limit
+            """
+            
+            results = []
+            with driver.session() as session:
+                for record in session.run(query, name=current_entity, limit=limit):
+                    result_val = record["result"]
+                    
+                    if extra_fields and "extra" in record and record["extra"]:
+                        result_val = f"{result_val} (Trường {record['extra']})"
+                    
+                    results.append(result_val)
+                    
+                    if debug:
+                        print(f"    - {result_val}")
+            
+            if debug:
+                print(f"    ✓ Found {len(results)} results")
+            
+            if i == len(relationships) - 1:
+                return results
+            
+            if not results:
+                if debug:
+                    print(f"    ❌ No results found")
+                return []
+            
+            # Lưu results cho hop tiếp
+            previous_results = results
+            
+            # Nếu hop tiếp không phải list property, chỉ lấy result đầu
+            if i + 1 < len(relationships):
+                next_rel_config = RELATIONSHIPS[relationships[i + 1]]
+                if not next_rel_config.get("is_list", False):
+                    current_entity = results[0]
+                    if "(" in current_entity:
+                        current_entity = current_entity.split("(")[0].strip()
+                    previous_results = None
+            
+            current_label = end_label_rel
+    
+    return []
+
+
+# ========================================================
+# FLEXIBLE QUERY
+# ========================================================
+
+def query_flexible(
+    start_entity: str,
+    start_label: str,
+    relationship_chain: List[str],
+    debug: bool = False
+) -> List[Any]:
+    """Query linh hoạt với chuỗi relationships bất kỳ"""
+    return build_query_from_relationships(
+        start_entity,
+        start_label,
+        relationship_chain,
+        limit=50,
+        debug=debug
+    )
+
+
+# ========================================================
+# CONVENIENCE FUNCTIONS
+# ========================================================
+
+def graph_query_movies_by_actor(actor_name: str, debug: bool = False):
+    """1-HOP: Phim của diễn viên"""
+    return build_query_from_relationships(
+        actor_name, "PERSON", ["PERSON_ACTED_IN_FILM"], debug=debug
+    )
+
+
+def graph_query_actors_of_movie(movie_name: str, debug: bool = False):
+    """1-HOP: Diễn viên trong phim"""
+    return build_query_from_relationships(
+        movie_name, "FILM", ["FILM_HAS_ACTOR"], debug=debug
+    )
+
+
+def graph_query_movies_by_director(director_name: str, debug: bool = False):
+    """1-HOP: Phim của đạo diễn"""
+    return build_query_from_relationships(
+        director_name, "PERSON", ["PERSON_DIRECTED_FILM"], debug=debug
+    )
+
+
+def graph_query_director_of_movie(movie_name: str, debug: bool = False):
+    """1-HOP: Đạo diễn của phim"""
+    return build_query_from_relationships(
+        movie_name, "FILM", ["FILM_HAS_DIRECTOR"], debug=debug
+    )
+
+
+def graph_query_same_schoolmates(person_name: str, debug: bool = False):
+    """1-HOP: Bạn học cùng trường"""
+    return build_query_from_relationships(
+        person_name, "PERSON", ["PERSON_SAME_SCHOOL"], debug=debug
+    )
+
+
+def graph_query_same_location(person_name: str, debug: bool = False):
+    """1-HOP: Đồng hương"""
+    return build_query_from_relationships(
+        person_name, "PERSON", ["PERSON_SAME_LOCATION"], debug=debug
+    )
+
+
+def graph_query_spouse_movies(person_name: str, debug: bool = False):
+    """2-HOP: Phim của vợ/chồng"""
+    return query_flexible(
+        person_name, "PERSON",
+        ["PERSON_SPOUSE", "PERSON_ACTED_IN_FILM"],
+        debug=debug
+    )
+
+
+def graph_query_common_movies(actor1: str, actor2: str, debug: bool = False):
+    """2-HOP: Phim chung"""
+    movies1 = set(graph_query_movies_by_actor(actor1, debug=False))
+    movies2 = set(graph_query_movies_by_actor(actor2, debug=False))
+    return sorted(list(movies1.intersection(movies2)))
+
+
+# === CUSTOM QUERIES ===
+
+def graph_query_director_of_actor_movies(actor_name: str, limit: int = 10, debug: bool = False):
+    """2-HOP: Đạo diễn các phim diễn viên đóng"""
     query = """
-    MATCH (p1:PERSON)-[r:HAS_SAME_SCHOOL]-(p2:PERSON)
+    MATCH (actor:PERSON)-[:ACTED_IN]->(film:FILM)<-[:DIRECTED_IN]-(director:PERSON)
+    WHERE toLower(actor.info_name) CONTAINS toLower($name)
+       OR toLower(actor.info_birth_name) CONTAINS toLower($name)
+    RETURN DISTINCT 
+        COALESCE(director.info_name, director.id) AS director,
+        COALESCE(film.info_name, film.id) AS film
+    ORDER BY film
+    LIMIT $limit
+    """
+    
+    results = []
+    with driver.session() as session:
+        for record in session.run(query, name=actor_name, limit=limit):
+            results.append({
+                "director": record["director"],
+                "film": record["film"]
+            })
+    return results
+
+
+def graph_query_actors_in_director_movies(director_name: str, limit: int = 20, debug: bool = False):
+    """2-HOP: Diễn viên trong phim của đạo diễn"""
+
+    query = """
+    MATCH (director:PERSON)-[:DIRECTED_IN]->(film:FILM)<-[:ACTED_IN]-(actor:PERSON)
+    WHERE toLower(director.info_name) CONTAINS toLower($name)
+    RETURN DISTINCT 
+        COALESCE(actor.info_name, actor.id) AS actor,
+        COALESCE(film.info_name, film.id) AS film
+    ORDER BY film
+    LIMIT $limit
+    """
+    
+    results = []
+    with driver.session() as session:
+        for record in session.run(query, name=director_name, limit=limit):
+            results.append({
+                "actor": record["actor"],
+                "film": record["film"]
+            })
+    return results
+
+
+def graph_query_schoolmate_movies(person_name: str, debug: bool = False):
+    """2-HOP: Phim của bạn học"""
+    query = """
+    MATCH (p1:PERSON)-[:HAS_SAME_SCHOOL]-(p2:PERSON)-[:ACTED_IN]->(film:FILM)
     WHERE toLower(p1.info_name) CONTAINS toLower($name)
-    RETURN DISTINCT COALESCE(p2.info_name, p2.id) AS name, r.school AS school
-    ORDER BY name
+    RETURN DISTINCT 
+        COALESCE(p2.info_name, p2.id) AS schoolmate,
+        COALESCE(film.info_name, film.id) AS film
+    ORDER BY schoolmate, film
+    LIMIT 20
     """
     
     results = []
     with driver.session() as session:
         for record in session.run(query, name=person_name):
-            mate = record["name"]
-            school = record["school"]
-            txt = f"{mate} (Trường {school})" if school else mate
-            results.append(txt)
-            if debug: print(f"  - {txt}")
-    
-    if debug: print(f"✅ Found {len(results)} items")
+            results.append({
+                "schoolmate": record["schoolmate"],
+                "film": record["film"]
+            })
     return results
 
 
-def graph_query_same_location(person_name, debug=False):
-    """
-    🔍 1-HOP: Đồng hương
-    """
-    person_name = normalize_input(person_name)
-    if debug: print(f"\n[QUERY] Same location as: {person_name}")
+def graph_query_common_directors(actor1: str, actor2: str, debug: bool = False):
+    """3-HOP: Đạo diễn chung"""
     
     query = """
-    MATCH (p1:PERSON)-[:HAS_SAME_LOCATION]-(p2:PERSON)
-    WHERE toLower(p1.info_name) CONTAINS toLower($name)
-    RETURN DISTINCT COALESCE(p2.info_name, p2.id) AS result
-    ORDER BY result
+    MATCH (a1:PERSON)-[:ACTED_IN]->(f1:FILM)<-[:DIRECTED_IN]-(dir:PERSON)
+         -[:DIRECTED_IN]->(f2:FILM)<-[:ACTED_IN]-(a2:PERSON)
+    WHERE toLower(a1.info_name) CONTAINS toLower($a1)
+      AND toLower(a2.info_name) CONTAINS toLower($a2)
+      AND a1 <> a2
+    RETURN DISTINCT 
+        COALESCE(dir.info_name, dir.id) AS director,
+        collect(DISTINCT COALESCE(f1.info_name, f1.id)) AS films_actor1,
+        collect(DISTINCT COALESCE(f2.info_name, f2.id)) AS films_actor2
     """
-    return _execute_list_query(query, {"name": person_name}, debug)
+    
+    results = []
+    with driver.session() as session:
+        for record in session.run(query, a1=actor1, a2=actor2):
+            results.append({
+                "director": record["director"],
+                "films_with_actor1": record["films_actor1"],
+                "films_with_actor2": record["films_actor2"]
+            })
+    return results
 
 
-# ==================== 2-HOP QUERIES ====================
+def graph_query_coactor_network(actor_name: str, depth: int = 2, limit: int = 15, debug: bool = False):
+    """N-HOP: Mạng lưới bạn diễn"""
+    query = f"""
+    MATCH path = (start:PERSON)-[:ACTED_IN*1..{depth*2}]-(end:PERSON)
+    WHERE toLower(start.info_name) CONTAINS toLower($name)
+      AND start <> end
+    WITH end, length(path) AS distance
+    ORDER BY distance, end.info_name
+    RETURN DISTINCT 
+        COALESCE(end.info_name, end.id) AS coactor,
+        MIN(distance) AS hops
+    LIMIT $limit
+    """
+    
+    results = []
+    with driver.session() as session:
+        for record in session.run(query, name=actor_name, limit=limit):
+            results.append({
+                "name": record["coactor"],
+                "distance": record["hops"] // 2
+            })
+    return results
 
-def graph_query_common_movies(actor1, actor2, debug=False):
-    """
-    🔗 2-HOP: Phim chung
-    """
-    actor1 = normalize_input(actor1)
-    actor2 = normalize_input(actor2)
-    if debug: print(f"\n[QUERY] Common movies: {actor1} & {actor2}")
+
+def graph_query_actor_collaboration_history(actor1: str, actor2: str, debug: bool = False):
+    """MULTI-HOP: Lịch sử hợp tác"""
     
     query = """
-    MATCH (p1:PERSON)-[:ACTED_IN]->(m:FILM)<-[:ACTED_IN]-(p2:PERSON)
-    WHERE toLower(p1.info_name) CONTAINS toLower($a1) 
-      AND toLower(p2.info_name) CONTAINS toLower($a2)
-    RETURN DISTINCT COALESCE(m.info_name, m.id) AS result
-    ORDER BY result
+    MATCH (a1:PERSON)-[:ACTED_IN]->(film:FILM)<-[:ACTED_IN]-(a2:PERSON),
+          (film)<-[:DIRECTED_IN]-(director:PERSON)
+    WHERE toLower(a1.info_name) CONTAINS toLower($a1)
+      AND toLower(a2.info_name) CONTAINS toLower($a2)
+    RETURN DISTINCT
+        COALESCE(film.info_name, film.id) AS film,
+        COALESCE(director.info_name, director.id) AS director,
+        film.info_release_date AS release_year
+    ORDER BY release_year DESC
     """
-    return _execute_list_query(query, {"a1": actor1, "a2": actor2}, debug)
-
-
-def graph_query_shortest_path(person1, person2, debug=False):
-    """
-    Path: Đường đi ngắn nhất
-    """
-    person1 = normalize_input(person1)
-    person2 = normalize_input(person2)
-    if debug: print(f"\n[QUERY] Shortest path: {person1} -> {person2}")
     
+    results = []
+    with driver.session() as session:
+        for record in session.run(query, a1=actor1, a2=actor2):
+            results.append({
+                "film": record["film"],
+                "director": record["director"],
+                "year": record["release_year"]
+            })
+    return results
+
+
+def graph_query_shortest_path(person1: str, person2: str, debug: bool = False):
+    """PATH: Đường đi ngắn nhất"""
+   
     query = """
     MATCH path = shortestPath((p1:PERSON)-[*]-(p2:PERSON))
     WHERE toLower(p1.info_name) CONTAINS toLower($p1) 
@@ -177,166 +599,111 @@ def graph_query_shortest_path(person1, person2, debug=False):
     
     with driver.session() as session:
         record = session.run(query, p1=person1, p2=person2).single()
-        
         if not record:
-            if debug: print("   No path found")
             return None
-            
+        
         nodes = record["nodes"]
         rels = record["rels"]
+        names = [n.get("info_name") or n.get("id") or "Unknown" for n in nodes]
         
-        names = []
-        for n in nodes:
-            # Chỉ lấy info_name hoặc id, bỏ qua title/name để tránh warning
-            name = n.get("info_name") or n.get("id") or "Unknown"
-            names.append(name)
-
+        desc_map = {
+            "ACTED_IN": "đóng trong",
+            "DIRECTED_IN": "đạo diễn",
+            "HAS_SAME_SCHOOL": "học cùng trường",
+            "HAS_SAME_LOCATION": "cùng quê"
+        }
+        
         descriptions = []
         for i, rel in enumerate(rels):
-            start = names[i]
-            end = names[i+1]
-            r_type = rel.type
-            
-            if r_type == "ACTED_IN": desc = "đóng trong"
-            elif r_type == "DIRECTED_IN": desc = "đạo diễn"
-            elif r_type == "HAS_SAME_SCHOOL": desc = "học cùng trường"
-            elif r_type == "HAS_SAME_LOCATION": desc = "cùng quê"
-            else: desc = "liên quan"
-            
-            descriptions.append(f"{start} --[{desc}]--> {end}")
-
-        result = {
+            desc = desc_map.get(rel.type, "liên quan")
+            descriptions.append(f"{names[i]} --[{desc}]--> {names[i+1]}")
+        
+        return {
             "path": names,
             "length": len(rels),
             "description": " -> ".join(descriptions)
         }
-        if debug: print(f"  Path: {result['description']}")
-        return result
 
 
-def graph_query_node_info(node_name, debug=True):
-    """
-    🔍 INFO: Thông tin chi tiết node
-    """
-    node_name = normalize_input(node_name)
-    if debug: print(f"\n[QUERY] Info for: {node_name}")
-
+def graph_query_node_info(node_name: str, debug: bool = False):
+    """INFO: Thông tin chi tiết node"""
     query = """
-    MATCH (n)
+    MATCH (n) 
     WHERE (n:PERSON OR n:FILM) 
       AND (toLower(n.info_name) CONTAINS toLower($name) 
            OR toLower(n.id) CONTAINS toLower($name))
-    RETURN n, labels(n) AS labels
+    RETURN n, labels(n) AS labels 
     LIMIT 1
     """
     
     with driver.session() as session:
         record = session.run(query, name=node_name).single()
-        
         if not record:
-            if debug: print("  ❌ Node not found")
             return None
-            
-        node = record["n"]
-        labels = record["labels"]
         
-        node_type = "person" if "PERSON" in labels else "film" if "FILM" in labels else "unknown"
-        
+        node, labels = record["n"], record["labels"]
+        node_type = "person" if "PERSON" in labels else "film"
         props = dict(node)
-        # Chỉ giữ lại info_ và id
-        cleaned_props = {k: v for k, v in props.items() if k.startswith("info_") or k == "id"}
         
-        # An toàn lấy tên
-        display_name = props.get("info_name") or props.get("id")
-
+        cleaned_props = {
+            k: v for k, v in props.items() 
+            if k.startswith("info_") or k == "id"
+        }
+        
         return {
-            "name": display_name,
+            "name": props.get("info_name") or props.get("id"),
             "type": node_type,
             "properties": cleaned_props
         }
 
 
-# ==================== MULTI-HOP / ADVANCED QUERIES ====================
-
-def graph_query_collaborators_of_collaborators(actor_name, limit=10, debug=False):
-    """
-    🔀 MULTI-HOP (3-HOP): Bạn diễn của bạn diễn (Friends of friends)
-    Logic: Actor A -> Movie 1 -> Actor B -> Movie 2 -> Actor C
-    Mục đích: Gợi ý các diễn viên có "vòng tròn quan hệ" gần gũi.
-    """
-    actor_name = normalize_input(actor_name)
-    if debug: print(f"\n[QUERY] Collaborators of collaborators for: {actor_name}")
-
-    # Query này đi 4 bước: (Start)-[1]->(Movie)-[2]->(Middle)-[3]->(Movie)-[4]->(End)
-    query = """
-    MATCH (start:PERSON)-[:ACTED_IN]->(m1:FILM)<-[:ACTED_IN]-(middle:PERSON)-[:ACTED_IN]->(m2:FILM)<-[:ACTED_IN]-(end:PERSON)
-    WHERE toLower(start.info_name) CONTAINS toLower($name)
-      AND start <> end 
-      AND start <> middle 
-      AND middle <> end
+def graph_query_with_planner(question: str, entity_name: str, entity_type: str = "PERSON", debug: bool = False):
+    """PLANNER: Tự động phát hiện property queries"""
+    q_lower = question.lower()
     
-    // Đếm số lần 'end' xuất hiện để tìm người có liên kết mạnh nhất
-    WITH end, count(DISTINCT m2) as common_projects
-    RETURN end.info_name AS result
-    ORDER BY common_projects DESC
-    LIMIT $limit
-    """
-    return _execute_list_query(query, {"name": actor_name, "limit": limit}, debug)
-
-
-def graph_query_actors_in_movies_by_director(director_name, limit=15, debug=False):
-    """
-    🔀 MULTI-HOP (2-HOP Directed): Tìm diễn viên đóng phim của Đạo diễn X
-    Logic: Director -> (DIRECTED_IN) -> Film <- (ACTED_IN) <- Actor
-    """
-    director_name = normalize_input(director_name)
-    if debug: print(f"\n[QUERY] Actors in movies directed by: {director_name}")
-
-    query = """
-    MATCH (d:PERSON)-[:DIRECTED_IN]->(m:FILM)<-[:ACTED_IN]-(a:PERSON)
-    WHERE toLower(d.info_name) CONTAINS toLower($name)
-    RETURN DISTINCT a.info_name AS result
-    LIMIT $limit
-    """
-    return _execute_list_query(query, {"name": director_name, "limit": limit}, debug)
-
-
-def graph_query_related_people_2_hops(entity_name, limit=10, debug=False):
-    """
-    🔀 MULTI-HOP (Generic 2-Hop): Tìm tất cả người liên quan trong vòng 2 bước
-    Bất kể là bạn học, đồng hương, hay bạn diễn.
-    Logic: (Start) -[*1..2]- (End)
-    """
-    entity_name = normalize_input(entity_name)
-    if debug: print(f"\n[QUERY] Related people (2-hops) for: {entity_name}")
-
-    query = """
-    MATCH (start:PERSON)-[*1..2]-(end:PERSON)
-    WHERE toLower(start.info_name) CONTAINS toLower($name)
-      AND start <> end
-    RETURN DISTINCT end.info_name AS result
-    LIMIT $limit
-    """
-    return _execute_list_query(query, {"name": entity_name, "limit": limit}, debug)
-# ==================== INTERNAL HELPER ====================
-
-def _execute_list_query(query, params, debug):
-    """Hàm chạy query trả về list string (đỡ lặp code)"""
-    results = []
-    with driver.session() as session:
-        res = session.run(query, **params)
-        for record in res:
-            val = record["result"]
-            if val:
-                results.append(val)
-                if debug: print(f"  - {val}")
+    property_chain = []
     
-    if debug: print(f"✅ Found {len(results)} items")
-    return results
+    if any(word in q_lower for word in ["vợ", "chồng", "bà xã", "ông xã"]):
+        property_chain.append("PERSON_SPOUSE")
+    
+    if any(word in q_lower for word in ["sinh năm", "năm sinh", "tuổi"]):
+        property_chain.append("PERSON_BIRTH_DATE")
+    
+    if any(word in q_lower for word in ["quê", "ở đâu", "sinh ra"]):
+        property_chain.append("PERSON_BIRTH_PLACE")
+    
+    if "năm" in q_lower and any(word in q_lower for word in ["công chiếu", "ra mắt"]):
+        property_chain.append("FILM_RELEASE_DATE")
+    
+    if not property_chain:
+        return None
+    
+    label = "FILM" if entity_type.lower() == "film" else "PERSON"
+    results = build_query_from_relationships(entity_name, label, property_chain, debug=debug)
+    
+    return results[0] if results else None
 
-# ==================== TEST EXECUTION ====================
+
+# ========================================================
+# TEST
+# ========================================================
+
 if __name__ == "__main__":
-    print("--- TESTING GRAPH QUERY (FINAL CLEAN) ---")
-    graph_query_movies_by_actor("Trấn Thành", debug=True)
-    graph_query_common_movies("Trấn Thành", "Ninh Dương Lan Ngọc", debug=True)
+    print("\n" + "="*60)
+    print("TESTING DYNAMIC GRAPH QUERY SYSTEM")
+    print("="*60)
+    
+    entity = "Trấn Thành"
+    
+    print(f"\n[TEST 1] Movies by actor: {entity}")
+    movies = graph_query_movies_by_actor(entity, debug=True)
+    
+    print(f"\n[TEST 2] Spouse's movies")
+    spouse_movies = graph_query_spouse_movies(entity, debug=True)
+    
+    print(f"\n[TEST 3] Genres of actor's films")
+    genres = query_flexible(entity, "PERSON", ["PERSON_ACTED_IN_FILM", "FILM_GENRE"], debug=True)
+    print(f"  Result: {genres}")
+    
     close_driver()
+    print("\n✓ All tests completed!")

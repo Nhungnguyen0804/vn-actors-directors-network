@@ -4,6 +4,8 @@ import re
 from underthesea import pos_tag, word_tokenize
 
 from src.chatbot.extract_entities_from_question import extract_entities, normalize_text
+from src.data_prep.load_graph import load_graph
+from src.nlp.ner import extract_entity_from_sentences
 
 # ==================== CONSTANTS ====================
 
@@ -399,7 +401,7 @@ def entity_linking(entities_list, graph, question="", top_k=3, threshold=70, deb
                 print(f"  ✅ Exact match found - skipping fuzzy matching")
             continue
         
-        # ✅ STEP 2: FUZZY MATCH (chỉ nếu không có exact)
+        #  STEP 2: FUZZY MATCH (chỉ nếu không có exact)
         if debug:
             print(f"  No exact match - trying fuzzy matching...")
         
@@ -409,7 +411,7 @@ def entity_linking(entities_list, graph, question="", top_k=3, threshold=70, deb
             linked_results[entity] = candidates[:top_k]
         else:
             if debug:
-                print(f"  ❌ No match found (threshold: {threshold})")
+                print(f"   No match found (threshold: {threshold})")
             linked_results[entity] = []
     
     return linked_results
@@ -467,4 +469,61 @@ def entity_linking_question(question, graph=None, threshold=70, debug=False):
     
     return result
 
+from src.constant import WIKI_ENRICHMENT, BIPARTITE_JSON
 
+# Đảm bảo đã import load_graph và extract_entities, entity_linking từ đúng module
+
+def entity_linking_question(question, graph=None, threshold=70, debug=False):
+    """
+    Giữ nguyên hàm này làm hàm core logic
+    """
+    entities = extract_entity_from_sentences(question)
+    
+    result = {
+        'entities': entities,
+        'linked': {}
+    }
+    
+    if graph:
+        linked = entity_linking(entities, graph, question=question, 
+                                top_k=5, threshold=threshold, debug=debug)
+        result['linked'] = linked
+    
+    return result
+
+def entity_linking_graph(question):
+    """
+    Hàm Wrapper: Gọi logic linking, sau đó CHUYỂN ĐỔI kết quả thành LIST
+    để tương thích với route_graph_query
+    """
+    # 1. Load Graph (Nên load global nếu có thể để tối ưu)
+    B = load_graph(BIPARTITE_JSON)
+    
+    # 2. Lấy kết quả thô (Dạng Dict phức tạp)
+    raw_result = entity_linking_question(question, B, threshold=70, debug=False)
+    
+    # 3. Làm phẳng (Flatten) kết quả thành List các Best Match
+    # Cấu trúc raw_result['linked'] thường là: { 'từ_khóa': [candidate1, candidate2], ... }
+    
+    final_candidates = []
+    linked_data = raw_result.get('linked', {})
+    
+    if not linked_data:
+        return []
+
+    # Duyệt qua từng thực thể đã link được
+    for original_text, candidates in linked_data.items():
+        if candidates and len(candidates) > 0:
+            # Lấy ứng viên tốt nhất (thường là phần tử đầu tiên nếu đã sort)
+            best_match = candidates[0]
+            
+            # (Tùy chọn) Gán thêm text gốc để debug dễ hơn
+            best_match['original_entity'] = original_text
+            
+            final_candidates.append(best_match)
+            
+    # Sắp xếp lại danh sách final (ví dụ ưu tiên tên dài hơn hoặc score cao hơn)
+    # Ở đây mình sort theo score giảm dần
+    final_candidates.sort(key=lambda x: x.get('score', 0), reverse=True)
+
+    return final_candidates
