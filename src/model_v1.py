@@ -267,35 +267,21 @@ def detect_intent(question, num_entities=1):
     Phát hiện intent bằng regex
     
     CRITICAL RULE: Nếu num_entities >= 2, CHỈ cho phép intent 2-hop trở lên
-    
-    FIX: Ưu tiên get_common_movies khi có từ "chung/cùng"
     """
     q_lower = normalize_text(question)
     
     patterns = {
-        # === FILM GENRE QUERIES (HIGHEST PRIORITY) ===
-        "get_film_genre": [
-            r'\bphim\s+.*\s+(the\s+loai|loai)\b',  # "phim X thể loại"
-            r'\b(the\s+loai|loai)\s+.*\s+phim\b',  # "thể loại phim X"
-            r'\bphim\s+.*\s+(thuoc\s+the\s+loai|co\s+the\s+loai)\b',  # "phim X thuộc thể loại"
-        ],
+        # === PROPERTY QUERIES (HIGHEST PRIORITY) ===
+        "get_spouse_birthdate": [r'\b(vo|chong).+(sinh|nam\s+sinh)\b'],
         
-        # === INTERSECTION (HIGH PRIORITY khi có 2+ entities) ===
-        "get_common_movies": [
-            r'\b(dong|tham\s+gia)\s+(chung|cung)\b',  # "đóng chung"
-            r'\bphim\s+(chung|cung)\b',  # "phim chung"
-            r'\b(chung|cung)\s+phim\b',  # "cùng phim"
-            # NEW: Explicit 2-entity patterns
-            r'\b(va|va)\b.*\b(dong|phim)\b.*\b(gi|nao)\b',  # "A và B đóng phim gì"
-            r'\bphim\s+(cua|ma)\b.*\b(va|va)\b',  # "phim của A và B"
-        ],
-        
-        # === PROPERTY QUERIES (HIGH PRIORITY) ===
-        "get_spouse_birthdate": [r'\b(vo|chong)\s+.*(sinh|nam\s+sinh)\b'],
-        "get_spouse_birthplace": [r'\b(vo|chong)\s+.*(que|o\s+dau)\b'],
+        "get_spouse_birthplace": [r'\b(vo|chong).+(que|o\s+dau)\b'],
         "get_director_birthdate": [r'\b(dao\s+dien).+(phim).+(sinh|nam\s+sinh)\b'],
         "get_actor_birthdate": [r'\b(dien\s+vien).+(phim).+(sinh|nam\s+sinh)\b'],
-        
+        "get_film_genre": [
+            r'\b(the\s+loai).+(phim)\b',
+            r'\bphim.+(the\s+loai|loai|thuoc)\b',
+            r'\bphim.+(gi|nao|dang|kieu)\b',
+        ],
         # === COLLECT PROPERTY QUERIES ===
         "get_actor_film_genres": [
             r'\b(the\s+loai).+(phim).+(dong|tham\s+gia)\b',
@@ -303,12 +289,10 @@ def detect_intent(question, num_entities=1):
         ],
         "get_director_film_genres": [r'\b(dao\s+dien).+(the\s+loai|loai)\s+(phim)\b'],
         
-        # === MULTI-HOP (2-HOP+) ===
+        # === MULTI-HOP (2-HOP+) - CHECK BEFORE BASIC ===
         "get_spouse_movies": [
-            # CRITICAL: More specific patterns to avoid conflict
-            r'\b(vo|chong|ba\s+xa|ong\s+xa)\s+(cua|ma)\b.*\b(dong|phim)\b',  # "vợ của X đóng"
-            r'\bphim\s+(cua|ma)\s+(vo|chong)\b',  # "phim của vợ/chồng"
-            # REMOVED: r'\b(vo|chong|ba\s+xa|ong\s+xa).+(dong|phim|tham\s+gia)\b'  # TOO BROAD!
+            r'\b(vo|chong|ba\s+xa|ong\s+xa).+(dong|phim|tham\s+gia)\b',
+            r'\bphim\s+(cua|nao).+(vo|chong)\b'
         ],
         
         "get_director_of_actor_movies": [
@@ -322,6 +306,12 @@ def detect_intent(question, num_entities=1):
         "get_actors_in_director_movies": [r'\b(ai|dien\s+vien)\s+(dong|tham\s+gia).+(phim).+(dao\s+dien)\b'],
         "get_schoolmate_movies": [r'\b(ban\s+hoc|hoc\s+sinh).+(dong|phim)\b'],
         
+        # === INTERSECTION (2-HOP+) ===
+        "get_common_movies": [
+            r'\b(dong|tham\s+gia)\s+(chung|cung)\b.*\b(phim)\b',
+            r'\bphim\s+(chung|cung)\b',
+        ],
+        
         # === BASIC 1-HOP (ONLY ALLOWED IF num_entities == 1) ===
         "get_director_of_movie": [
             r'\b(ai|nguoi\s+nao)\s+(dao\s+dien|chi\s+dao)\s+(phim)\b',
@@ -329,9 +319,8 @@ def detect_intent(question, num_entities=1):
         ],
         "get_movies_by_director": [r'\b(dao\s+dien).+(lam|chi\s+dao|phim)\s+(nao|gi)\b'],
         "get_movies_by_actor": [
-            # CRITICAL: Only match when NO "chung/cùng" present
-            r'\b(dong|tham\s+gia|vai)\s+(?!chung|cung)(phim|trong)\b',
-            r'\bphim\s+(?!chung|cung)(cua|nao|gi)\b',
+            r'\b(dong|tham\s+gia|vai)\s+(phim|trong)\b',
+            r'\bphim\s+(cua|nao|gi)\b',
         ],
         "get_actors_of_movie": [r'\b(ai|dien\s+vien|cast)\s+(dong|vai|tham\s+gia)\b'],
         "get_same_school": [
@@ -354,88 +343,41 @@ def detect_intent(question, num_entities=1):
         "get_same_school",
         "get_same_location",
         "get_general_info",
-        "get_film_genre"  # Added film genre to 1-hop list
+        "get_film_genre"
     }
     
-    # CRITICAL: Special handling for 2+ entities
-    if num_entities >= 2:
-        # Check for explicit "chung/cùng" keywords
-        has_common_keyword = bool(re.search(r'\b(chung|cung)\b', q_lower))
+    # CRITICAL: Priority order - Multi-hop BEFORE basic
+    priority_order = [
+        # Properties (highest)
+        ("get_spouse_birthdate", 0.98), ("get_spouse_birthplace", 0.98),
+        ("get_director_birthdate", 0.95), ("get_actor_birthdate", 0.95),
+        ("get_actor_film_genres", 0.98), ("get_director_film_genres", 0.98),
+        ("get_film_genre",0.95),
         
-        if has_common_keyword:
-            # Force common_movies if "chung/cùng" is present
-            for pattern in patterns["get_common_movies"]:
-                if re.search(pattern, q_lower, re.IGNORECASE):
-                    return {"intent": "get_common_movies", "confidence": 0.95}
+        # Multi-hop (check BEFORE basic)
+        ("get_spouse_movies", 0.95),
+        ("get_director_of_actor_movies", 0.9),
+        ("get_common_directors", 0.9),
+        ("get_collaboration_history", 0.9),
+        ("get_actors_in_director_movies", 0.9),
+        ("get_schoolmate_movies", 0.9),
+        ("get_coactor_network", 0.85),
         
-        # Check for "và" between entities (implies intersection)
-        if ' va ' in q_lower or ' và ' in q_lower:
-            # Check if both entities are mentioned
-            parts = re.split(r'\s+(va|và)\s+', q_lower)
-            if len(parts) >= 3:  # Has "A và B" structure
-                return {"intent": "get_common_movies", "confidence": 0.9}
-    
-    # CRITICAL: Priority order - Check film_genre FIRST, then common_movies for 2+ entities
-    if num_entities >= 2:
-        priority_order = [
-            # Film genre (check FIRST)
-            ("get_film_genre", 0.99),
-            
-            # Intersection (check SECOND for 2+ entities)
-            ("get_common_movies", 0.95),
-            
-            # Properties
-            ("get_spouse_birthdate", 0.98), ("get_spouse_birthplace", 0.98),
-            ("get_director_birthdate", 0.95), ("get_actor_birthdate", 0.95),
-            ("get_actor_film_genres", 0.98), ("get_director_film_genres", 0.98),
-            
-            # Multi-hop
-            ("get_spouse_movies", 0.9),  # Lower priority than common_movies
-            ("get_director_of_actor_movies", 0.9),
-            ("get_common_directors", 0.9),
-            ("get_collaboration_history", 0.9),
-            ("get_actors_in_director_movies", 0.9),
-            ("get_schoolmate_movies", 0.9),
-            ("get_coactor_network", 0.85),
-            
-            # Other
-            ("get_relationship_path", 0.75),
-        ]
-    else:
-        # Original priority for single entity
-        priority_order = [
-            # Film genre (HIGHEST priority)
-            ("get_film_genre", 0.99),
-            
-            # Properties (highest)
-            ("get_spouse_birthdate", 0.98), ("get_spouse_birthplace", 0.98),
-            ("get_director_birthdate", 0.95), ("get_actor_birthdate", 0.95),
-            ("get_actor_film_genres", 0.98), ("get_director_film_genres", 0.98),
-            
-            # Multi-hop (check BEFORE basic)
-            ("get_spouse_movies", 0.95),
-            ("get_director_of_actor_movies", 0.9),
-            ("get_common_directors", 0.9),
-            ("get_collaboration_history", 0.9),
-            ("get_actors_in_director_movies", 0.9),
-            ("get_schoolmate_movies", 0.9),
-            ("get_coactor_network", 0.85),
-            
-            # Intersection
-            ("get_common_movies", 0.9),
-            
-            # Basic 1-hop
-            ("get_director_of_movie", 0.85),
-            ("get_movies_by_director", 0.8),
-            ("get_movies_by_actor", 0.8),
-            ("get_actors_of_movie", 0.8),
-            ("get_same_school", 0.85),
-            ("get_same_location", 0.85),
-            
-            # Other
-            ("get_relationship_path", 0.75),
-            ("get_general_info", 0.7)
-        ]
+        # Intersection (2-hop+)
+        ("get_common_movies", 0.9),
+        
+        # Basic 1-hop (ONLY if num_entities == 1)
+        ("get_director_of_movie", 0.85),
+        ("get_movies_by_director", 0.8),
+        ("get_movies_by_actor", 0.8),
+        ("get_actors_of_movie", 0.8),
+        ("get_same_school", 0.85),
+        ("get_same_location", 0.85),
+        
+        # Other
+        ("get_relationship_path", 0.75),
+        ("get_general_info", 0.7)
+    ]
     
     for intent_type, confidence in priority_order:
         # CRITICAL: Skip 1-hop intents if we have 2+ entities
@@ -454,21 +396,16 @@ def detect_intent(question, num_entities=1):
     return {"intent": "unknown", "confidence": 0.5}
 
 
-
 # ==================== 4. INTENT MAPPING ====================
 
 INTENT_TO_RELATIONSHIPS = {
-    # === FILM GENRE QUERY (NEW) ===
-    "get_film_genre": {"relationships": ["FILM_GENRE"], "start_label": "FILM", "requires_two_entities": False},
-    
-    # === EXISTING INTENTS ===
     "get_movies_by_actor": {"relationships": ["PERSON_ACTED_IN_FILM"], "start_label": "PERSON", "requires_two_entities": False},
     "get_actors_of_movie": {"relationships": ["FILM_HAS_ACTOR"], "start_label": "FILM", "requires_two_entities": False},
     "get_movies_by_director": {"relationships": ["PERSON_DIRECTED_FILM"], "start_label": "PERSON", "requires_two_entities": False},
     "get_director_of_movie": {"relationships": ["FILM_HAS_DIRECTOR"], "start_label": "FILM", "requires_two_entities": False},
     "get_same_school": {"relationships": ["PERSON_SAME_SCHOOL"], "start_label": "PERSON", "requires_two_entities": False},
     "get_same_location": {"relationships": ["PERSON_SAME_LOCATION"], "start_label": "PERSON", "requires_two_entities": False},
-    
+    "get_film_genre":{"relationships": ["FILM_GENRE"], "start_label": "FILM", "requires_two_entities": False},
     "get_spouse_birthdate": {"relationships": ["PERSON_SPOUSE", "PERSON_BIRTH_DATE"], "start_label": "PERSON", "requires_two_entities": False},
     "get_spouse_birthplace": {"relationships": ["PERSON_SPOUSE", "PERSON_BIRTH_PLACE"], "start_label": "PERSON", "requires_two_entities": False},
     "get_director_birthdate": {"relationships": ["FILM_HAS_DIRECTOR", "PERSON_BIRTH_DATE"], "start_label": "FILM", "requires_two_entities": False, "fallback_intent": "get_director_of_movie"},
@@ -557,6 +494,14 @@ def route_graph_query_dynamic(linked_entities, question, intent, debug=False):
                 if debug: print(f"[FALLBACK] {config['fallback_intent']}")
                 fallback_intent = {"intent": config["fallback_intent"], "confidence": 0.8}
                 return route_graph_query_dynamic(linked_entities, question, fallback_intent, debug)
+        return {"status": "success", "data": data, "message": "Query success", "entity_name": entity_display}
+    
+    # Intersection
+    if config.get("special") == "intersection":
+        if num_entities < 2:
+            return {"status": "error", "data": None, "message": "Can 2 thuc the cho intersection query."}
+        entity_name_2 = linked_entities[1]['node_name']
+        data = config["query_func"](entity_name_1, entity_name_2, debug=debug)
         return {"status": "success", "data": data, "message": f"Found {len(data)} results", "entity_name": f"{entity_name_1} va {entity_name_2}"}
     
     # Standard queries
@@ -658,7 +603,6 @@ def format_graph_data_dynamic(graph_data, intent_type, entity_name=None):
             "get_director_of_movie": f"DAO DIEN: {items_str}.",
             "get_common_movies": f"PHIM CHUNG: {items_str}.",
             "get_spouse_movies": f"PHIM: {items_str}.",
-            "get_film_genre": f"THE LOAI: {items_str}.",  # NEW: Film genre template
         }
         return templates.get(intent_type, f"KET QUA: {items_str}.")
     
@@ -671,34 +615,20 @@ def llm_paraphrase_graphrag(model_pack, formatted_sentence, question, use_finetu
     """Viết lại câu trả lời tự nhiên"""
     model, tokenizer = model_pack
     
-    if "KHÔNG TÌM THẤY" in formatted_sentence:
-        return "Xin lỗi, hiện tại tôi chưa có thông tin đầy đủ về câu hỏi này trong dữ liệu."
+    if "KHONG TIM THAY" in formatted_sentence:
+        return "Xin loi, hien tai toi chua co thong tin day du ve cau hoi nay trong du lieu."
 
-   # ===== PROMPT ĐƠN GIẢN CHO MODEL NHỎ =====
-    
-    system_prompt = "Bạn là trợ lý trả lời câu hỏi từ dữ liệu."
-    user_prompt = f"""Dữ liệu: {formatted_sentence}
-
-Câu hỏi: {question}
-
-Trả lời ngắn gọn dựa trên dữ liệu:"""
-   
-        # Không dùng system prompt với model nhỏ
     user_prompt = f"""{formatted_sentence}
 
-Hỏi: {question}
-Trả lời:"""
+Hoi: {question}
+Tra loi:"""
 
-
-    messages = [
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": user_prompt}
-    ]
+    messages = [{"role": "user", "content": user_prompt}]
     text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
     model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
     
     with torch.no_grad():
-        generated_ids = model.generate(**model_inputs, max_new_tokens=100, temperature=0, repetition_penalty=1.0, do_sample=False, num_beams=1)
+        generated_ids = model.generate(**model_inputs, max_new_tokens=128, temperature=0.1, repetition_penalty=1.0, do_sample=False, num_beams=1)
     
     response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
     if "assistant" in response:
@@ -708,7 +638,7 @@ Trả lời:"""
     # Anti-hallucination
     if "không" in response.lower() and "không" not in formatted_sentence.lower():
         if debug: print(f"[WARNING] Model hallucination detected!")
-        if "DANH SACH" in formatted_sentence or "PHIM" in formatted_sentence or "THE LOAI" in formatted_sentence:
+        if "DANH SACH" in formatted_sentence or "PHIM" in formatted_sentence:
             parts = formatted_sentence.split(":")
             if len(parts) >= 2:
                 response = parts[-1].strip().rstrip('.')
@@ -776,7 +706,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     print("\n" + "="*60)
-    print("GRAPHRAG CHATBOT - WITH FILM GENRE QUERY SUPPORT")
+    print("GRAPHRAG CHATBOT - 2-ENTITY = 2-HOP+ ENFORCED")
     print("="*60)
 
     # Load Model
@@ -788,9 +718,9 @@ if __name__ == "__main__":
 
     # Test queries
     test_questions = [
-        "Phim Nhà Bà Nữ thuộc thể loại gì",
-       
-    ]
+        # === BASIC 1-HOP QUERIES (1 entity) ===
+        "Vợ của Trấn Thành là ai"
+          ]
     
     print("\n" + "="*60)
     print("RUNNING TEST QUERIES")
@@ -807,4 +737,7 @@ if __name__ == "__main__":
                 traceback.print_exc()
     
     close_driver()
-    
+    print("\n" + "="*60)
+    print("ALL TESTS COMPLETED")
+    print("Neo4j driver closed.")
+    print("="*60)
