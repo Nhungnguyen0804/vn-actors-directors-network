@@ -61,6 +61,15 @@ RELATIONSHIPS = {
         "description": "đồng hương"
     },
     
+    "PERSON_COLLABORATED": {
+        "start": "PERSON",
+        "rel": "COLLABORATED",
+        "end": "PERSON",
+        "direction": "-",
+        "return_field": "info_name",
+        "description": "đã hợp tác",
+        "extra_fields": ["films"]
+    },
     # === FILM -> PERSON (REVERSE EDGES) ===
     "FILM_HAS_ACTOR": {
         "start": "FILM",
